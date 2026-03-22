@@ -107,13 +107,9 @@ body::before {
   padding: clamp(32px, 6vw, 56px) 24px clamp(16px, 3vw, 32px);
 }
 .header__logo {
-  font-family: var(--font-title);
-  font-weight: var(--font-weight-title);
-  font-size: clamp(28px, 5vw, 40px);
-  letter-spacing: -0.03em;
-  color: var(--text-light);
+  text-align: center;
 }
-.header__logo span { color: var(--accent); }
+.header__logo-img { height: 32px; width: auto; margin: 0 auto; }
 .header__subtitle {
   margin-top: 8px;
   font-size: clamp(14px, 2.5vw, 18px);
@@ -247,7 +243,7 @@ body::before {
   position: fixed; bottom: 0; left: 0; right: 0;
   padding: 16px 20px;
   padding-bottom: calc(16px + env(safe-area-inset-bottom));
-  background: rgba(0, 0, 0, 0.92);
+  background: rgba(0, 0, 0, 0.95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border-top: 1px solid var(--border-dark);
@@ -352,14 +348,10 @@ body::before {
   border-top: 1px solid var(--border-dark);
 }
 .footer__logo {
-  font-family: var(--font-title);
-  font-weight: var(--font-weight-title);
-  font-size: clamp(18px, 3vw, 22px);
-  letter-spacing: -0.03em;
-  color: var(--text-light);
   margin-bottom: 12px;
+  text-align: center;
 }
-.footer__logo span { color: var(--accent); }
+.footer__logo-img { height: 24px; width: auto; margin: 0 auto; }
 .footer__links { display: flex; gap: 24px; justify-content: center; margin-bottom: 16px; flex-wrap: wrap; }
 .footer__links a { font-size: 13px; color: var(--text-muted); transition: color 0.2s; }
 .footer__links a:hover { color: var(--accent); }
@@ -393,7 +385,7 @@ body::before {
      HEADER
      ═══════════════════════════════════ -->
 <header class="header reveal">
-  <div class="header__logo">LEAD<span>X</span></div>
+  <div class="header__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="header__logo-img" style="height:32px;width:auto;"></div>
   <p class="header__subtitle">Ta masterclass est pr&ecirc;te</p>
 </header>
 
@@ -474,7 +466,7 @@ body::before {
      FOOTER
      ═══════════════════════════════════ -->
 <footer class="footer">
-  <div class="footer__logo">LEAD<span>X</span></div>
+  <div class="footer__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="footer__logo-img" style="height:24px;width:auto;"></div>
   <nav class="footer__links" aria-label="Liens légaux">
     <a href="politique-de-confidentialite.html">Politique de confidentialit&eacute;</a>
     <a href="cgv.html">CGV</a>

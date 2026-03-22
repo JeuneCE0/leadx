@@ -53,7 +53,7 @@
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-body { font-family: var(--font-body); font-weight: var(--font-weight-body); color: var(--text-dark); background: var(--bg-light); overflow-x: hidden; line-height: 1.6; }
+body { font-family: var(--font-body); font-weight: var(--font-weight-body); color: #fff; background: #000000; overflow-x: hidden; line-height: 1.6; }
 body.modal-open { overflow: hidden; }
 img { max-width: 100%; display: block; }
 a { text-decoration: none; color: inherit; }
@@ -82,7 +82,7 @@ body::before {
    UTILITY / ANIMATION
    ══════════════════════════════════════ */
 .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-.reveal { opacity: 0; transform: translateY(30px); filter: blur(4px); transition: opacity 0.7s cubic-bezier(.525,0,0,1), transform 0.7s cubic-bezier(.525,0,0,1), filter 0.7s cubic-bezier(.525,0,0,1); will-change: transform, opacity; backface-visibility: hidden; }
+.reveal { opacity: 0; transform: translateY(20px); filter: blur(3px); transition: opacity 0.4s cubic-bezier(.525,0,0,1), transform 0.4s cubic-bezier(.525,0,0,1), filter 0.4s cubic-bezier(.525,0,0,1); will-change: transform, opacity; backface-visibility: hidden; }
 .reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
 
 @keyframes float1 { 0%,100%{ transform: translate(0,0) rotate(0deg); } 50%{ transform: translate(12px,-18px) rotate(8deg); } }
@@ -97,28 +97,69 @@ body::before {
    HERO SECTION
    ══════════════════════════════════════ */
 .hero {
-  position: relative; padding: 100px 0 80px; overflow: hidden; background: var(--bg-light);
-  background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
-  background-size: 28px 28px;
+  position: relative; padding: 100px 0 80px; overflow: hidden; background: #000;
 }
-.hero__decor { position: absolute; pointer-events: none; opacity: 0.15; will-change: transform; }
-.hero__decor--dot1 { top: 15%; left: 8%; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: float1 7s ease-in-out infinite; }
-.hero__decor--dot2 { top: 60%; right: 10%; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: float2 8s ease-in-out infinite; }
-.hero__decor--cross1 { top: 25%; right: 15%; font-size: 20px; color: var(--accent); animation: float2 9s ease-in-out infinite; }
-.hero__decor--cross2 { bottom: 20%; left: 12%; font-size: 16px; color: var(--accent); animation: float1 6s ease-in-out infinite; }
-.hero__beam { position: absolute; width: 1px; opacity: 0.07; top: -20%; pointer-events: none;
-  background: linear-gradient(180deg, transparent, var(--accent), transparent);
-  height: 200%; animation: slideDown 10s linear infinite;
-  will-change: transform;
-}
-.hero__beam--1 { left: 20%; animation-delay: 0s; animation-duration: 10s; }
-.hero__beam--2 { left: 55%; animation-delay: 3s; animation-duration: 12s; }
-.hero__beam--3 { right: 25%; animation-delay: 6s; animation-duration: 8s; }
 
 @media(max-width:640px){
-  .hero__decor, .hero__beam { display: none; }
   .hero { padding: 80px 0 60px; }
 }
+
+/* Funnel canvas */
+.funnel-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+
+/* Red orbs */
+.hero__orb { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; }
+.hero__orb--1 { width: 600px; height: 600px; top: -10%; left: -10%; background: radial-gradient(circle, rgba(255,38,0,0.08) 0%, transparent 70%); }
+.hero__orb--2 { width: 500px; height: 500px; top: 20%; right: -8%; background: radial-gradient(circle, rgba(255,38,0,0.06) 0%, transparent 70%); }
+
+/* Grid bg for hero */
+.hero__grid { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Funnel glow */
+.funnel-glow { position: absolute; bottom: 6%; left: 50%; transform: translateX(-50%); width: 280px; height: 200px;
+  background: radial-gradient(ellipse, rgba(255,38,0,0.18) 0%, rgba(255,38,0,0.06) 40%, transparent 70%);
+  border-radius: 50%; pointer-events: none; z-index: 1; animation: glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse { 0%,100%{opacity:.7;transform:translateX(-50%) scale(1)} 50%{opacity:1;transform:translateX(-50%) scale(1.08)} }
+
+/* Flow pills */
+.flow-pill { position: absolute; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 20px;
+  background: rgba(255,38,0,0.12); border: 1px solid rgba(255,38,0,0.25); color: #FF2600;
+  white-space: nowrap; pointer-events: none; opacity: 0; z-index: 3; will-change: transform,opacity; transform: translate(-50%,-50%);
+}
+
+/* Pop-out cards */
+.popout-card { position: absolute; left: 50%; pointer-events: none; z-index: 3;
+  background: #141414; border: 1px solid rgba(255,38,0,0.15); border-radius: 12px;
+  padding: 10px 18px; font-size: 13px; font-weight: 600; color: #fff;
+  white-space: nowrap; opacity: 0; transform: translateX(-50%) scale(0); will-change: transform,opacity;
+}
+
+/* Static notification bubbles */
+.hero__notif { position: absolute; background: #141414; border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px; padding: 12px 18px; font-size: 12px; font-weight: 600; color: #fff;
+  pointer-events: none; z-index: 2; white-space: nowrap;
+  box-shadow: 0 0 20px rgba(255,38,0,0.08), 0 0 40px rgba(255,38,0,0.04);
+}
+.hero__notif::before { content: ''; position: absolute; inset: -1px; border-radius: 15px;
+  background: linear-gradient(135deg, rgba(255,38,0,0.15), transparent 60%); z-index: -1; }
+
+@keyframes gentleFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
+
+/* ── Premium Checklist ── */
+.hero__checklist { max-width: 560px; margin: 0 auto 36px; display: flex; flex-direction: column; gap: 12px; }
+.hero__check-item {
+  display: flex; align-items: flex-start; gap: 14px; padding: 14px 18px;
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px; transition: border-color 0.3s, background 0.3s;
+}
+.hero__check-item:hover { border-color: rgba(255,38,0,0.2); background: rgba(255,38,0,0.04); }
+.hero__check-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.hero__check-title { font-weight: 700; font-size: 15px; color: #fff; margin-bottom: 3px; }
+.hero__check-desc { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.5; }
 
 .hero__inner { max-width: 780px; margin: 0 auto; text-align: center; }
 
@@ -136,21 +177,15 @@ body::before {
 .hero h1 {
   font-family: var(--font-title); font-weight: 800;
   font-size: clamp(28px, 5vw, 48px); line-height: 1.15;
-  color: var(--text-dark); margin-bottom: 20px; letter-spacing: -0.02em;
+  color: #fff; margin-bottom: 20px; letter-spacing: -0.02em;
 }
 .hero h1 .accent { color: var(--accent); }
 
 .hero__sub {
-  font-size: clamp(15px, 2.2vw, 18px); color: var(--text-dark-secondary);
+  font-size: clamp(15px, 2.2vw, 18px); color: rgba(255,255,255,0.6);
   max-width: 620px; margin: 0 auto 32px; line-height: 1.7;
 }
 
-.hero__bullets { list-style: none; text-align: left; max-width: 560px; margin: 0 auto 40px; display: flex; flex-direction: column; gap: 14px; }
-.hero__bullets li {
-  font-size: clamp(14px, 2vw, 16px); color: var(--text-dark);
-  display: flex; align-items: flex-start; gap: 10px; line-height: 1.5;
-}
-.hero__bullets li .check { color: var(--accent); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
 
 /* ══════════════════════════════════════
    CTA BUTTON (reusable)
@@ -181,55 +216,22 @@ body::before {
    PROOF BAR
    ══════════════════════════════════════ */
 .proof-bar { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
-.proof-bar__avatars { display: flex; }
-.proof-bar__avatars img {
-  width: 32px; height: 32px; border-radius: 50%; border: 2px solid #fff;
-  margin-left: -8px; object-fit: cover;
-}
-.proof-bar__avatars img:first-child { margin-left: 0; }
-.proof-bar__text { font-size: 13px; color: var(--text-dark-secondary); }
-.proof-bar__roller { display: inline-block; height: 1.3em; overflow: hidden; vertical-align: bottom; position: relative; }
-.proof-bar__roller-inner {
-  display: flex; flex-direction: column;
-  animation: roller 12s ease-in-out infinite;
-}
-.proof-bar__roller-item { display: block; height: 1.3em; line-height: 1.3em; color: var(--accent); font-weight: 700; white-space: nowrap; }
-@keyframes roller {
-  0%,11.66%{ transform: translateY(0); }
-  14.28%,25.94%{ transform: translateY(-1.3em); }
-  28.57%,40.23%{ transform: translateY(-2.6em); }
-  42.85%,54.51%{ transform: translateY(-3.9em); }
-  57.14%,68.8%{ transform: translateY(-5.2em); }
-  71.42%,83.08%{ transform: translateY(-6.5em); }
-  85.71%,100%{ transform: translateY(0); }
-}
+.proof-bar__text { font-size: 13px; color: rgba(255,255,255,0.5); }
 
-/* ══════════════════════════════════════
-   CTA SECTION
-   ══════════════════════════════════════ */
-.cta-section { text-align: center; padding: 40px 24px 80px; }
-
-/* ══════════════════════════════════════
-   SENJA PLACEHOLDER
-   ══════════════════════════════════════ */
-.senja-section { padding: 40px 24px 60px; }
-.senja-wrapper { max-width: 1100px; margin: 0 auto; min-height: 120px; border-radius: 16px;
-  background: var(--bg-light-2); display: flex; align-items: center; justify-content: center;
-  color: var(--text-muted); font-size: 14px; padding: 40px;
+/* ── Proof Logos ── */
+.proof-bar__logos { display: flex; gap: 8px; }
+.proof-logo {
+  padding: 6px 14px; border-radius: 8px; font-size: 11px; font-weight: 700;
+  color: rgba(255,255,255,0.4); background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08); letter-spacing: 0.03em; text-transform: uppercase;
 }
 
 /* ══════════════════════════════════════
    DARK ZONE
    ══════════════════════════════════════ */
 .dark-zone {
-  background: var(--bg-dark); color: var(--text-light); position: relative; overflow: hidden;
+  color: var(--text-light); position: relative; overflow: hidden;
   padding: 100px 0;
-}
-.dark-zone::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-  background-size: 48px 48px;
 }
 .dark-zone__orb {
   position: absolute; border-radius: 50%; pointer-events: none;
@@ -399,14 +401,14 @@ body::before {
 /* ══════════════════════════════════════
    FOOTER
    ══════════════════════════════════════ */
-.footer { background: var(--bg-light); padding: 48px 24px 32px; text-align: center; }
-.footer__logo { font-family: var(--font-title); font-weight: 800; font-size: 28px; margin-bottom: 20px; color: var(--text-dark); letter-spacing: -0.02em; }
-.footer__logo span { color: var(--accent); }
+.footer { background: #000; padding: 48px 24px 32px; text-align: center; }
+.footer__logo { margin-bottom: 20px; }
+.footer__logo-img { height: 24px; width: auto; margin: 0 auto; }
 .footer__links { display: flex; gap: 24px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
-.footer__links a { font-size: 13px; color: var(--text-muted); transition: color 0.2s; }
+.footer__links a { font-size: 13px; color: rgba(255,255,255,0.5); transition: color 0.2s; }
 .footer__links a:hover { color: var(--accent); }
-.footer__copy { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
-.footer__disclaimer { font-size: 11px; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.5; opacity: 0.7; }
+.footer__copy { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+.footer__disclaimer { font-size: 11px; color: rgba(255,255,255,0.4); max-width: 600px; margin: 0 auto; line-height: 1.5; opacity: 0.7; }
 
 /* ══════════════════════════════════════
    MODAL
@@ -540,7 +542,7 @@ body::before {
    ══════════════════════════════════════ */
 .social-notif {
   position: fixed; bottom: 24px; left: 24px; z-index: 9990;
-  background: #fff; border-radius: 14px; padding: 14px 18px 14px 14px;
+  background: #141414; color: #fff; border-radius: 14px; padding: 14px 18px 14px 14px;
   display: flex; align-items: center; gap: 12px;
   box-shadow: 0 8px 30px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
   border-left: 3px solid var(--accent);
@@ -550,7 +552,7 @@ body::before {
 }
 .social-notif.show { transform: translateX(0); opacity: 1; }
 .social-notif__avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
-.social-notif__text { font-size: 13px; color: var(--text-dark); line-height: 1.4; }
+.social-notif__text { font-size: 13px; color: #fff; line-height: 1.4; }
 .social-notif__time { font-size: 11px; color: var(--text-muted); }
 
 @media(max-width:640px){
@@ -563,7 +565,7 @@ body::before {
 .sticky-cta {
   display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 9995;
   padding: 12px 16px; padding-bottom: calc(12px + env(safe-area-inset-bottom));
-  background: rgba(255,255,255,0.95); backdrop-filter: blur(12px);
+  background: rgba(0,0,0,0.95); backdrop-filter: blur(12px);
   border-top: 1px solid var(--border-accent);
   transform: translateY(100%); transition: transform 0.3s ease;
 }
@@ -594,74 +596,72 @@ body::before {
 
 <main>
 <!-- ════════════════════════ HERO ════════════════════════ -->
-<section class="hero">
-  <div class="hero__decor hero__decor--dot1"></div>
-  <div class="hero__decor hero__decor--dot2"></div>
-  <div class="hero__decor hero__decor--cross1">✕</div>
-  <div class="hero__decor hero__decor--cross2">✕</div>
-  <div class="hero__beam hero__beam--1"></div>
-  <div class="hero__beam hero__beam--2"></div>
-  <div class="hero__beam hero__beam--3"></div>
+<section class="hero" id="hero-section">
+  <div class="hero__grid"></div>
+  <div class="hero__orb hero__orb--1"></div>
+  <div class="hero__orb hero__orb--2"></div>
+  <canvas class="funnel-canvas" id="funnelCanvas"></canvas>
+  <div class="funnel-glow"></div>
+
+  <!-- Notification bubbles (closer to center, with red glow border) -->
+  <div class="hero__notif" style="top:13%;left:12%;animation:gentleFloat 5s ease-in-out infinite;">Nouveau prospect 🔥</div>
+  <div class="hero__notif" style="top:17%;right:10%;animation:gentleFloat 4.5s ease-in-out 1s infinite;">+47 leads/mois</div>
+  <div class="hero__notif" style="top:45%;left:8%;animation:gentleFloat 5.2s ease-in-out 0.5s infinite;">ROI x3.2 📈</div>
+  <div class="hero__notif" style="bottom:20%;right:8%;animation:gentleFloat 4.8s ease-in-out 1.5s infinite;">Budget optimisé 💰</div>
+  <div class="hero__notif" style="bottom:28%;left:10%;animation:gentleFloat 4.4s ease-in-out 2s infinite;">Campagne active 🚀</div>
 
   <div class="container hero__inner">
+    <div class="reveal" style="text-align:center;margin-bottom:32px;">
+      <img src="assets/LEADX-wordmark-light.svg" alt="LEADX" style="height:36px;width:auto;margin:0 auto;">
+    </div>
+
     <div class="hero__badge reveal">
       <span class="hero__badge-dot"></span>
-      <span data-urgency="badge-inscrits">32</span> inscrits cette semaine
+      27 campagnes META actives
     </div>
 
     <h1 class="reveal">La méthode META Ads qui génère des <span class="accent">leads B2B qualifiés</span> chaque semaine — sans exploser ton budget</h1>
 
     <p class="hero__sub reveal">Découvre en 12 minutes comment nos clients B2B obtiennent des rendez-vous qualifiés en continu grâce à un système META Ads clé en main.</p>
 
-    <ul class="hero__bullets reveal">
-      <li><span class="check">✅</span> Comment structurer des campagnes META qui ciblent les vrais décideurs B2B (pas des curieux)</li>
-      <li><span class="check">✅</span> Le framework de créas + audiences qui divise par 2 ton coût par lead en 30 jours</li>
-      <li><span class="check">✅</span> Pourquoi 90% des agences échouent en B2B sur META — et comment on fait l'inverse</li>
-    </ul>
+    <div class="hero__checklist reveal">
+      <div class="hero__check-item">
+        <div class="hero__check-icon">🎯</div>
+        <div>
+          <div class="hero__check-title">Ciblage décideurs</div>
+          <div class="hero__check-desc">Campagnes META qui ciblent les vrais décideurs B2B, pas des curieux</div>
+        </div>
+      </div>
+      <div class="hero__check-item">
+        <div class="hero__check-icon">📉</div>
+        <div>
+          <div class="hero__check-title">Coût par lead ÷2</div>
+          <div class="hero__check-desc">Le framework créas + audiences qui divise par 2 ton CPL en 30 jours</div>
+        </div>
+      </div>
+      <div class="hero__check-item">
+        <div class="hero__check-icon">🚀</div>
+        <div>
+          <div class="hero__check-title">Méthode éprouvée</div>
+          <div class="hero__check-desc">Pourquoi 90% des agences échouent en B2B sur META — et comment on fait l'inverse</div>
+        </div>
+      </div>
+    </div>
 
-    <div class="reveal" style="text-align:center">
+    <div class="reveal" id="main-cta" style="text-align:center">
       <button class="cta-btn cta-btn--full open-modal">VOIR LA MÉTHODE GRATUITEMENT →</button>
-      <div class="cta-reassurance">Gratuit · Pas de carte bancaire · Accès immédiat</div>
     </div>
 
     <div class="proof-bar reveal">
-      <div class="proof-bar__avatars">
-        <img src="https://i.pravatar.cc/64?img=12" alt="" loading="lazy" width="32" height="32">
-        <img src="https://i.pravatar.cc/64?img=32" alt="" loading="lazy" width="32" height="32">
-        <img src="https://i.pravatar.cc/64?img=48" alt="" loading="lazy" width="32" height="32">
-        <img src="https://i.pravatar.cc/64?img=57" alt="" loading="lazy" width="32" height="32">
-        <img src="https://i.pravatar.cc/64?img=68" alt="" loading="lazy" width="32" height="32">
+      <div class="proof-bar__logos">
+        <div class="proof-logo">SaaS</div>
+        <div class="proof-logo">Agency</div>
+        <div class="proof-logo">Consulting</div>
+        <div class="proof-logo">B2B Tech</div>
+        <div class="proof-logo">Finance</div>
       </div>
-      <span class="proof-bar__text">
-        Rejoint par des
-        <span class="proof-bar__roller">
-          <span class="proof-bar__roller-inner">
-            <span class="proof-bar__roller-item">dirigeants B2B</span>
-            <span class="proof-bar__roller-item">agences</span>
-            <span class="proof-bar__roller-item">consultants</span>
-            <span class="proof-bar__roller-item">SaaS</span>
-            <span class="proof-bar__roller-item">prestataires</span>
-            <span class="proof-bar__roller-item">coachs business</span>
-          </span>
-        </span>
-      </span>
+      <span class="proof-bar__text">Ils nous font confiance</span>
     </div>
-  </div>
-</section>
-
-<!-- ════════════════════════ CTA ════════════════════════ -->
-<section class="cta-section" id="main-cta">
-  <div class="reveal" style="text-align:center">
-    <button class="cta-btn cta-btn--full open-modal">VOIR LA MÉTHODE GRATUITEMENT →</button>
-    <div class="cta-reassurance">Gratuit · Pas de carte bancaire · Accès immédiat</div>
-  </div>
-</section>
-
-<!-- ════════════════════════ SENJA #1 ════════════════════════ -->
-<section class="senja-section">
-  <div class="senja-wrapper reveal">
-    <!-- Remplacer par : <div class="senja-embed" data-id="WIDGET_ID_1"></div> -->
-    Widget Senja #1 — Insérer Widget ID ici
   </div>
 </section>
 
@@ -731,7 +731,6 @@ body::before {
     <!-- CTA mid -->
     <div class="reveal" style="text-align:center">
       <button class="cta-btn open-modal">DÉCOUVRIR LA MÉTHODE →</button>
-      <div class="cta-reassurance cta-reassurance--light">12 min · Gratuit · Sans engagement</div>
     </div>
 
     <!-- FAQ -->
@@ -803,18 +802,6 @@ body::before {
       <h3>Prêt à générer tes premiers leads B2B ?</h3>
       <p>Regarde la méthode. C'est gratuit, ça prend 12 minutes, et ça peut changer ton acquisition.</p>
       <button class="cta-btn open-modal">ACCÉDER À LA MÉTHODE →</button>
-      <div class="cta-reassurance cta-reassurance--light">Gratuit · Sans carte bancaire · Accès immédiat</div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════ SENJA #2 ════════════════════════ -->
-<section class="senja-section" style="background: var(--bg-light-2);">
-  <div class="container" style="text-align:center">
-    <h2 class="reveal" style="font-family:var(--font-title);font-weight:700;font-size:clamp(22px,4vw,32px);margin-bottom:32px;color:var(--text-dark);">Ce qu'ils en disent.</h2>
-    <div class="senja-wrapper reveal">
-      <!-- Remplacer par : <div class="senja-embed" data-id="WIDGET_ID_2"></div> -->
-      Widget Senja #2 — Insérer Widget ID ici
     </div>
   </div>
 </section>
@@ -831,7 +818,7 @@ body::before {
 
 <!-- ════════════════════════ FOOTER ════════════════════════ -->
 <footer class="footer">
-  <div class="footer__logo">LEAD<span>X</span></div>
+  <div class="footer__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="footer__logo-img" style="height:24px;width:auto;"></div>
   <nav class="footer__links" aria-label="Liens légaux">
     <a href="politique-de-confidentialite.html">Politique de confidentialité</a>
     <a href="cgv.html">CGV</a>
@@ -1035,7 +1022,7 @@ body::before {
     const target = parseInt(el.dataset.target);
     const prefix = el.dataset.prefix || '';
     const suffix = el.dataset.suffix || '';
-    const duration = 2000;
+    const duration = 1000;
     const start = performance.now();
     function step(now) {
       const t = Math.min((now - start) / duration, 1);
@@ -1259,6 +1246,158 @@ body::before {
 
       setTimeout(() => el.remove(), 1600);
     }
+  }
+
+  // ── FUNNEL ANIMATION ──
+  const heroEl = document.getElementById('hero-section');
+  const fCanvas = document.getElementById('funnelCanvas');
+  if (heroEl && fCanvas) {
+    const fCtx = fCanvas.getContext('2d');
+    let fW, fH;
+
+    function getFunnel(){
+      const cx = fW / 2;
+      const topY = fH * 0.04;
+      const bottomY = fH * 0.90;
+      const spread = Math.min(fW * 0.52, 540);
+      const ctrlY = fH * 0.48;
+      return {
+        left: { x0: cx - spread, y0: topY, cx: cx - spread * 0.12, cy: ctrlY, x1: cx, y1: bottomY },
+        right: { x0: cx + spread, y0: topY, cx: cx + spread * 0.12, cy: ctrlY, x1: cx, y1: bottomY },
+        centerX: cx, bottomY: bottomY
+      };
+    }
+
+    function fResize(){
+      fW = heroEl.offsetWidth;
+      fH = heroEl.offsetHeight;
+      fCanvas.width = fW * devicePixelRatio;
+      fCanvas.height = fH * devicePixelRatio;
+      fCanvas.style.width = fW + 'px';
+      fCanvas.style.height = fH + 'px';
+      fCtx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      drawFunnel();
+    }
+
+    function drawFunnel(){
+      fCtx.clearRect(0, 0, fW, fH);
+      const f = getFunnel();
+      fCtx.save();
+      fCtx.shadowColor = 'rgba(255,38,0,0.35)';
+      fCtx.shadowBlur = 16;
+      // Fill
+      fCtx.beginPath();
+      fCtx.moveTo(f.left.x0, f.left.y0);
+      fCtx.quadraticCurveTo(f.left.cx, f.left.cy, f.left.x1, f.left.y1);
+      fCtx.quadraticCurveTo(f.right.cx, f.right.cy, f.right.x0, f.right.y0);
+      fCtx.closePath();
+      const grad = fCtx.createLinearGradient(0, f.left.y0, 0, f.left.y1);
+      grad.addColorStop(0, 'rgba(255,38,0,0.04)');
+      grad.addColorStop(1, 'rgba(255,38,0,0.12)');
+      fCtx.fillStyle = grad;
+      fCtx.shadowBlur = 0;
+      fCtx.fill();
+      // Strokes with glow
+      fCtx.shadowColor = 'rgba(255,38,0,0.35)';
+      fCtx.shadowBlur = 16;
+      fCtx.strokeStyle = 'rgba(255,38,0,0.25)';
+      fCtx.lineWidth = 1.5;
+      fCtx.beginPath();
+      fCtx.moveTo(f.left.x0, f.left.y0);
+      fCtx.quadraticCurveTo(f.left.cx, f.left.cy, f.left.x1, f.left.y1);
+      fCtx.stroke();
+      fCtx.beginPath();
+      fCtx.moveTo(f.right.x0, f.right.y0);
+      fCtx.quadraticCurveTo(f.right.cx, f.right.cy, f.right.x1, f.right.y1);
+      fCtx.stroke();
+      fCtx.restore();
+    }
+
+    function bezierPt(p0x,p0y,cpx,cpy,p1x,p1y,t){
+      const u=1-t;
+      return{x:u*u*p0x+2*u*t*cpx+t*t*p1x, y:u*u*p0y+2*u*t*cpy+t*t*p1y};
+    }
+
+    // Flow pills
+    const fPillLabels=['Prospect','Visiteur','Lead','Contact','CEO','Dirigeant','DG','Fondateur','Prospect','Lead'];
+    const fPillSides=['left','left','left','left','left','right','right','right','right','right'];
+    const fPillDelays=[0,1800,3600,5400,7200,900,2700,4500,6300,8100];
+    const fPillDuration=6000;
+    const fPillCycle=10000;
+    const fIsMobile=window.innerWidth<=640;
+    const fPillCount=fIsMobile?4:10;
+    const fMobileIdx=[0,2,5,7];
+    const fPills=[];
+    for(let i=0;i<fPillCount;i++){
+      const idx=fIsMobile?fMobileIdx[i]:i;
+      const el=document.createElement('div');
+      el.className='flow-pill';
+      el.textContent=fPillLabels[idx];
+      heroEl.appendChild(el);
+      fPills.push({el,side:fPillSides[idx],delay:fPillDelays[idx]});
+    }
+
+    function updateFPills(now){
+      const f=getFunnel();
+      fPills.forEach(p=>{
+        const elapsed=((now-p.delay)%fPillCycle+fPillCycle)%fPillCycle;
+        if(elapsed>fPillDuration){p.el.style.opacity=0;return;}
+        const t=elapsed/fPillDuration;
+        const c=p.side==='left'?f.left:f.right;
+        const pos=bezierPt(c.x0,c.y0,c.cx,c.cy,c.x1,c.y1,t);
+        let alpha=1;
+        if(t<0.1)alpha=t/0.1;
+        else if(t>0.85)alpha=(1-t)/0.15;
+        p.el.style.opacity=alpha*0.9;
+        p.el.style.left=pos.x+'px';
+        p.el.style.top=pos.y+'px';
+      });
+    }
+
+    // Pop-out cards
+    const fPopTexts=['+1 200\u20AC de CA \uD83D\uDCB0','Client sign\u00E9 \u2705','RDV confirm\u00E9 \uD83D\uDCC5','Lead qualifi\u00E9 \uD83C\uDFAF','Paiement re\u00E7u \uD83C\uDF89'];
+    const fPopDelay=3200;
+    const fPopDuration=2800;
+    const fPopCycle=fPopTexts.length*fPopDelay;
+    const fPopCards=[];
+    fPopTexts.forEach(txt=>{
+      const el=document.createElement('div');
+      el.className='popout-card';
+      el.textContent=txt;
+      heroEl.appendChild(el);
+      fPopCards.push(el);
+    });
+
+    function easeOutBack(t){const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2);}
+
+    function updateFPopouts(now){
+      const f=getFunnel();
+      const baseY=f.bottomY+16;
+      fPopCards.forEach((el,i)=>{
+        const elapsed=((now-i*fPopDelay)%fPopCycle+fPopCycle)%fPopCycle;
+        if(elapsed>fPopDuration){el.style.opacity=0;return;}
+        const t=elapsed/fPopDuration;
+        let scale,alpha,dy;
+        if(t<0.15){const p=t/0.15;scale=easeOutBack(p);alpha=p;dy=0;}
+        else if(t<0.72){scale=1;alpha=1;dy=0;}
+        else{const p=(t-0.72)/0.28;scale=1-p*0.1;alpha=1-p;dy=p*28;}
+        el.style.opacity=alpha;
+        el.style.top=(baseY+dy)+'px';
+        el.style.transform='translateX(-50%) scale('+scale+')';
+      });
+    }
+
+    let fStart=null;
+    function fFrame(ts){
+      if(!fStart)fStart=ts;
+      const now=ts-fStart;
+      updateFPills(now);
+      updateFPopouts(now);
+      requestAnimationFrame(fFrame);
+    }
+    window.addEventListener('resize',fResize);
+    fResize();
+    requestAnimationFrame(fFrame);
   }
 
 })();

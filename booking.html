@@ -13,7 +13,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://go.lead-x.fr/booking">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#000000">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"C'est vraiment gratuit ?","acceptedAnswer":{"@type":"Answer","text":"Oui, c'est un appel de diagnostic sans engagement."}},{"@type":"Question","name":"Combien de temps dure l'appel ?","acceptedAnswer":{"@type":"Answer","text":"30 minutes maximum."}},{"@type":"Question","name":"Je dois préparer quelque chose ?","acceptedAnswer":{"@type":"Answer","text":"Non, on s'occupe de tout. Viens juste avec tes questions."}}]}
 </script>
@@ -48,7 +48,7 @@
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-body { font-family: var(--font-body); font-weight: var(--font-weight-body); color: var(--text-dark); background: var(--bg-light); overflow-x: hidden; line-height: 1.6; }
+body { font-family: var(--font-body); font-weight: var(--font-weight-body); color: #fff; background: #000; overflow-x: hidden; line-height: 1.6; }
 img { max-width: 100%; display: block; }
 a { text-decoration: none; color: inherit; }
 button { cursor: pointer; border: none; font-family: inherit; }
@@ -73,7 +73,7 @@ body::before {
   min-height: 100vh;
   display: flex;
   align-items: stretch;
-  background: var(--bg-light);
+  background: #000;
 }
 
 .booking__pitch {
@@ -91,22 +91,15 @@ body::before {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--bg-light-2);
-  border-left: 1px solid var(--border-light);
+  background: #0A0A0A;
+  border-left: 1px solid rgba(255,255,255,0.08);
 }
 
 /* ── Logo ── */
 .booking__logo {
-  font-family: var(--font-title);
-  font-weight: 800;
-  font-size: 28px;
-  letter-spacing: -0.5px;
   margin-bottom: 32px;
-  color: var(--text-dark);
 }
-.booking__logo span {
-  color: var(--accent);
-}
+.booking__logo-img { height: 32px; width: auto; }
 
 /* ── Heading ── */
 .booking__h1 {
@@ -115,13 +108,13 @@ body::before {
   font-size: clamp(26px, 3.2vw, 38px);
   line-height: 1.15;
   letter-spacing: -0.5px;
-  color: var(--text-dark);
+  color: #fff;
   margin-bottom: 16px;
 }
 
 .booking__subtitle {
   font-size: clamp(15px, 1.6vw, 17px);
-  color: var(--text-dark-secondary);
+  color: rgba(255,255,255,0.6);
   line-height: 1.65;
   margin-bottom: 32px;
 }
@@ -139,7 +132,7 @@ body::before {
   align-items: flex-start;
   gap: 10px;
   font-size: clamp(14px, 1.4vw, 15px);
-  color: var(--text-dark);
+  color: rgba(255,255,255,0.85);
   line-height: 1.55;
 }
 .booking__bullets li .check {
@@ -161,12 +154,16 @@ body::before {
   align-items: center;
   gap: 14px;
   margin-bottom: 20px;
+  background: #141414;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 .booking__avatar {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: var(--bg-dark);
+  background: var(--accent);
   color: var(--text-light);
   display: flex;
   align-items: center;
@@ -183,11 +180,11 @@ body::before {
 .booking__expert-name {
   font-weight: 600;
   font-size: 15px;
-  color: var(--text-dark);
+  color: #fff;
 }
 .booking__expert-role {
   font-size: 13px;
-  color: var(--text-muted);
+  color: rgba(255,255,255,0.6);
   line-height: 1.4;
 }
 
@@ -205,11 +202,11 @@ body::before {
   align-items: center;
   gap: 6px;
   font-size: 13px;
-  color: var(--text-muted);
+  color: rgba(255,255,255,0.6);
   padding: 8px 16px;
-  background: var(--bg-light-2);
+  background: #141414;
   border-radius: 100px;
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(255,255,255,0.08);
   margin-top: 8px;
 }
 
@@ -218,11 +215,11 @@ body::before {
   width: 100%;
   max-width: 520px;
   min-height: 650px;
-  background: var(--bg-light);
+  background: #141414;
   border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.3), 0 1px 4px rgba(0,0,0,0.2);
   overflow: hidden;
-  border: 1px solid var(--border-light);
+  border: 1px solid rgba(255,255,255,0.08);
 }
 .booking__cal-container iframe {
   width: 100%;
@@ -241,7 +238,7 @@ body::before {
   justify-content: center;
   text-align: center;
   padding: 40px;
-  color: var(--text-muted);
+  color: rgba(255,255,255,0.5);
 }
 .booking__cal-placeholder svg {
   margin-bottom: 20px;
@@ -255,11 +252,11 @@ body::before {
   display: block;
   margin-top: 12px;
   font-size: 12px;
-  background: var(--bg-light-2);
+  background: #0A0A0A;
   padding: 8px 14px;
   border-radius: 6px;
-  color: var(--text-dark-secondary);
-  border: 1px solid var(--border-light);
+  color: rgba(255,255,255,0.5);
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 /* ══════════════════════════════════════
@@ -369,14 +366,9 @@ body::before {
   text-align: center;
 }
 .footer__logo {
-  font-family: var(--font-title);
-  font-weight: 800;
-  font-size: 22px;
-  color: var(--text-light);
+  margin-bottom: 0;
 }
-.footer__logo span {
-  color: var(--accent);
-}
+.footer__logo-img { height: 24px; width: auto; margin: 0 auto; }
 .footer__copy {
   font-size: 13px;
   color: var(--text-light-secondary);
@@ -424,7 +416,7 @@ body::before {
   }
   .booking__calendar {
     border-left: none;
-    border-top: 1px solid var(--border-light);
+    border-top: 1px solid rgba(255,255,255,0.08);
     padding: 24px 16px 48px;
   }
   .booking__cal-container {
@@ -478,7 +470,7 @@ body::before {
   <!-- LEFT: Pitch -->
   <div class="booking__pitch">
     <div class="reveal">
-      <div class="booking__logo">LEAD<span>X</span></div>
+      <div class="booking__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="booking__logo-img" style="height:32px;width:auto;"></div>
     </div>
 
     <h1 class="booking__h1 reveal">Réserve ton appel stratégique</h1>
@@ -595,7 +587,7 @@ body::before {
      ══════════════════════════════════════ -->
 <footer class="footer">
   <div class="footer__inner">
-    <div class="footer__logo">LEAD<span>X</span></div>
+    <div class="footer__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="footer__logo-img" style="height:24px;width:auto;"></div>
     <p class="footer__copy">&copy; 2025 LEADX PARTNERS LTD &mdash; Company Number 16372013</p>
     <nav class="footer__links" aria-label="Liens légaux">
       <a href="mentions-legales.html">Mentions légales</a>

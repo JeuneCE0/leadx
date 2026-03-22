@@ -51,12 +51,9 @@ body::before {
   margin-bottom: clamp(32px, 5vw, 48px);
 }
 .logo {
-  font-size: clamp(24px, 4vw, 32px);
-  font-weight: 700;
-  letter-spacing: -0.02em;
   margin-bottom: 16px;
 }
-.logo span { color: var(--accent); }
+.logo-img { height: 32px; width: auto; }
 .back-link {
   display: inline-flex;
   align-items: center;
@@ -142,7 +139,7 @@ a.inline-link:hover { opacity: 0.8; }
 <div class="wrapper">
 
   <header class="legal-header">
-    <div class="logo">LEAD<span>X</span></div>
+    <div class="logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="logo-img" style="height:32px;width:auto;"></div>
     <a href="index.html" class="back-link">Retour à l'accueil</a>
   </header>
 

@@ -13,7 +13,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="canonical" href="https://go.lead-x.fr/confirmation">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#FFFFFF">
+<meta name="theme-color" content="#000000">
 <style>
 /* ══════════════════════════════════════
    DESIGN SYSTEM
@@ -45,7 +45,7 @@
 /* ── Reset ── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-body { font-family: var(--font-body); font-weight: var(--font-weight-body); color: var(--text-dark); background: var(--bg-light); overflow-x: hidden; line-height: 1.6; }
+body { font-family: var(--font-body); font-weight: var(--font-weight-body); color: #fff; background: #000; overflow-x: hidden; line-height: 1.6; }
 img { max-width: 100%; display: block; }
 a { text-decoration: none; color: inherit; }
 button { cursor: pointer; border: none; font-family: inherit; }
@@ -89,10 +89,10 @@ body::before {
 .hero-confirm {
   position: relative;
   padding: 100px 0 70px;
-  background: var(--bg-light);
+  background: #000;
   text-align: center;
   overflow: hidden;
-  background-image: radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
   background-size: 28px 28px;
 }
 @media(max-width:640px) {
@@ -125,7 +125,7 @@ body::before {
   font-size: clamp(24px, 5vw, 38px);
   line-height: 1.2;
   letter-spacing: -0.02em;
-  color: var(--text-dark);
+  color: #fff;
   margin-bottom: 16px;
   max-width: 650px;
   margin-left: auto; margin-right: auto;
@@ -133,7 +133,7 @@ body::before {
 
 .hero-confirm__subtitle {
   font-size: clamp(15px, 2.5vw, 18px);
-  color: var(--text-dark-secondary);
+  color: rgba(255,255,255,0.6);
   max-width: 560px;
   margin: 0 auto;
   line-height: 1.6;
@@ -144,7 +144,7 @@ body::before {
    ══════════════════════════════════════ */
 .timeline-section {
   padding: 70px 0 60px;
-  background: var(--bg-light-2);
+  background: #0A0A0A;
 }
 
 .timeline-section__title {
@@ -154,7 +154,7 @@ body::before {
   text-align: center;
   margin-bottom: 48px;
   letter-spacing: -0.02em;
-  color: var(--text-dark);
+  color: #fff;
 }
 
 .timeline {
@@ -172,7 +172,7 @@ body::before {
   top: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(180deg, var(--accent), rgba(255, 38, 0, 0.15));
+  background: linear-gradient(180deg, var(--accent), rgba(255, 38, 0, 0.2));
   border-radius: 2px;
 }
 
@@ -188,7 +188,7 @@ body::before {
   left: -48px;
   top: 4px;
   width: 40px; height: 40px;
-  background: var(--bg-light);
+  background: #141414;
   border: 2px solid var(--accent);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
@@ -197,29 +197,29 @@ body::before {
 }
 
 .timeline__card {
-  background: var(--bg-light);
-  border: 1px solid var(--border-light);
+  background: #141414;
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 14px;
   padding: 24px 28px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.2);
   transition: transform 0.3s, box-shadow 0.3s;
 }
 .timeline__card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
 }
 
 .timeline__card-title {
   font-family: var(--font-title);
   font-weight: 600;
   font-size: clamp(16px, 2.5vw, 18px);
-  color: var(--text-dark);
+  color: #fff;
   margin-bottom: 6px;
 }
 
 .timeline__card-desc {
   font-size: clamp(14px, 2vw, 15px);
-  color: var(--text-dark-secondary);
+  color: rgba(255,255,255,0.6);
   line-height: 1.6;
 }
 
@@ -235,13 +235,13 @@ body::before {
    ══════════════════════════════════════ */
 .cta-secondary {
   padding: 50px 0;
-  background: var(--bg-light);
+  background: #000;
   text-align: center;
 }
 
 .cta-secondary__text {
   font-size: clamp(15px, 2.5vw, 17px);
-  color: var(--text-dark-secondary);
+  color: rgba(255,255,255,0.6);
   margin-bottom: 20px;
 }
 
@@ -293,7 +293,7 @@ body::before {
 
 .discover-card {
   background: var(--bg-dark-card);
-  border: 1px solid var(--border-dark);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 14px;
   padding: 28px 24px;
   transition: border-color 0.3s, transform 0.3s;
@@ -322,14 +322,14 @@ body::before {
 /* ══════════════════════════════════════
    FOOTER
    ══════════════════════════════════════ */
-.footer { background: var(--bg-light); padding: 48px 24px 32px; text-align: center; }
-.footer__logo { font-family: var(--font-title); font-weight: 800; font-size: 28px; margin-bottom: 20px; color: var(--text-dark); letter-spacing: -0.02em; }
-.footer__logo span { color: var(--accent); }
+.footer { background: #000; padding: 48px 24px 32px; text-align: center; }
+.footer__logo { margin-bottom: 20px; }
+.footer__logo-img { height: 24px; width: auto; margin: 0 auto; }
 .footer__links { display: flex; gap: 24px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
-.footer__links a { font-size: 13px; color: var(--text-muted); transition: color 0.2s; }
+.footer__links a { font-size: 13px; color: rgba(255,255,255,0.5); transition: color 0.2s; }
 .footer__links a:hover { color: var(--accent); }
-.footer__copy { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
-.footer__disclaimer { font-size: 11px; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.5; opacity: 0.7; }
+.footer__copy { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+.footer__disclaimer { font-size: 11px; color: rgba(255,255,255,0.5); max-width: 600px; margin: 0 auto; line-height: 1.5; opacity: 0.7; }
 </style>
 </head>
 <body>
@@ -410,7 +410,7 @@ body::before {
 
 <!-- ════════════════════════ FOOTER ════════════════════════ -->
 <footer class="footer">
-  <div class="footer__logo">LEAD<span>X</span></div>
+  <div class="footer__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="footer__logo-img" style="height:24px;width:auto;"></div>
   <nav class="footer__links" aria-label="Liens légaux">
     <a href="politique-de-confidentialite.html">Politique de confidentialit&eacute;</a>
     <a href="cgv.html">CGV</a>
