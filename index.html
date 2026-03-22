@@ -97,12 +97,30 @@ body::before {
    HERO SECTION
    ══════════════════════════════════════ */
 .hero {
-  position: relative; padding: 100px 0 80px; overflow: hidden; background: #000;
+  position: relative; padding: 120px 0 60px; overflow: hidden; background: #000;
+  min-height: 100vh;
 }
 
 @media(max-width:640px){
-  .hero { padding: 80px 0 60px; }
+  .hero { padding: 90px 0 40px; min-height: auto; }
 }
+
+/* ── Company Marquee ── */
+.hero__trust { text-align: center; margin-top: 40px; }
+.hero__trust-label { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 16px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+.hero__marquee-wrap { overflow: hidden; position: relative; max-width: 600px; margin: 0 auto;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+}
+.hero__marquee { display: flex; gap: 32px; animation: marqueeScroll 20s linear infinite; width: max-content; }
+.hero__marquee-item { padding: 8px 20px; border-radius: 8px; font-size: 12px; font-weight: 700;
+  color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+  letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
+}
+@keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ── Section Divider ── */
+.section-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,38,0,0.15) 30%, rgba(255,38,0,0.15) 70%, transparent); margin: 0; }
 
 /* Funnel canvas */
 .funnel-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
@@ -230,15 +248,20 @@ body::before {
    DARK ZONE
    ══════════════════════════════════════ */
 .dark-zone {
-  color: var(--text-light); position: relative; overflow: hidden;
+  background: #0A0A0A; color: var(--text-light); position: relative; overflow: hidden;
   padding: 100px 0;
+}
+.dark-zone::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 .dark-zone__orb {
   position: absolute; border-radius: 50%; pointer-events: none;
-  background: radial-gradient(circle, rgba(255,38,0,0.08), transparent 70%);
 }
-.dark-zone__orb--1 { width: 600px; height: 600px; top: -200px; right: -200px; }
-.dark-zone__orb--2 { width: 500px; height: 500px; bottom: -150px; left: -150px; }
+.dark-zone__orb--1 { width: 700px; height: 700px; top: -200px; right: -200px; background: radial-gradient(circle, rgba(255,38,0,0.10), transparent 70%); }
+.dark-zone__orb--2 { width: 600px; height: 600px; bottom: -150px; left: -150px; background: radial-gradient(circle, rgba(255,38,0,0.07), transparent 70%); }
 
 /* ── Counters ── */
 .counters { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; margin-bottom: 80px; text-align: center; }
@@ -246,8 +269,12 @@ body::before {
   font-family: var(--font-title); font-weight: 800;
   font-size: clamp(28px, 5vw, 48px); color: var(--accent);
   line-height: 1.1; margin-bottom: 8px;
+  text-shadow: 0 0 30px rgba(255,38,0,0.2);
 }
 .counter__label { font-size: clamp(12px, 1.8vw, 15px); color: var(--text-light-secondary); }
+.counters > div { position: relative; }
+.counters > div:not(:last-child)::after { content: ''; position: absolute; right: -16px; top: 15%; height: 70%; width: 1px; background: rgba(255,255,255,0.06); }
+@media(max-width:640px){ .counters > div::after { display: none; } }
 .counter__badge {
   grid-column: 1 / -1; text-align: center; margin-top: -16px;
   font-size: 14px; color: var(--text-light-secondary);
@@ -279,6 +306,7 @@ body::before {
 }
 .bento-card:hover, .bento-card.scroll-active {
   background: var(--bg-dark-card-hover); border-color: var(--border-accent);
+  box-shadow: 0 0 30px rgba(255,38,0,0.06), 0 4px 20px rgba(0,0,0,0.3);
 }
 .bento-card:hover::before, .bento-card.scroll-active::before { opacity: 1; }
 .bento-card__num {
@@ -628,8 +656,39 @@ body::before {
       <button class="cta-btn cta-btn--full open-modal">VOIR LA MÉTHODE GRATUITEMENT →</button>
     </div>
 
+    <div class="hero__trust reveal">
+      <div class="hero__trust-label">+27 entreprises nous font confiance</div>
+      <div class="hero__marquee-wrap">
+        <div class="hero__marquee">
+          <span class="hero__marquee-item">TechVision</span>
+          <span class="hero__marquee-item">GrowthLab</span>
+          <span class="hero__marquee-item">DataPulse</span>
+          <span class="hero__marquee-item">ScaleUp Pro</span>
+          <span class="hero__marquee-item">NexGen B2B</span>
+          <span class="hero__marquee-item">CloudForce</span>
+          <span class="hero__marquee-item">AdSphere</span>
+          <span class="hero__marquee-item">B2B Connect</span>
+          <span class="hero__marquee-item">LeadFactory</span>
+          <span class="hero__marquee-item">SalesIQ</span>
+          <!-- Duplicate for seamless loop -->
+          <span class="hero__marquee-item">TechVision</span>
+          <span class="hero__marquee-item">GrowthLab</span>
+          <span class="hero__marquee-item">DataPulse</span>
+          <span class="hero__marquee-item">ScaleUp Pro</span>
+          <span class="hero__marquee-item">NexGen B2B</span>
+          <span class="hero__marquee-item">CloudForce</span>
+          <span class="hero__marquee-item">AdSphere</span>
+          <span class="hero__marquee-item">B2B Connect</span>
+          <span class="hero__marquee-item">LeadFactory</span>
+          <span class="hero__marquee-item">SalesIQ</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
+
+<div class="section-divider"></div>
 
 <!-- ════════════════════════ DARK ZONE ════════════════════════ -->
 <section class="dark-zone">
@@ -771,6 +830,8 @@ body::before {
     </div>
   </div>
 </section>
+
+<div class="section-divider"></div>
 
 <!-- ════════════════════════ BIG CTA ════════════════════════ -->
 <section class="big-cta">
