@@ -205,38 +205,9 @@ body::before {
 }
 
 /* ══════════════════════════════════════
-   VSL PLAYER
+   CTA SECTION
    ══════════════════════════════════════ */
-.vsl-section { padding: 0 24px 60px; }
-.vsl-wrapper {
-  max-width: 960px; margin: 0 auto; border-radius: 16px; overflow: hidden;
-  background: var(--bg-dark); position: relative; aspect-ratio: 16/9;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 8px 24px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05);
-}
-.vsl-thumbnail {
-  position: absolute; inset: 0; display: flex; flex-direction: column;
-  align-items: center; justify-content: center; gap: 24px;
-  background: var(--bg-dark); z-index: 2; cursor: pointer;
-  transition: opacity 0.4s ease;
-}
-.vsl-thumbnail.hidden { opacity: 0; pointer-events: none; }
-.vsl-thumbnail__text {
-  font-family: var(--font-title); font-weight: 700; color: #fff;
-  font-size: clamp(16px, 3vw, 24px); text-align: center; max-width: 80%; line-height: 1.3;
-}
-.vsl-thumbnail__play {
-  width: 72px; height: 72px; border-radius: 50%; background: var(--accent);
-  display: flex; align-items: center; justify-content: center;
-  animation: pulse 2s ease-in-out infinite;
-  box-shadow: 0 0 40px var(--accent-glow);
-}
-.vsl-thumbnail__play svg { width: 28px; height: 28px; fill: #fff; margin-left: 4px; }
-.vsl-iframe { width: 100%; height: 100%; border: none; }
-
-/* ══════════════════════════════════════
-   CTA SECTION (under VSL)
-   ══════════════════════════════════════ */
-.cta-section { text-align: center; padding: 0 24px 80px; }
+.cta-section { text-align: center; padding: 40px 24px 80px; }
 
 /* ══════════════════════════════════════
    SENJA PLACEHOLDER
@@ -678,21 +649,7 @@ body::before {
   </div>
 </section>
 
-<!-- ════════════════════════ VSL ════════════════════════ -->
-<section class="vsl-section">
-  <div class="vsl-wrapper reveal" id="vsl-player">
-    <div class="vsl-thumbnail" id="vsl-thumbnail" role="button" aria-label="Lancer la vidéo" tabindex="0">
-      <div class="vsl-thumbnail__text">Comment générer +30 leads B2B/semaine avec META Ads</div>
-      <div class="vsl-thumbnail__play">
-        <svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
-      </div>
-    </div>
-    <!-- Replace about:blank with actual VSL URL -->
-    <iframe class="vsl-iframe" id="vsl-iframe" src="about:blank" allow="autoplay; encrypted-media" allowfullscreen style="display:none"></iframe>
-  </div>
-</section>
-
-<!-- ════════════════════════ CTA SOUS VSL ════════════════════════ -->
+<!-- ════════════════════════ CTA ════════════════════════ -->
 <section class="cta-section" id="main-cta">
   <div class="reveal" style="text-align:center">
     <button class="cta-btn cta-btn--full open-modal">VOIR LA MÉTHODE GRATUITEMENT →</button>
@@ -1247,16 +1204,6 @@ body::before {
   document.getElementById('exit-close').addEventListener('click', closeExit);
   exitOverlay.addEventListener('click', (e) => { if (e.target === exitOverlay) closeExit(); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && exitOverlay.classList.contains('open')) closeExit(); });
-
-  // ── VSL Thumbnail click ──
-  document.getElementById('vsl-thumbnail').addEventListener('click', () => {
-    const thumb = document.getElementById('vsl-thumbnail');
-    const iframe = document.getElementById('vsl-iframe');
-    // ⚠️ Replace with actual VSL URL + autoplay
-    // iframe.src = 'https://www.youtube.com/embed/VIDEO_ID?autoplay=1';
-    iframe.style.display = 'block';
-    thumb.classList.add('hidden');
-  });
 
   // Social notifications handled by agent-social-proof.js
 
