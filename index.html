@@ -119,8 +119,77 @@ body::before {
 }
 @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-/* ── Section Divider ── */
-.section-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,38,0,0.15) 30%, rgba(255,38,0,0.15) 70%, transparent); margin: 0; }
+/* ── Red Band Transition ── */
+.red-band {
+  background: var(--accent); position: relative; overflow: hidden;
+  padding: 20px 24px;
+  border-top: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1px solid rgba(0,0,0,0.08);
+}
+.red-band::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.red-band__inner {
+  max-width: 700px; margin: 0 auto;
+  display: flex; align-items: center; justify-content: center; gap: 32px;
+  position: relative; z-index: 1;
+}
+.red-band__stat { text-align: center; }
+.red-band__value {
+  font-family: var(--font-title); font-weight: 800;
+  font-size: clamp(18px, 3vw, 24px); color: #fff;
+  display: block; line-height: 1.2;
+}
+.red-band__label {
+  font-size: clamp(11px, 1.5vw, 13px); color: rgba(255,255,255,0.75);
+  display: block; margin-top: 2px;
+}
+.red-band__sep {
+  width: 1px; height: 32px; background: rgba(255,255,255,0.25); flex-shrink: 0;
+}
+@media(max-width:640px){
+  .red-band__inner { gap: 20px; }
+  .red-band__sep { height: 24px; }
+}
+
+/* ── White Zone ── */
+.white-zone {
+  background: #FFFFFF; color: var(--text-dark); position: relative; overflow: hidden;
+  padding: 80px 0 100px;
+}
+.white-zone .bento-title { color: var(--text-dark); }
+.white-zone .bento-card {
+  background: #FAFAFA; border-color: rgba(0,0,0,0.06);
+}
+.white-zone .bento-card:hover, .white-zone .bento-card.scroll-active {
+  background: #fff; border-color: rgba(255,38,0,0.2);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
+}
+.white-zone .bento-card__title { color: var(--text-dark); }
+.white-zone .bento-card__desc { color: var(--text-dark-secondary); }
+.white-zone .bento-card__num { color: var(--text-dark-secondary); }
+.white-zone .bento-card:hover .bento-card__num,
+.white-zone .bento-card.scroll-active .bento-card__num { color: var(--accent); }
+.white-zone .faq__title { color: var(--text-dark); }
+.white-zone .faq-item {
+  background: #FAFAFA; border-color: rgba(0,0,0,0.06);
+}
+.white-zone .faq-item:hover { border-color: rgba(255,38,0,0.2); }
+.white-zone .faq-item__q { color: var(--text-dark); }
+.white-zone .faq-item__arrow { background: rgba(0,0,0,0.04); }
+.white-zone .faq-item.open .faq-item__arrow { background: var(--accent); }
+.white-zone .faq-item__a p { color: var(--text-dark-secondary); }
+.white-zone .countdown-section__title { color: var(--text-dark-secondary); }
+.white-zone .countdown { background: rgba(255,38,0,0.03); }
+.white-zone .countdown__label { color: var(--text-dark-secondary); }
+.white-zone .final-cta-card {
+  background: rgba(255,38,0,0.03); border-color: rgba(255,38,0,0.1);
+}
+.white-zone .final-cta-card h3 { color: var(--text-dark); }
+.white-zone .final-cta-card p { color: var(--text-dark-secondary); }
 
 /* Funnel canvas */
 .funnel-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
@@ -689,30 +758,29 @@ body::before {
   </div>
 </section>
 
-<div class="section-divider"></div>
-
-<!-- ════════════════════════ DARK ZONE ════════════════════════ -->
-<section class="dark-zone">
-  <div class="dark-zone__orb dark-zone__orb--1"></div>
-  <div class="dark-zone__orb dark-zone__orb--2"></div>
-
-  <div class="container">
-    <!-- Counters -->
-    <div class="counters reveal">
-      <div>
-        <div class="counter__value" data-target="33000" data-prefix="+" data-suffix=" £">+33 000 £</div>
-        <div class="counter__label">de CA généré en 2025</div>
-      </div>
-      <div>
-        <div class="counter__value" data-target="47" data-prefix="+">+47</div>
-        <div class="counter__label">entreprises B2B accompagnées</div>
-      </div>
-      <div>
-        <div class="counter__value" data-target="12" data-suffix=" min">12 min</div>
-        <div class="counter__label">pour comprendre la méthode</div>
-      </div>
+<!-- ════════════════════════ RED BAND TRANSITION ════════════════════════ -->
+<div class="red-band">
+  <div class="red-band__inner">
+    <div class="red-band__stat">
+      <span class="red-band__value">+33K £</span>
+      <span class="red-band__label">de CA généré</span>
     </div>
+    <div class="red-band__sep"></div>
+    <div class="red-band__stat">
+      <span class="red-band__value">+47</span>
+      <span class="red-band__label">entreprises B2B</span>
+    </div>
+    <div class="red-band__sep"></div>
+    <div class="red-band__stat">
+      <span class="red-band__value">12 min</span>
+      <span class="red-band__label">pour comprendre</span>
+    </div>
+  </div>
+</div>
 
+<!-- ════════════════════════ WHITE SECTION ════════════════════════ -->
+<section class="white-zone">
+  <div class="container">
     <!-- Bento -->
     <h2 class="bento-title reveal">La méthode en 6 étapes</h2>
     <div class="bento-grid">
@@ -831,8 +899,6 @@ body::before {
     </div>
   </div>
 </section>
-
-<div class="section-divider"></div>
 
 <!-- ════════════════════════ BIG CTA ════════════════════════ -->
 <section class="big-cta">
