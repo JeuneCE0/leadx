@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LEADX — Réserve ton appel stratégique</title>
+<meta name="description" content="Réserve ton appel stratégique gratuit de 30 minutes. On analyse ton marché et on te montre comment générer des leads B2B qualifiés avec META Ads.">
+<meta property="og:title" content="LEADX — Réserve ton appel stratégique">
+<meta property="og:description" content="Appel de diagnostic gratuit de 30 minutes pour générer des leads B2B qualifiés avec META Ads.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="⚠️ URL OG IMAGE À REMPLIR">
+<meta property="og:url" content="https://go.lead-x.fr/booking">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://go.lead-x.fr/booking">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FFFFFF">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"C'est vraiment gratuit ?","acceptedAnswer":{"@type":"Answer","text":"Oui, c'est un appel de diagnostic sans engagement."}},{"@type":"Question","name":"Combien de temps dure l'appel ?","acceptedAnswer":{"@type":"Answer","text":"30 minutes maximum."}},{"@type":"Question","name":"Je dois préparer quelque chose ?","acceptedAnswer":{"@type":"Answer","text":"Non, on s'occupe de tout. Viens juste avec tes questions."}}]}
+</script>
+<style>
+/* ══════════════════════════════════════
+   DESIGN SYSTEM
+   ══════════════════════════════════════ */
+:root {
+  --accent: #FF2600;
+  --accent-dark: #C11D00;
+  --accent-light: #FF4D2E;
+  --accent-glow: rgba(255, 38, 0, 0.35);
+  --accent-subtle: rgba(255, 38, 0, 0.08);
+  --bg-light: #FFFFFF;
+  --bg-light-2: #F7F7F7;
+  --bg-dark: #000000;
+  --bg-dark-card: #141414;
+  --text-dark: #000000;
+  --text-dark-secondary: #555555;
+  --text-light: #FFFFFF;
+  --text-light-secondary: #999999;
+  --text-muted: #777777;
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-dark: rgba(255, 255, 255, 0.10);
+  --border-accent: rgba(255, 38, 0, 0.25);
+  --font-title: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-weight-title: 700;
+  --font-weight-body: 400;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--font-body); font-weight: var(--font-weight-body); color: var(--text-dark); background: var(--bg-light); overflow-x: hidden; line-height: 1.6; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; font-family: inherit; }
+
+::selection { background: var(--accent); color: #fff; }
+
+/* ── Noise Overlay ── */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ── Reveal Animation ── */
+.reveal { opacity: 0; transform: translateY(30px); filter: blur(4px); transition: opacity 0.7s cubic-bezier(.525,0,0,1), transform 0.7s cubic-bezier(.525,0,0,1), filter 0.7s cubic-bezier(.525,0,0,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+/* ══════════════════════════════════════
+   BOOKING SPLIT LAYOUT
+   ══════════════════════════════════════ */
+.booking {
+  min-height: 100vh;
+  display: flex;
+  align-items: stretch;
+  background: var(--bg-light);
+}
+
+.booking__pitch {
+  flex: 1;
+  padding: clamp(40px, 6vw, 80px) clamp(24px, 4vw, 60px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 560px;
+}
+
+.booking__calendar {
+  flex: 1;
+  padding: clamp(24px, 4vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-light-2);
+  border-left: 1px solid var(--border-light);
+}
+
+/* ── Logo ── */
+.booking__logo {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 28px;
+  letter-spacing: -0.5px;
+  margin-bottom: 32px;
+  color: var(--text-dark);
+}
+.booking__logo span {
+  color: var(--accent);
+}
+
+/* ── Heading ── */
+.booking__h1 {
+  font-family: var(--font-title);
+  font-weight: var(--font-weight-title);
+  font-size: clamp(26px, 3.2vw, 38px);
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  color: var(--text-dark);
+  margin-bottom: 16px;
+}
+
+.booking__subtitle {
+  font-size: clamp(15px, 1.6vw, 17px);
+  color: var(--text-dark-secondary);
+  line-height: 1.65;
+  margin-bottom: 32px;
+}
+
+/* ── Bullets ── */
+.booking__bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+.booking__bullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: clamp(14px, 1.4vw, 15px);
+  color: var(--text-dark);
+  line-height: 1.55;
+}
+.booking__bullets li .check {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-top: 1px;
+}
+
+/* ── Expert Card ── */
+.booking__expert {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.booking__avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+  flex-shrink: 0;
+}
+.booking__expert-info {
+  display: flex;
+  flex-direction: column;
+}
+.booking__expert-name {
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text-dark);
+}
+.booking__expert-role {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* ── Proof ── */
+.booking__proof {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+
+/* ── Reassurance ── */
+.booking__reassurance {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 8px 16px;
+  background: var(--bg-light-2);
+  border-radius: 100px;
+  border: 1px solid var(--border-light);
+  margin-top: 8px;
+}
+
+/* ── Calendar Container ── */
+.booking__cal-container {
+  width: 100%;
+  max-width: 520px;
+  min-height: 650px;
+  background: var(--bg-light);
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.04);
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+}
+.booking__cal-container iframe {
+  width: 100%;
+  height: 650px;
+  border: none;
+  display: block;
+}
+
+/* ── Calendar Placeholder (before URL is set) ── */
+.booking__cal-placeholder {
+  width: 100%;
+  height: 650px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px;
+  color: var(--text-muted);
+}
+.booking__cal-placeholder svg {
+  margin-bottom: 20px;
+  opacity: 0.3;
+}
+.booking__cal-placeholder p {
+  font-size: 14px;
+  line-height: 1.6;
+}
+.booking__cal-placeholder code {
+  display: block;
+  margin-top: 12px;
+  font-size: 12px;
+  background: var(--bg-light-2);
+  padding: 8px 14px;
+  border-radius: 6px;
+  color: var(--text-dark-secondary);
+  border: 1px solid var(--border-light);
+}
+
+/* ══════════════════════════════════════
+   FAQ SECTION
+   ══════════════════════════════════════ */
+.faq {
+  background: var(--bg-dark);
+  padding: clamp(60px, 8vw, 100px) 24px;
+}
+.faq__inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+.faq__title {
+  font-family: var(--font-title);
+  font-weight: var(--font-weight-title);
+  font-size: clamp(22px, 2.8vw, 32px);
+  color: var(--text-light);
+  text-align: center;
+  margin-bottom: 40px;
+  letter-spacing: -0.3px;
+}
+.faq__item {
+  background: var(--bg-dark-card);
+  border: 1px solid var(--border-dark);
+  border-radius: 12px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: border-color 0.3s ease;
+}
+.faq__item:hover {
+  border-color: var(--border-accent);
+}
+.faq__question {
+  width: 100%;
+  background: none;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: clamp(15px, 1.5vw, 16px);
+  font-weight: 600;
+  color: var(--text-light);
+  text-align: left;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+.faq__question:hover {
+  color: var(--accent-light);
+}
+.faq__icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.faq__item.open .faq__icon {
+  transform: rotate(45deg);
+  background: var(--accent-subtle);
+}
+.faq__icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: var(--text-light-secondary);
+  stroke-width: 2;
+  fill: none;
+}
+.faq__item.open .faq__icon svg {
+  stroke: var(--accent);
+}
+.faq__answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+}
+.faq__item.open .faq__answer {
+  max-height: 200px;
+}
+.faq__answer-inner {
+  padding: 0 24px 20px;
+  font-size: clamp(14px, 1.3vw, 15px);
+  color: var(--text-light-secondary);
+  line-height: 1.65;
+}
+
+/* ══════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════ */
+.footer {
+  background: var(--bg-dark);
+  border-top: 1px solid var(--border-dark);
+  padding: 40px 24px;
+}
+.footer__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+}
+.footer__logo {
+  font-family: var(--font-title);
+  font-weight: 800;
+  font-size: 22px;
+  color: var(--text-light);
+}
+.footer__logo span {
+  color: var(--accent);
+}
+.footer__copy {
+  font-size: 13px;
+  color: var(--text-light-secondary);
+  line-height: 1.6;
+}
+.footer__links {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.footer__links a {
+  font-size: 13px;
+  color: var(--text-light-secondary);
+  transition: color 0.3s ease;
+}
+.footer__links a:hover {
+  color: var(--accent-light);
+}
+.footer__disclaimer {
+  font-size: 11px;
+  color: var(--text-muted);
+  max-width: 600px;
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .booking__pitch {
+    max-width: 480px;
+    padding: clamp(32px, 5vw, 60px) clamp(20px, 3vw, 40px);
+  }
+}
+
+@media (max-width: 768px) {
+  .booking {
+    flex-direction: column;
+    min-height: auto;
+  }
+  .booking__pitch {
+    max-width: 100%;
+    padding: 48px 24px 32px;
+  }
+  .booking__calendar {
+    border-left: none;
+    border-top: 1px solid var(--border-light);
+    padding: 24px 16px 48px;
+  }
+  .booking__cal-container {
+    max-width: 100%;
+    min-height: 600px;
+  }
+  .booking__cal-container iframe,
+  .booking__cal-placeholder {
+    height: 600px;
+  }
+}
+
+@media (max-width: 640px) {
+  .booking__pitch {
+    padding: 36px 20px 28px;
+  }
+  .booking__bullets li {
+    font-size: 14px;
+  }
+  .booking__calendar {
+    padding: 20px 12px 40px;
+  }
+  .booking__cal-container {
+    border-radius: 12px;
+  }
+}
+
+@media (max-width: 375px) {
+  .booking__pitch {
+    padding: 32px 16px 24px;
+  }
+  .booking__h1 {
+    font-size: 24px;
+  }
+  .booking__subtitle {
+    font-size: 14px;
+  }
+  .booking__calendar {
+    padding: 16px 10px 32px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════
+     BOOKING SPLIT LAYOUT
+     ══════════════════════════════════════ -->
+<section class="booking">
+
+  <!-- LEFT: Pitch -->
+  <div class="booking__pitch">
+    <div class="reveal">
+      <div class="booking__logo">LEAD<span>X</span></div>
+    </div>
+
+    <h1 class="booking__h1 reveal">Réserve ton appel stratégique</h1>
+
+    <p class="booking__subtitle reveal">En 30 minutes, on analyse ton marché et on te montre comment générer des leads B2B qualifiés avec META Ads.</p>
+
+    <ul class="booking__bullets reveal">
+      <li>
+        <span class="check">&#10003;</span>
+        Analyse personnalisée de ton marché et de ta cible B2B
+      </li>
+      <li>
+        <span class="check">&#10003;</span>
+        Identification des angles publicitaires qui convertissent dans ton secteur
+      </li>
+      <li>
+        <span class="check">&#10003;</span>
+        Estimation de ton coût par lead et du budget optimal
+      </li>
+      <li>
+        <span class="check">&#10003;</span>
+        Plan d'action concret pour tes 30 premiers jours
+      </li>
+    </ul>
+
+    <div class="booking__expert reveal">
+      <div class="booking__avatar">DA</div>
+      <div class="booking__expert-info">
+        <span class="booking__expert-name">Dayyaan Adam</span>
+        <span class="booking__expert-role">Fondateur LEADX, Expert META Ads B2B</span>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <p class="booking__proof">47 entreprises accompagnées</p>
+      <div class="booking__reassurance">Gratuit &middot; 30 min &middot; Sans engagement</div>
+    </div>
+  </div>
+
+  <!-- RIGHT: Calendar -->
+  <div class="booking__calendar">
+    <div class="booking__cal-container reveal">
+      <!-- ⚠️ REMPLACER LE PLACEHOLDER PAR L'IFRAME CALENDLY OU GHL CALENDAR :
+
+           Option Calendly :
+           <iframe src="URL_CALENDLY_ICI" frameborder="0" loading="lazy"></iframe>
+
+           Option GHL Calendar :
+           <iframe src="URL_GHL_CALENDAR_ICI" frameborder="0" loading="lazy"></iframe>
+      -->
+      <div class="booking__cal-placeholder">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="4" width="18" height="18" rx="2"/>
+          <line x1="16" y1="2" x2="16" y2="6"/>
+          <line x1="8" y1="2" x2="8" y2="6"/>
+          <line x1="3" y1="10" x2="21" y2="10"/>
+          <rect x="8" y="14" width="3" height="3" rx="0.5"/>
+        </svg>
+        <p>Calendrier de réservation</p>
+        <code>&#9888;&#65039; URL CALENDLY OU GHL CALENDAR À REMPLIR</code>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════
+     FAQ SECTION
+     ══════════════════════════════════════ -->
+<section class="faq">
+  <div class="faq__inner">
+    <h2 class="faq__title reveal">Questions fréquentes</h2>
+
+    <div class="faq__item reveal">
+      <button class="faq__question" onclick="toggleFaq(this)">
+        C'est vraiment gratuit ?
+        <span class="faq__icon">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </button>
+      <div class="faq__answer">
+        <div class="faq__answer-inner">Oui, c'est un appel de diagnostic sans engagement.</div>
+      </div>
+    </div>
+
+    <div class="faq__item reveal">
+      <button class="faq__question" onclick="toggleFaq(this)">
+        Combien de temps dure l'appel ?
+        <span class="faq__icon">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </button>
+      <div class="faq__answer">
+        <div class="faq__answer-inner">30 minutes maximum.</div>
+      </div>
+    </div>
+
+    <div class="faq__item reveal">
+      <button class="faq__question" onclick="toggleFaq(this)">
+        Je dois préparer quelque chose ?
+        <span class="faq__icon">
+          <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        </span>
+      </button>
+      <div class="faq__answer">
+        <div class="faq__answer-inner">Non, on s'occupe de tout. Viens juste avec tes questions.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════
+     FOOTER
+     ══════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer__inner">
+    <div class="footer__logo">LEAD<span>X</span></div>
+    <p class="footer__copy">&copy; 2025 LEADX PARTNERS LTD &mdash; Company Number 16372013</p>
+    <nav class="footer__links" aria-label="Liens légaux">
+      <a href="mentions-legales.html">Mentions légales</a>
+      <a href="politique-de-confidentialite.html">Politique de confidentialité</a>
+      <a href="cgv.html">CGV</a>
+    </nav>
+    <p class="footer__disclaimer">This site is not a part of the Facebook website or Facebook Inc. Additionally, this site is NOT endorsed by Facebook in any way. FACEBOOK is a trademark of FACEBOOK, Inc.</p>
+  </div>
+</footer>
+
+<!-- ══════════════════════════════════════
+     SCRIPTS
+     ══════════════════════════════════════ -->
+<script>
+/* ── Reveal on scroll ── */
+(function() {
+  const els = document.querySelectorAll('.reveal');
+  if (!els.length) return;
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  els.forEach(function(el, i) {
+    el.style.transitionDelay = (i * 0.08) + 's';
+    observer.observe(el);
+  });
+})();
+
+/* ── FAQ Accordion ── */
+function toggleFaq(btn) {
+  var item = btn.parentElement;
+  var isOpen = item.classList.contains('open');
+
+  // Close all
+  document.querySelectorAll('.faq__item').forEach(function(el) {
+    el.classList.remove('open');
+  });
+
+  // Open clicked (if it was closed)
+  if (!isOpen) {
+    item.classList.add('open');
+  }
+}
+</script>
+
+<!-- Analytics Agent -->
+<script src="agents/agent-analytics.js" defer></script>
+
+</body>
+</html>

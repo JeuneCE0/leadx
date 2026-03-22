@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LEADX — Confirmation de ton appel</title>
+<meta name="description" content="Ton appel stratégique LEADX est confirmé. Voici comment te préparer.">
+<meta property="og:title" content="LEADX — Confirmation de ton appel">
+<meta property="og:description" content="Ton appel stratégique LEADX est confirmé.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="⚠️ URL OG IMAGE À REMPLIR">
+<meta property="og:url" content="https://go.lead-x.fr/confirmation">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://go.lead-x.fr/confirmation">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FFFFFF">
+<style>
+/* ══════════════════════════════════════
+   DESIGN SYSTEM
+   ══════════════════════════════════════ */
+:root {
+  --accent: #FF2600;
+  --accent-dark: #C11D00;
+  --accent-light: #FF4D2E;
+  --accent-glow: rgba(255, 38, 0, 0.35);
+  --accent-subtle: rgba(255, 38, 0, 0.08);
+  --bg-light: #FFFFFF;
+  --bg-light-2: #F7F7F7;
+  --bg-dark: #000000;
+  --bg-dark-card: #141414;
+  --text-dark: #000000;
+  --text-dark-secondary: #555555;
+  --text-light: #FFFFFF;
+  --text-light-secondary: #999999;
+  --text-muted: #777777;
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-dark: rgba(255, 255, 255, 0.10);
+  --border-accent: rgba(255, 38, 0, 0.25);
+  --font-title: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-weight-title: 700;
+  --font-weight-body: 400;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--font-body); font-weight: var(--font-weight-body); color: var(--text-dark); background: var(--bg-light); overflow-x: hidden; line-height: 1.6; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; font-family: inherit; }
+
+::selection { background: var(--accent); color: #fff; }
+
+/* ── Noise Overlay ── */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* ══════════════════════════════════════
+   UTILITY / ANIMATION
+   ══════════════════════════════════════ */
+.container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+
+.reveal { opacity: 0; transform: translateY(30px); filter: blur(4px); transition: opacity 0.7s cubic-bezier(.525,0,0,1), transform 0.7s cubic-bezier(.525,0,0,1), filter 0.7s cubic-bezier(.525,0,0,1); }
+.reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+/* ── Checkmark animation ── */
+@keyframes checkScaleIn {
+  0% { transform: scale(0); opacity: 0; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+@keyframes checkDraw {
+  0% { stroke-dashoffset: 24; }
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes ringPulse {
+  0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+  70% { box-shadow: 0 0 0 20px rgba(34, 197, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+/* ══════════════════════════════════════
+   HERO CONFIRMATION
+   ══════════════════════════════════════ */
+.hero-confirm {
+  position: relative;
+  padding: 100px 0 70px;
+  background: var(--bg-light);
+  text-align: center;
+  overflow: hidden;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+@media(max-width:640px) {
+  .hero-confirm { padding: 80px 0 50px; }
+}
+
+.hero-confirm__check {
+  width: 80px; height: 80px;
+  background: #22c55e;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  margin: 0 auto 32px;
+  animation: checkScaleIn 0.6s cubic-bezier(.34,1.56,.64,1) forwards, ringPulse 2s ease-out 0.6s;
+  opacity: 0;
+}
+.hero-confirm__check svg {
+  width: 40px; height: 40px;
+  stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round;
+  fill: none;
+}
+.hero-confirm__check svg polyline {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 24;
+  animation: checkDraw 0.4s ease-out 0.5s forwards;
+}
+
+.hero-confirm__title {
+  font-family: var(--font-title);
+  font-weight: var(--font-weight-title);
+  font-size: clamp(24px, 5vw, 38px);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
+  margin-bottom: 16px;
+  max-width: 650px;
+  margin-left: auto; margin-right: auto;
+}
+
+.hero-confirm__subtitle {
+  font-size: clamp(15px, 2.5vw, 18px);
+  color: var(--text-dark-secondary);
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════
+   TIMELINE — Avant ton appel
+   ══════════════════════════════════════ */
+.timeline-section {
+  padding: 70px 0 60px;
+  background: var(--bg-light-2);
+}
+
+.timeline-section__title {
+  font-family: var(--font-title);
+  font-weight: var(--font-weight-title);
+  font-size: clamp(22px, 4vw, 32px);
+  text-align: center;
+  margin-bottom: 48px;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
+}
+
+.timeline {
+  position: relative;
+  max-width: 600px;
+  margin: 0 auto;
+  padding-left: 48px;
+}
+
+/* Vertical line */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 19px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(180deg, var(--accent), rgba(255, 38, 0, 0.15));
+  border-radius: 2px;
+}
+
+.timeline__item {
+  position: relative;
+  margin-bottom: 36px;
+}
+.timeline__item:last-child { margin-bottom: 0; }
+
+/* Dot on timeline */
+.timeline__dot {
+  position: absolute;
+  left: -48px;
+  top: 4px;
+  width: 40px; height: 40px;
+  background: var(--bg-light);
+  border: 2px solid var(--accent);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  z-index: 1;
+}
+
+.timeline__card {
+  background: var(--bg-light);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  padding: 24px 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.timeline__card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.07);
+}
+
+.timeline__card-title {
+  font-family: var(--font-title);
+  font-weight: 600;
+  font-size: clamp(16px, 2.5vw, 18px);
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.timeline__card-desc {
+  font-size: clamp(14px, 2vw, 15px);
+  color: var(--text-dark-secondary);
+  line-height: 1.6;
+}
+
+@media(max-width:375px) {
+  .timeline { padding-left: 42px; }
+  .timeline::before { left: 15px; }
+  .timeline__dot { left: -42px; width: 34px; height: 34px; font-size: 16px; }
+  .timeline__card { padding: 20px 20px; }
+}
+
+/* ══════════════════════════════════════
+   CTA SECONDARY
+   ══════════════════════════════════════ */
+.cta-secondary {
+  padding: 50px 0;
+  background: var(--bg-light);
+  text-align: center;
+}
+
+.cta-secondary__text {
+  font-size: clamp(15px, 2.5vw, 17px);
+  color: var(--text-dark-secondary);
+  margin-bottom: 20px;
+}
+
+.cta-secondary__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+  padding: 14px 32px;
+  border-radius: 10px;
+  transition: background 0.2s, transform 0.2s;
+}
+.cta-secondary__link:hover {
+  background: var(--accent-dark);
+  transform: translateY(-1px);
+}
+
+/* ══════════════════════════════════════
+   DISCOVER SECTION — 4 Cards
+   ══════════════════════════════════════ */
+.discover-section {
+  padding: 70px 0 80px;
+  background: var(--bg-dark);
+  color: var(--text-light);
+}
+
+.discover-section__title {
+  font-family: var(--font-title);
+  font-weight: var(--font-weight-title);
+  font-size: clamp(22px, 4vw, 32px);
+  text-align: center;
+  margin-bottom: 48px;
+  letter-spacing: -0.02em;
+}
+
+.discover-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  max-width: 700px;
+  margin: 0 auto;
+}
+@media(max-width:640px) {
+  .discover-grid { grid-template-columns: 1fr; }
+}
+
+.discover-card {
+  background: var(--bg-dark-card);
+  border: 1px solid var(--border-dark);
+  border-radius: 14px;
+  padding: 28px 24px;
+  transition: border-color 0.3s, transform 0.3s;
+}
+.discover-card:hover {
+  border-color: var(--border-accent);
+  transform: translateY(-2px);
+}
+
+.discover-card__icon {
+  width: 44px; height: 44px;
+  background: var(--accent-subtle);
+  border: 1px solid var(--border-accent);
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  margin-bottom: 16px;
+}
+
+.discover-card__text {
+  font-size: clamp(14px, 2vw, 15px);
+  color: var(--text-light-secondary);
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════ */
+.footer { background: var(--bg-light); padding: 48px 24px 32px; text-align: center; }
+.footer__logo { font-family: var(--font-title); font-weight: 800; font-size: 28px; margin-bottom: 20px; color: var(--text-dark); letter-spacing: -0.02em; }
+.footer__logo span { color: var(--accent); }
+.footer__links { display: flex; gap: 24px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+.footer__links a { font-size: 13px; color: var(--text-muted); transition: color 0.2s; }
+.footer__links a:hover { color: var(--accent); }
+.footer__copy { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+.footer__disclaimer { font-size: 11px; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.5; opacity: 0.7; }
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════ HERO CONFIRMATION ════════════════════════ -->
+<section class="hero-confirm">
+  <div class="container">
+    <div class="hero-confirm__check">
+      <svg viewBox="0 0 24 24"><polyline points="6 12 10 16 18 8"/></svg>
+    </div>
+    <h1 class="hero-confirm__title reveal">C'est confirm&eacute; ! Ton appel strat&eacute;gique est r&eacute;serv&eacute;.</h1>
+    <p class="hero-confirm__subtitle reveal">Tu vas recevoir un email de confirmation avec tous les d&eacute;tails. Voici ce qu'il faut savoir avant l'appel.</p>
+  </div>
+</section>
+
+<!-- ════════════════════════ TIMELINE — Avant ton appel ════════════════════════ -->
+<section class="timeline-section">
+  <div class="container">
+    <h2 class="timeline-section__title reveal">Avant ton appel</h2>
+    <div class="timeline">
+      <div class="timeline__item reveal">
+        <div class="timeline__dot">&#x1F4E7;</div>
+        <div class="timeline__card">
+          <div class="timeline__card-title">V&eacute;rifie ton email</div>
+          <div class="timeline__card-desc">Tu vas recevoir une confirmation avec le lien de l'appel. V&eacute;rifie tes spams si tu ne la vois pas.</div>
+        </div>
+      </div>
+      <div class="timeline__item reveal">
+        <div class="timeline__dot">&#x1F3AF;</div>
+        <div class="timeline__card">
+          <div class="timeline__card-title">Pr&eacute;pare tes objectifs</div>
+          <div class="timeline__card-desc">R&eacute;fl&eacute;chis &agrave; ton objectif principal : combien de leads/mois tu veux, quel budget tu es pr&ecirc;t &agrave; investir, quel est ton client id&eacute;al.</div>
+        </div>
+      </div>
+      <div class="timeline__item reveal">
+        <div class="timeline__dot">&#x1F4F1;</div>
+        <div class="timeline__card">
+          <div class="timeline__card-title">Sois &agrave; l'heure</div>
+          <div class="timeline__card-desc">L'appel dure 30 minutes. Assure-toi d'&ecirc;tre dans un endroit calme avec une bonne connexion.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ CTA SECONDARY ════════════════════════ -->
+<section class="cta-secondary">
+  <div class="container reveal">
+    <p class="cta-secondary__text">En attendant, regarde comment nos clients g&eacute;n&egrave;rent des leads :</p>
+    <a href="masterclass.html" class="cta-secondary__link">VOIR LA MASTERCLASS &rarr;</a>
+  </div>
+</section>
+
+<!-- ════════════════════════ DISCOVER — Pendant l'appel ════════════════════════ -->
+<section class="discover-section">
+  <div class="container">
+    <h2 class="discover-section__title reveal">Ce que tu vas d&eacute;couvrir pendant l'appel</h2>
+    <div class="discover-grid">
+      <div class="discover-card reveal">
+        <div class="discover-card__icon">&#x1F50D;</div>
+        <div class="discover-card__text">Analyse de ton march&eacute; B2B et de tes concurrents</div>
+      </div>
+      <div class="discover-card reveal">
+        <div class="discover-card__icon">&#x1F4A1;</div>
+        <div class="discover-card__text">Les angles publicitaires qui marchent dans ton secteur</div>
+      </div>
+      <div class="discover-card reveal">
+        <div class="discover-card__icon">&#x1F4B0;</div>
+        <div class="discover-card__text">Estimation pr&eacute;cise de ton co&ucirc;t par lead</div>
+      </div>
+      <div class="discover-card reveal">
+        <div class="discover-card__icon">&#x1F4C8;</div>
+        <div class="discover-card__text">Un plan d'action sur 30 jours</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ FOOTER ════════════════════════ -->
+<footer class="footer">
+  <div class="footer__logo">LEAD<span>X</span></div>
+  <nav class="footer__links" aria-label="Liens légaux">
+    <a href="politique-de-confidentialite.html">Politique de confidentialit&eacute;</a>
+    <a href="cgv.html">CGV</a>
+    <a href="mentions-legales.html">Mentions l&eacute;gales</a>
+  </nav>
+  <div class="footer__copy">&copy; 2025 LEADX PARTNERS LTD &mdash; Company Number 16372013 &mdash; Tous droits r&eacute;serv&eacute;s.</div>
+  <div class="footer__disclaimer">This site is not a part of the Facebook&trade; website or Facebook&trade; Inc. Additionally, this site is NOT endorsed by Facebook&trade; in any way. FACEBOOK&trade; is a trademark of FACEBOOK&trade;, Inc.</div>
+</footer>
+
+<!-- ════════════════════════ SCRIPTS ════════════════════════ -->
+<script>
+/* ── Reveal on scroll ── */
+(function(){
+  const reveals = document.querySelectorAll('.reveal');
+  if (!reveals.length) return;
+
+  const observer = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+  reveals.forEach(function(el) { observer.observe(el); });
+})();
+</script>
+<script src="agents/agent-analytics.js" defer></script>
+</body>
+</html>

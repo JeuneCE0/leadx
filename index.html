@@ -8,12 +8,18 @@
 <meta property="og:title" content="LEADX — La Méthode META Ads B2B">
 <meta property="og:description" content="Comment générer des leads B2B qualifiés chaque semaine avec META Ads, sans exploser ton budget.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="⚠️ URL OG IMAGE À REMPLIR">
+<meta property="og:url" content="https://go.lead-x.fr/">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://go.lead-x.fr/">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#000000">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"LEADX","legalName":"LEADX PARTNERS LTD","url":"https://go.lead-x.fr","contactPoint":{"@type":"ContactPoint","email":"contact@lead-x.fr","contactType":"customer service"},"address":{"@type":"PostalAddress","streetAddress":"DEPT 5394, 196 HIGH ROAD, WOOD GREEN","addressLocality":"London","postalCode":"N22 8HH","addressCountry":"GB"}}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Est-ce que META Ads fonctionne vraiment en B2B ?","acceptedAnswer":{"@type":"Answer","text":"Oui. META est un levier B2B sous-exploité. Nos clients génèrent des leads décideurs à un coût 2 à 5x inférieur à LinkedIn Ads."}},{"@type":"Question","name":"Combien coûte un accompagnement LEADX ?","acceptedAnswer":{"@type":"Answer","text":"Nos formules démarrent à 497€/mois selon le volume et la complexité de tes campagnes."}},{"@type":"Question","name":"Je n'ai jamais fait de pub META, c'est un problème ?","acceptedAnswer":{"@type":"Answer","text":"Pas du tout. On gère tout de A à Z : la stratégie, les créas, le lancement et l'optimisation."}},{"@type":"Question","name":"En combien de temps je vois des résultats ?","acceptedAnswer":{"@type":"Answer","text":"Les premiers leads arrivent généralement dans les 7 à 14 jours après le lancement des campagnes."}}]}
+</script>
 <style>
 /* ══════════════════════════════════════
    DESIGN SYSTEM
@@ -38,8 +44,8 @@
   --border-light: rgba(0, 0, 0, 0.08);
   --border-dark: rgba(255, 255, 255, 0.10);
   --border-accent: rgba(255, 38, 0, 0.25);
-  --font-title: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  --font-body: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-title: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-weight-title: 700;
   --font-weight-body: 400;
 }
@@ -60,6 +66,7 @@ button { cursor: pointer; border: none; font-family: inherit; }
   position: fixed; top: 0; left: 0; height: 3px; z-index: 9999;
   background: linear-gradient(90deg, var(--accent), var(--accent-light));
   width: 0%; transition: width 0.1s linear;
+  will-change: width; transform: translateZ(0);
 }
 @media(max-width:640px){ #scroll-progress { display:none; } }
 
@@ -68,13 +75,14 @@ body::before {
   content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
   opacity: 0.04;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  will-change: transform; transform: translateZ(0);
 }
 
 /* ══════════════════════════════════════
    UTILITY / ANIMATION
    ══════════════════════════════════════ */
 .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-.reveal { opacity: 0; transform: translateY(30px); filter: blur(4px); transition: opacity 0.7s cubic-bezier(.525,0,0,1), transform 0.7s cubic-bezier(.525,0,0,1), filter 0.7s cubic-bezier(.525,0,0,1); }
+.reveal { opacity: 0; transform: translateY(30px); filter: blur(4px); transition: opacity 0.7s cubic-bezier(.525,0,0,1), transform 0.7s cubic-bezier(.525,0,0,1), filter 0.7s cubic-bezier(.525,0,0,1); will-change: transform, opacity; backface-visibility: hidden; }
 .reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
 
 @keyframes float1 { 0%,100%{ transform: translate(0,0) rotate(0deg); } 50%{ transform: translate(12px,-18px) rotate(8deg); } }
@@ -93,7 +101,7 @@ body::before {
   background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
   background-size: 28px 28px;
 }
-.hero__decor { position: absolute; pointer-events: none; opacity: 0.15; }
+.hero__decor { position: absolute; pointer-events: none; opacity: 0.15; will-change: transform; }
 .hero__decor--dot1 { top: 15%; left: 8%; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: float1 7s ease-in-out infinite; }
 .hero__decor--dot2 { top: 60%; right: 10%; width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: float2 8s ease-in-out infinite; }
 .hero__decor--cross1 { top: 25%; right: 15%; font-size: 20px; color: var(--accent); animation: float2 9s ease-in-out infinite; }
@@ -101,6 +109,7 @@ body::before {
 .hero__beam { position: absolute; width: 1px; opacity: 0.07; top: -20%; pointer-events: none;
   background: linear-gradient(180deg, transparent, var(--accent), transparent);
   height: 200%; animation: slideDown 10s linear infinite;
+  will-change: transform;
 }
 .hero__beam--1 { left: 20%; animation-delay: 0s; animation-duration: 10s; }
 .hero__beam--2 { left: 55%; animation-delay: 3s; animation-duration: 12s; }
@@ -186,12 +195,13 @@ body::before {
 }
 .proof-bar__roller-item { display: block; height: 1.3em; line-height: 1.3em; color: var(--accent); font-weight: 700; white-space: nowrap; }
 @keyframes roller {
-  0%,14%{ transform: translateY(0); }
-  16.66%,30.66%{ transform: translateY(-1.3em); }
-  33.33%,47.33%{ transform: translateY(-2.6em); }
-  50%,64%{ transform: translateY(-3.9em); }
-  66.66%,80.66%{ transform: translateY(-5.2em); }
-  83.33%,100%{ transform: translateY(0); }
+  0%,11.66%{ transform: translateY(0); }
+  14.28%,25.94%{ transform: translateY(-1.3em); }
+  28.57%,40.23%{ transform: translateY(-2.6em); }
+  42.85%,54.51%{ transform: translateY(-3.9em); }
+  57.14%,68.8%{ transform: translateY(-5.2em); }
+  71.42%,83.08%{ transform: translateY(-6.5em); }
+  85.71%,100%{ transform: translateY(0); }
 }
 
 /* ══════════════════════════════════════
@@ -323,7 +333,9 @@ body::before {
 .faq-item {
   background: var(--bg-dark-card); border: 1px solid var(--border-dark);
   border-radius: 14px; margin-bottom: 12px; overflow: hidden;
+  transition: border-color 0.3s;
 }
+.faq-item:hover { border-color: var(--border-accent); }
 .faq-item__q {
   width: 100%; display: flex; align-items: center; justify-content: space-between;
   padding: 20px 24px; background: none; color: var(--text-light);
@@ -518,17 +530,24 @@ body::before {
   box-shadow: 0 30px 80px rgba(0,0,0,0.5);
 }
 .exit-overlay.open .exit-popup { transform: scale(1); }
+@media(max-width:640px){
+  .exit-overlay { align-items: flex-end; }
+  .exit-popup { width: 100%; max-width: none; border-radius: 20px 20px 0 0; transform: translateY(100%); }
+  .exit-overlay.open .exit-popup { transform: translateY(0); }
+}
 .exit-popup__header { background: var(--bg-dark); padding: 28px; text-align: center; position: relative; }
 .exit-popup__header-emoji { font-size: 32px; margin-bottom: 12px; }
 .exit-popup__header h3 { font-family: var(--font-title); font-weight: 700; font-size: 20px; color: #fff; margin-bottom: 6px; }
 .exit-popup__header p { font-size: 13px; color: var(--text-light-secondary); }
 .exit-popup__header-arrow { position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent; border-top: 10px solid var(--bg-dark); }
-.exit-popup__close { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.1); width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; }
+.exit-popup__close { position: absolute; top: 12px; right: 12px; background: rgba(255,255,255,0.1); width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 16px; transition: background 0.2s; }
+.exit-popup__close:hover { background: rgba(255,255,255,0.2); }
 .exit-popup__body { background: #fff; padding: 28px; }
 .exit-popup__stats { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 24px; text-align: center; }
 .exit-popup__stat-val { font-family: var(--font-title); font-weight: 800; font-size: 22px; color: var(--accent); }
 .exit-popup__stat-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
-.exit-popup__cta { width: 100%; padding: 14px; background: var(--accent); color: #fff; font-family: var(--font-title); font-weight: 700; font-size: 14px; border-radius: 10px; }
+.exit-popup__cta { width: 100%; padding: 14px; background: var(--accent); color: #fff; font-family: var(--font-title); font-weight: 700; font-size: 14px; border-radius: 10px; transition: background 0.2s, transform 0.2s; }
+.exit-popup__cta:hover { background: var(--accent-dark); transform: translateY(-1px); }
 
 /* ══════════════════════════════════════
    LOADER (post-submit)
@@ -602,6 +621,7 @@ body::before {
 <!-- Scroll Progress -->
 <div id="scroll-progress"></div>
 
+<main>
 <!-- ════════════════════════ HERO ════════════════════════ -->
 <section class="hero">
   <div class="hero__decor hero__decor--dot1"></div>
@@ -615,7 +635,7 @@ body::before {
   <div class="container hero__inner">
     <div class="hero__badge reveal">
       <span class="hero__badge-dot"></span>
-      32 inscrits cette semaine
+      <span data-urgency="badge-inscrits">32</span> inscrits cette semaine
     </div>
 
     <h1 class="reveal">La méthode META Ads qui génère des <span class="accent">leads B2B qualifiés</span> chaque semaine — sans exploser ton budget</h1>
@@ -635,11 +655,11 @@ body::before {
 
     <div class="proof-bar reveal">
       <div class="proof-bar__avatars">
-        <img src="https://i.pravatar.cc/64?img=12" alt="" loading="lazy">
-        <img src="https://i.pravatar.cc/64?img=32" alt="" loading="lazy">
-        <img src="https://i.pravatar.cc/64?img=48" alt="" loading="lazy">
-        <img src="https://i.pravatar.cc/64?img=57" alt="" loading="lazy">
-        <img src="https://i.pravatar.cc/64?img=68" alt="" loading="lazy">
+        <img src="https://i.pravatar.cc/64?img=12" alt="" loading="lazy" width="32" height="32">
+        <img src="https://i.pravatar.cc/64?img=32" alt="" loading="lazy" width="32" height="32">
+        <img src="https://i.pravatar.cc/64?img=48" alt="" loading="lazy" width="32" height="32">
+        <img src="https://i.pravatar.cc/64?img=57" alt="" loading="lazy" width="32" height="32">
+        <img src="https://i.pravatar.cc/64?img=68" alt="" loading="lazy" width="32" height="32">
       </div>
       <span class="proof-bar__text">
         Rejoint par des
@@ -661,7 +681,7 @@ body::before {
 <!-- ════════════════════════ VSL ════════════════════════ -->
 <section class="vsl-section">
   <div class="vsl-wrapper reveal" id="vsl-player">
-    <div class="vsl-thumbnail" id="vsl-thumbnail">
+    <div class="vsl-thumbnail" id="vsl-thumbnail" role="button" aria-label="Lancer la vidéo" tabindex="0">
       <div class="vsl-thumbnail__text">Comment générer +30 leads B2B/semaine avec META Ads</div>
       <div class="vsl-thumbnail__play">
         <svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
@@ -797,6 +817,7 @@ body::before {
     <!-- Countdown -->
     <div class="countdown-section reveal">
       <div class="countdown-section__title">Prochaine session stratégique dans :</div>
+      <div style="font-size:14px;color:var(--accent);margin-bottom:12px;font-weight:600;" data-urgency="places"></div>
       <div class="countdown" id="countdown">
         <div class="countdown__block">
           <span class="countdown__num" id="cd-days">00</span>
@@ -849,33 +870,34 @@ body::before {
     <button class="cta-btn cta-btn--inverse open-modal">VOIR LA MÉTHODE MAINTENANT →</button>
   </div>
 </section>
+</main>
 
 <!-- ════════════════════════ FOOTER ════════════════════════ -->
 <footer class="footer">
   <div class="footer__logo">LEAD<span>X</span></div>
-  <div class="footer__links">
+  <nav class="footer__links" aria-label="Liens légaux">
     <a href="politique-de-confidentialite.html">Politique de confidentialité</a>
     <a href="cgv.html">CGV</a>
     <a href="mentions-legales.html">Mentions légales</a>
-  </div>
+  </nav>
   <div class="footer__copy">© 2025 LEADX PARTNERS LTD — Company Number 16372013 — Tous droits réservés.</div>
   <div class="footer__disclaimer">This site is not a part of the Facebook™ website or Facebook™ Inc. Additionally, this site is NOT endorsed by Facebook™ in any way. FACEBOOK™ is a trademark of FACEBOOK™, Inc.</div>
 </footer>
 
 <!-- ════════════════════════ MODAL OPTIN ════════════════════════ -->
 <div class="modal-overlay" id="modal-overlay">
-  <div class="modal" role="dialog" aria-modal="true">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal__header">
-      <button class="modal__close" id="modal-close">✕</button>
+      <button class="modal__close" id="modal-close" aria-label="Fermer">✕</button>
       <div class="modal__header-proof">
         <div class="modal__header-proof-avatars">
-          <img src="https://i.pravatar.cc/48?img=15" alt="">
-          <img src="https://i.pravatar.cc/48?img=25" alt="">
-          <img src="https://i.pravatar.cc/48?img=35" alt="">
+          <img src="https://i.pravatar.cc/48?img=15" alt="" loading="lazy" width="24" height="24">
+          <img src="https://i.pravatar.cc/48?img=25" alt="" loading="lazy" width="24" height="24">
+          <img src="https://i.pravatar.cc/48?img=35" alt="" loading="lazy" width="24" height="24">
         </div>
         47 entreprises nous font confiance
       </div>
-      <h3>Accède à la méthode LEADX</h3>
+      <h3 id="modal-title">Accède à la méthode LEADX</h3>
       <p>Découvre comment générer des leads B2B qualifiés avec META Ads</p>
       <div class="modal__header-arrow"></div>
     </div>
@@ -906,10 +928,10 @@ body::before {
 </div>
 
 <!-- ════════════════════════ EXIT INTENT ════════════════════════ -->
-<div class="exit-overlay" id="exit-overlay">
+<div class="exit-overlay" id="exit-overlay" role="dialog" aria-modal="true" aria-label="Offre spéciale">
   <div class="exit-popup">
     <div class="exit-popup__header">
-      <button class="exit-popup__close" id="exit-close">✕</button>
+      <button class="exit-popup__close" id="exit-close" aria-label="Fermer">✕</button>
       <div class="exit-popup__header-emoji">🔥</div>
       <h3>Attends — tu allais rater ça.</h3>
       <p>La méthode que +47 entreprises B2B utilisent pour générer des leads qualifiés via META.</p>
@@ -944,7 +966,7 @@ body::before {
 
 <!-- ════════════════════════ SOCIAL NOTIF ════════════════════════ -->
 <div class="social-notif" id="social-notif">
-  <img class="social-notif__avatar" id="notif-avatar" src="https://i.pravatar.cc/72?img=1" alt="">
+  <img class="social-notif__avatar" id="notif-avatar" src="https://i.pravatar.cc/72?img=1" alt="" loading="lazy" width="36" height="36" onerror="this.style.display='none'">
   <div>
     <div class="social-notif__text" id="notif-text">Thomas vient de s'inscrire 🔥</div>
     <div class="social-notif__time" id="notif-time">il y a 2 min 🔥</div>
@@ -966,23 +988,28 @@ body::before {
   'use strict';
 
   // ── Scroll progress ──
+  const scrollProgressEl = document.getElementById('scroll-progress');
   window.addEventListener('scroll', () => {
-    const h = document.documentElement.scrollHeight - window.innerHeight;
-    const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
-    document.getElementById('scroll-progress').style.width = pct + '%';
-  });
+    requestAnimationFrame(() => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      if (h > 0) scrollProgressEl.style.width = (window.scrollY / h * 100) + '%';
+    });
+  }, { passive: true });
 
-  // ── Reveal on scroll ──
+  // ── Reveal on scroll (staggered) ──
   const revealEls = document.querySelectorAll('.reveal');
   const revealObs = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
+    entries.forEach((e) => {
       if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 50);
+        e.target.classList.add('visible');
         revealObs.unobserve(e.target);
       }
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-  revealEls.forEach(el => revealObs.observe(el));
+  revealEls.forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.07) + 's';
+    revealObs.observe(el);
+  });
 
   // ── Bento mobile scroll-active ──
   if (window.innerWidth <= 640) {
@@ -1085,7 +1112,26 @@ body::before {
   });
   modalClose.addEventListener('click', closeModal);
   modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+    // Focus trap
+    if (e.key === 'Tab' && modalOverlay.classList.contains('open')) {
+      const focusable = modalOverlay.querySelectorAll('input, button, [tabindex]:not([tabindex="-1"])');
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    }
+  });
+
+  // ── Form: clear error on input ──
+  ['f-prenom', 'f-nom', 'f-email', 'f-tel'].forEach(id => {
+    const inp = document.getElementById(id);
+    if (inp) inp.addEventListener('input', function() { this.style.borderColor = ''; });
+  });
 
   // ── Form submit ──
   const submitBtn = document.getElementById('submit-btn');
@@ -1094,12 +1140,13 @@ body::before {
     const nom = document.getElementById('f-nom').value.trim();
     const email = document.getElementById('f-email').value.trim();
     const tel = document.getElementById('f-tel').value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!prenom || !nom || !email) {
-      // Highlight empty fields
+    if (!prenom || !nom || !email || !emailRegex.test(email)) {
       [document.getElementById('f-prenom'), document.getElementById('f-nom'), document.getElementById('f-email')].forEach(inp => {
-        if (!inp.value.trim()) inp.style.borderColor = 'var(--accent)';
+        if (!inp.value.trim()) inp.style.borderColor = '#dc2626';
       });
+      if (email && !emailRegex.test(email)) document.getElementById('f-email').style.borderColor = '#dc2626';
       return;
     }
 
@@ -1176,29 +1223,30 @@ body::before {
     });
 
     setTimeout(() => {
-      // ⚠️ REPLACE with actual redirect URL
-      // window.location.href = 'https://go.lead-x.fr/masterclass';
-      overlay.classList.remove('open');
-      fill.style.width = '0%';
+      // ⚠️ Redirect vers la page VSL
+      window.location.href = 'masterclass.html';
     }, 2800);
   }
 
   // ── Exit Intent (desktop) ──
   let exitShown = false;
+  const exitOverlay = document.getElementById('exit-overlay');
+  function closeExit() {
+    exitOverlay.classList.remove('open');
+    document.body.classList.remove('modal-open');
+  }
   if (window.innerWidth > 640) {
     document.addEventListener('mouseout', (e) => {
       if (e.clientY < 5 && !exitShown && !modalOverlay.classList.contains('open')) {
         exitShown = true;
-        document.getElementById('exit-overlay').classList.add('open');
+        exitOverlay.classList.add('open');
+        document.body.classList.add('modal-open');
       }
     });
   }
-  document.getElementById('exit-close').addEventListener('click', () => {
-    document.getElementById('exit-overlay').classList.remove('open');
-  });
-  document.getElementById('exit-overlay').addEventListener('click', (e) => {
-    if (e.target.id === 'exit-overlay') e.target.classList.remove('open');
-  });
+  document.getElementById('exit-close').addEventListener('click', closeExit);
+  exitOverlay.addEventListener('click', (e) => { if (e.target === exitOverlay) closeExit(); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && exitOverlay.classList.contains('open')) closeExit(); });
 
   // ── VSL Thumbnail click ──
   document.getElementById('vsl-thumbnail').addEventListener('click', () => {
@@ -1210,40 +1258,7 @@ body::before {
     thumb.classList.add('hidden');
   });
 
-  // ── Social Notifications ──
-  const names = ['Thomas','Julie','Maxime','Sarah','Alexandre','Camille','Nicolas','Laura','Pierre','Emma','Antoine','Léa','Romain','Chloé','Sébastien'];
-  const templates = [
-    (n) => `${n} vient de s'inscrire 🔥`,
-    (n) => `${n} regarde la méthode en ce moment`,
-    (n) => `${n} a réservé son appel stratégique`,
-    (n) => `${n} vient d'accéder à la masterclass`,
-    (n) => `${n} a rejoint LEADX`,
-  ];
-
-  const notifEl = document.getElementById('social-notif');
-  const notifAvatar = document.getElementById('notif-avatar');
-  const notifText = document.getElementById('notif-text');
-  const notifTime = document.getElementById('notif-time');
-
-  let notifIdx = 0;
-  function showNotif() {
-    const name = names[Math.floor(Math.random() * names.length)];
-    const tmpl = templates[Math.floor(Math.random() * templates.length)];
-    const mins = Math.floor(Math.random() * 12) + 1;
-    const imgId = Math.floor(Math.random() * 70) + 1;
-
-    notifAvatar.src = `https://i.pravatar.cc/72?img=${imgId}`;
-    notifText.textContent = tmpl(name);
-    notifTime.textContent = `il y a ${mins} min 🔥`;
-
-    notifEl.classList.add('show');
-    setTimeout(() => notifEl.classList.remove('show'), 8000);
-  }
-
-  setTimeout(() => {
-    showNotif();
-    setInterval(showNotif, 20000); // 12s interval + 8s display
-  }, 5000);
+  // Social notifications handled by agent-social-proof.js
 
   // ── Sticky Mobile CTA ──
   const mainCta = document.getElementById('main-cta');
@@ -1267,7 +1282,11 @@ body::before {
     });
   });
 
+  let confettiThrottle = false;
   function spawnConfetti(x, y) {
+    if (confettiThrottle) return;
+    confettiThrottle = true;
+    setTimeout(() => confettiThrottle = false, 1000);
     const colors = ['#FF2600', '#C11D00', '#000000', '#FFFFFF'];
     for (let i = 0; i < 24; i++) {
       const el = document.createElement('div');
@@ -1297,5 +1316,10 @@ body::before {
 
 })();
 </script>
+
+<!-- Agents -->
+<script src="agents/agent-analytics.js" defer></script>
+<script src="agents/agent-social-proof.js" defer></script>
+<script src="agents/agent-urgency.js" defer></script>
 </body>
 </html>
