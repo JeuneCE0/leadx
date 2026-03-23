@@ -459,19 +459,22 @@ body::before {
 }
 
 .modal__header {
-  background: var(--bg-dark); padding: 28px 28px 24px; position: relative;
+  background: #0A0A0A; padding: 32px 28px 28px; position: relative; text-align: center;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
+.modal__header-logo { margin-bottom: 16px; }
+.modal__header-logo img { height: 24px; width: auto; margin: 0 auto; }
 .modal__header-proof {
-  display: flex; align-items: center; gap: 8px; margin-bottom: 14px; font-size: 12px; color: var(--text-light-secondary);
+  display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 14px; font-size: 12px; color: var(--text-light-secondary);
 }
 .modal__header-proof-avatars { display: flex; }
 .modal__header-proof-avatars img { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--bg-dark); margin-left: -6px; object-fit: cover; }
 .modal__header-proof-avatars img:first-child { margin-left: 0; }
 .modal__header h3 {
   font-family: var(--font-main); font-weight: 700; font-size: 20px;
-  color: var(--text-light); margin-bottom: 6px;
+  color: var(--text-light); margin-bottom: 6px; text-align: center;
 }
-.modal__header p { font-size: 14px; color: var(--text-light-secondary); }
+.modal__header p { font-size: 14px; color: var(--text-light-secondary); text-align: center; }
 .modal__header-arrow {
   position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
   width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent;
@@ -484,19 +487,19 @@ body::before {
 }
 .modal__close:hover { background: rgba(255,255,255,0.2); }
 
-.modal__body { background: #fff; padding: 32px 28px 28px; }
+.modal__body { background: #141414; padding: 32px 28px 28px; }
 .modal__form { display: flex; flex-direction: column; gap: 16px; }
 
 .form-group { position: relative; }
 .form-group input {
-  width: 100%; padding: 16px 16px 8px; border: 1.5px solid rgba(0,0,0,0.12);
+  width: 100%; padding: 16px 16px 8px; border: 1.5px solid rgba(255,255,255,0.1);
   border-radius: 10px; font-size: 15px; font-family: var(--font-main);
-  background: #fff; transition: border-color 0.2s; outline: none; color: #000;
+  background: #0A0A0A; transition: border-color 0.2s; outline: none; color: #fff;
 }
 .form-group input:focus { border-color: var(--accent); }
 .form-group label {
   position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
-  font-size: 14px; color: var(--text-muted); pointer-events: none;
+  font-size: 14px; color: rgba(255,255,255,0.4); pointer-events: none;
   transition: all 0.2s ease;
 }
 .form-group input:focus + label,
@@ -511,8 +514,7 @@ body::before {
   transition: background 0.2s;
 }
 .modal__submit:hover { background: var(--accent-dark); }
-.modal__micro { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 4px; }
-.modal__reassurance { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+.modal__reassurance { text-align: center; font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 12px; }
 
 /* ══════════════════════════════════════
    LOADER
@@ -899,16 +901,11 @@ body::before {
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
     <div class="modal__header">
       <button class="modal__close" id="modal-close" aria-label="Fermer">&times;</button>
-      <div class="modal__header-proof">
-        <div class="modal__header-proof-avatars">
-          <img src="https://i.pravatar.cc/48?img=15" alt="" loading="lazy" width="24" height="24">
-          <img src="https://i.pravatar.cc/48?img=25" alt="" loading="lazy" width="24" height="24">
-          <img src="https://i.pravatar.cc/48?img=35" alt="" loading="lazy" width="24" height="24">
-        </div>
-        Des dizaines de prestataires B2B nous font confiance
+      <div class="modal__header-logo">
+        <img src="assets/LEADX-wordmark-light.svg" alt="LEADX" style="height:24px;width:auto;margin:0 auto;" loading="lazy">
       </div>
       <h3 id="modal-title">Accède au système LEADX</h3>
-      <p>La vidéo de 12 minutes qui explique le système étape par étape</p>
+      <p>La vidéo qui explique le système étape par étape</p>
       <div class="modal__header-arrow"></div>
     </div>
     <div class="modal__body">
@@ -930,8 +927,7 @@ body::before {
           <label for="f-tel">Téléphone</label>
         </div>
         <button class="modal__submit" id="submit-btn">ACCÉDER À LA MÉTHODE →</button>
-        <div class="modal__micro">Tu recevras ton accès en moins de 30 secondes</div>
-        <div class="modal__reassurance">Tes données sont protégées - Pas de spam</div>
+        <div class="modal__reassurance">🔒 Tes données sont protégées · Pas de spam</div>
       </div>
     </div>
   </div>
