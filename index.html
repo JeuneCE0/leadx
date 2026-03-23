@@ -209,168 +209,92 @@ body::before {
 }
 @keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-/* ══════════════════════════════════════
-   RED BAND — Subtle stats strip
-   ══════════════════════════════════════ */
-.red-band {
-  background: linear-gradient(135deg, rgba(255,38,0,0.7), rgba(193,29,0,0.8));
-  position: relative; overflow: hidden; padding: 20px 24px;
-}
-.red-band::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-                    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-.red-band__inner { max-width: 700px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 32px; position: relative; z-index: 1; }
-.red-band__stat { text-align: center; }
-.red-band__value { font-weight: 800; font-size: clamp(18px, 3vw, 24px); color: #fff; display: block; line-height: 1.2; }
-.red-band__label { font-size: clamp(11px, 1.5vw, 13px); color: rgba(255,255,255,0.65); display: block; margin-top: 2px; }
-.red-band__sep { width: 1px; height: 32px; background: rgba(255,255,255,0.2); flex-shrink: 0; }
 
 /* ══════════════════════════════════════
-   WHITE SECTION
+   PROBLEM SECTION
    ══════════════════════════════════════ */
-.white-section {
-  background: #FFFFFF; position: relative; color: var(--text-dark); overflow: hidden;
-}
-.white-section::before {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background-image: radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
+.problem-section { background: #0A0A0A; padding: 100px 0; position: relative; }
+.problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+@media(max-width:640px){ .problem-grid { grid-template-columns: 1fr; } }
+.problem-card { background: #141414; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 28px 24px; position: relative; overflow: hidden; }
+.problem-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #FF2600; }
+.problem-card__icon { font-size: 24px; margin-bottom: 12px; display: block; }
+.problem-card__text { font-size: 15px; color: rgba(255,255,255,0.85); line-height: 1.5; }
+.problem-closing { text-align: center; font-style: italic; color: rgba(255,255,255,0.5); font-size: 15px; margin-top: 8px; }
 
-/* ── Counters on white ── */
-.w-counters {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px;
-  padding: 90px 0 80px; text-align: center; position: relative; z-index: 1;
-}
-.w-counter { position: relative; }
-.w-counter:not(:last-child)::after {
-  content: ''; position: absolute; right: -16px; top: 15%; height: 70%; width: 1px;
-  background: rgba(0,0,0,0.08);
-}
-.w-counter__value {
-  font-family: var(--font-main); font-weight: 800;
-  font-size: clamp(28px, 5vw, 52px); color: var(--accent);
-  line-height: 1.1; margin-bottom: 8px; position: relative; display: inline-block;
-}
-.w-counter__value::before {
-  content: ''; position: absolute; inset: -12px -20px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(255,38,0,0.08) 0%, transparent 70%);
-  z-index: -1; pointer-events: none;
-}
-.w-counter__label { font-size: clamp(12px, 1.8vw, 15px); color: var(--text-muted); }
+/* ══════════════════════════════════════
+   STEPS SECTION
+   ══════════════════════════════════════ */
+.steps-section { background: #000; padding: 100px 0; position: relative; }
+.steps-section::before { content:''; position:absolute; inset:0; pointer-events:none; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 48px 48px; }
+.steps-list { display: flex; flex-direction: column; gap: 16px; max-width: 700px; margin: 0 auto; }
+.step-card { display: flex; gap: 24px; background: #141414; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 24px 28px; transition: border-color 0.3s; }
+.step-card:hover { border-color: rgba(255,38,0,0.2); }
+.step-card__num { font-family: var(--font-main); font-weight: 800; font-size: clamp(24px,3vw,32px); color: #FF2600; flex-shrink: 0; line-height: 1; }
+.step-card__title { font-weight: 700; font-size: 16px; color: #fff; margin-bottom: 6px; }
+.step-card__desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+@media(max-width:640px){ .step-card { flex-direction: column; gap: 12px; } }
 
-@media(max-width:640px){
-  .w-counters { gap: 16px; }
-  .w-counter::after { display: none !important; }
-}
+/* ══════════════════════════════════════
+   TESTIMONIALS SECTION
+   ══════════════════════════════════════ */
+.testimonials-section { background: #0A0A0A; padding: 100px 0; position: relative; }
+.section-label { font-size: 13px; color: #FF2600; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; text-align: center; margin-bottom: 12px; }
+.section-title { font-family: var(--font-main); font-weight: 700; font-size: clamp(22px, 4vw, 36px); text-align: center; margin-bottom: 12px; color: #fff; position: relative; z-index: 1; }
+.section-title--spaced { margin-bottom: 48px; }
+.section-subtitle { font-size: 16px; color: rgba(255,255,255,0.5); text-align: center; margin-bottom: 48px; }
+.testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media(max-width:900px){ .testimonial-grid { grid-template-columns: 1fr; } }
+.testimonial-card { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 28px 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
+.testimonial-card__quote-mark { font-size: 36px; color: #FF2600; line-height: 1; margin-bottom: 8px; }
+.testimonial-card__text { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.7; }
+.testimonial-card__author { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.testimonial-card__name { font-weight: 700; font-size: 14px; color: #fff; }
+.testimonial-card__role { font-size: 12px; color: rgba(255,255,255,0.4); }
+.testimonial-card__badge { padding: 4px 12px; border-radius: 20px; background: rgba(255,38,0,0.1); border: 1px solid rgba(255,38,0,0.2); font-size: 12px; font-weight: 700; color: #FF2600; white-space: nowrap; }
 
-/* ── Bento Grid on white ── */
-.w-bento-title {
-  font-family: var(--font-main); font-weight: 700;
-  font-size: clamp(22px, 4vw, 36px); text-align: center;
-  margin-bottom: 48px; color: var(--text-dark); position: relative; z-index: 1;
-}
-.w-bento-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
-  margin-bottom: 60px; position: relative; z-index: 1;
-}
-@media(max-width:900px){ .w-bento-grid { grid-template-columns: repeat(2, 1fr); } }
-@media(max-width:640px){ .w-bento-grid { grid-template-columns: 1fr; } }
+/* ══════════════════════════════════════
+   META / WHY SECTION
+   ══════════════════════════════════════ */
+.meta-section { background: #000; padding: 100px 0; position: relative; }
+.meta-section::before { content:''; position:absolute; inset:0; pointer-events:none; background-image: linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px); background-size: 48px 48px; }
+.meta-cards { display: flex; flex-direction: column; gap: 16px; max-width: 700px; margin: 0 auto; }
+.meta-card { display: flex; gap: 16px; background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; transition: border-color 0.3s; }
+.meta-card:hover { border-color: rgba(255,38,0,0.2); }
+.meta-card__dot { width: 10px; height: 10px; border-radius: 50%; background: #FF2600; box-shadow: 0 0 8px rgba(255,38,0,0.4); flex-shrink: 0; margin-top: 6px; }
+.meta-card__client-quote { font-size: 13px; font-style: italic; color: rgba(255,255,255,0.4); margin-bottom: 10px; }
+.meta-card h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+.meta-card p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; }
+@media(max-width:640px){ .meta-card { flex-direction: column; } }
 
-.w-bento-card {
-  background: #FAFAFA; border: 1px solid rgba(0,0,0,0.06);
-  border-radius: 16px; padding: 28px 24px; position: relative; overflow: hidden;
-  transition: all 0.4s var(--ease);
-}
-.w-bento-card::before {
-  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-  background: var(--accent); opacity: 0; transition: opacity 0.4s ease;
-}
-.w-bento-card:hover {
-  border-color: rgba(255,38,0,0.2);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-}
-.w-bento-card:hover::before { opacity: 1; }
-.w-bento-card__num {
-  font-family: var(--font-main); font-weight: 800; font-size: 14px;
-  color: var(--text-muted); margin-bottom: 12px; text-transform: uppercase;
-  transition: color 0.3s ease;
-}
-.w-bento-card:hover .w-bento-card__num { color: var(--accent); }
-.w-bento-card__icon {
-  font-size: 28px; margin-bottom: 14px; display: block;
-  transition: transform 0.3s ease;
-}
-.w-bento-card:hover .w-bento-card__icon { transform: scale(1.15) rotate(3deg); }
-.w-bento-card__title {
-  font-family: var(--font-main); font-weight: 700; font-size: 17px;
-  margin-bottom: 8px; color: var(--text-dark);
-}
-.w-bento-card__desc { font-size: 14px; color: var(--text-dark-secondary); line-height: 1.6; }
+/* ══════════════════════════════════════
+   MID CTA
+   ══════════════════════════════════════ */
+.mid-cta { text-align: center; padding: 60px 0; background: #000; }
 
-/* Mobile scroll-active */
-.w-bento-card.scroll-active {
-  border-color: rgba(255,38,0,0.2);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.06);
-}
-.w-bento-card.scroll-active::before { opacity: 1; }
-.w-bento-card.scroll-active .w-bento-card__num { color: var(--accent); }
-.w-bento-card.scroll-active .w-bento-card__icon { transform: scale(1.15) rotate(3deg); }
+/* ══════════════════════════════════════
+   FAQ SECTION (DARK)
+   ══════════════════════════════════════ */
+.faq-section { background: #0A0A0A; padding: 80px 0 60px; position: relative; }
+.faq-list { max-width: 740px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+.faq-item { background: #141414; border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; overflow: hidden; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+.faq-item:hover { border-color: rgba(255,38,0,0.2); }
+.faq-item__q { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 22px 24px; color: #fff; font-size: 0.95rem; font-weight: 600; text-align: left; gap: 16px; background: none; }
+.faq-item__arrow { width: 32px; height: 32px; border-radius: 8px; background: rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: all 0.3s ease; }
+.faq-item__arrow svg { width: 14px; height: 14px; stroke: #999; fill: none; stroke-width: 2; transition: stroke 0.3s ease; }
+.faq-item.open .faq-item__arrow { background: var(--accent); transform: rotate(180deg); }
+.faq-item.open .faq-item__arrow svg { stroke: #fff; }
+.faq-item__a { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease), padding 0.4s var(--ease); padding: 0 24px; }
+.faq-item.open .faq-item__a { max-height: 300px; padding: 0 24px 22px; }
+.faq-item__a p { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.7; }
 
-/* ── FAQ on white ── */
-.w-faq { margin: 80px 0 60px; position: relative; z-index: 1; }
-.w-faq__title {
-  font-family: var(--font-main); font-weight: 700;
-  font-size: clamp(22px, 4vw, 32px); text-align: center; margin-bottom: 32px;
-  color: var(--text-dark);
-}
-.w-faq-item {
-  background: #fff; border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 14px; margin-bottom: 12px; overflow: hidden;
-  transition: border-color 0.3s, box-shadow 0.3s;
-}
-.w-faq-item:hover { border-color: rgba(255,38,0,0.2); box-shadow: 0 4px 16px rgba(0,0,0,0.04); }
-.w-faq-item__q {
-  width: 100%; display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 24px; background: none; color: var(--text-dark);
-  font-family: var(--font-main); font-weight: 700; font-size: 15px;
-  text-align: left; gap: 16px; transition: color 0.2s ease;
-}
-.w-faq-item__arrow {
-  width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.04); transition: all 0.3s ease;
-}
-.w-faq-item.open .w-faq-item__arrow { background: var(--accent); transform: rotate(180deg); }
-.w-faq-item__arrow svg { width: 14px; height: 14px; stroke: #333; fill: none; stroke-width: 2; }
-.w-faq-item.open .w-faq-item__arrow svg { stroke: #fff; }
-.w-faq-item__a {
-  max-height: 0; opacity: 0; overflow: hidden;
-  transition: max-height 0.4s var(--ease), opacity 0.3s ease, padding 0.3s ease;
-  padding: 0 24px;
-}
-.w-faq-item.open .w-faq-item__a {
-  max-height: 300px; opacity: 1; padding: 0 24px 20px;
-}
-.w-faq-item__a p { font-size: 14px; color: var(--text-dark-secondary); line-height: 1.7; }
-
-/* ── Final CTA Card (on white) ── */
-.w-final-cta-card {
-  background: rgba(255,38,0,0.03); border: 1px solid rgba(255,38,0,0.1);
-  border-radius: 20px; padding: 48px 40px; text-align: center; margin-top: 60px;
-  position: relative; z-index: 1;
-}
-.w-final-cta-card h3 {
-  font-family: var(--font-main); font-weight: 700;
-  font-size: clamp(20px, 3.5vw, 28px); margin-bottom: 12px; color: var(--text-dark);
-}
-.w-final-cta-card p { color: var(--text-dark-secondary); margin-bottom: 28px; max-width: 520px; margin-left: auto; margin-right: auto; font-size: 15px; }
-
-/* ── Mid CTA area ── */
-.w-mid-cta { text-align: center; padding: 20px 0 0; position: relative; z-index: 1; }
+/* ══════════════════════════════════════
+   FINAL CTA CARD
+   ══════════════════════════════════════ */
+.final-section { background: #000; padding: 80px 0 100px; position: relative; }
+.final-card { background: #141414; border: 1px solid rgba(255,38,0,0.15); border-radius: 20px; padding: 48px 40px; text-align: center; max-width: 700px; margin: 0 auto; }
+.final-card h3 { font-weight: 700; font-size: clamp(20px, 3.5vw, 28px); margin-bottom: 12px; color: #fff; }
+.final-card p { color: rgba(255,255,255,0.55); margin-bottom: 28px; max-width: 520px; margin-left: auto; margin-right: auto; font-size: 15px; }
 
 /* ══════════════════════════════════════
    BIG CTA SECTION (RED)
@@ -606,131 +530,212 @@ body::before {
   </div>
 </section>
 
-<!-- ════════════════════════ RED BAND — Stats ════════════════════════ -->
-<div class="red-band">
-  <div class="red-band__inner">
-    <div class="red-band__stat"><span class="red-band__value">+33K £</span><span class="red-band__label">de CA généré</span></div>
-    <div class="red-band__sep"></div>
-    <div class="red-band__stat"><span class="red-band__value">+47</span><span class="red-band__label">entreprises B2B</span></div>
-    <div class="red-band__sep"></div>
-    <div class="red-band__stat"><span class="red-band__value">12 min</span><span class="red-band__label">pour comprendre</span></div>
+<!-- ════════════════════════ SUBTLE RED LINE ════════════════════════ -->
+<div style="height:1px;max-width:60%;margin:0 auto;background:linear-gradient(90deg,transparent,rgba(255,38,0,0.2) 30%,rgba(255,38,0,0.2) 70%,transparent);"></div>
+
+<!-- ════════════════════════ SECTION 1: ON SAIT CE QUE TU VIS (W2) ════════════════════════ -->
+<section class="problem-section">
+  <div class="container">
+    <h2 class="section-title section-title--spaced reveal">On sait ce que tu vis.</h2>
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <span class="problem-card__icon">&#10060;</span>
+        <div class="problem-card__text">Tu br&ucirc;les du budget META sans savoir si &ccedil;a marche</div>
+      </div>
+      <div class="problem-card reveal">
+        <span class="problem-card__icon">&#10060;</span>
+        <div class="problem-card__text">Tes leads ne d&eacute;crochent jamais ou ne sont pas qualifi&eacute;s</div>
+      </div>
+      <div class="problem-card reveal">
+        <span class="problem-card__icon">&#10060;</span>
+        <div class="problem-card__text">Tu n&rsquo;as pas de syst&egrave;me &mdash; juste des campagnes qui tournent &agrave; l&rsquo;aveugle</div>
+      </div>
+    </div>
+    <p class="problem-closing reveal"><em>Ce n&rsquo;est pas META le probl&egrave;me. C&rsquo;est la m&eacute;thode.</em></p>
   </div>
+</section>
+
+<!-- ════════════════════════ SECTION 2: VOICI COMMENT ON RETOURNE LA SITUATION (W2) ════════════════════════ -->
+<section class="steps-section">
+  <div class="container">
+    <h2 class="section-title section-title--spaced reveal">Voici comment on retourne la situation.</h2>
+    <div class="steps-list">
+      <div class="step-card reveal">
+        <div class="step-card__num">01</div>
+        <div>
+          <div class="step-card__title">On comprend ton business</div>
+          <div class="step-card__desc">Pas un questionnaire g&eacute;n&eacute;rique. Un vrai audit de ton march&eacute;, tes marges, ton cycle de vente et ton client id&eacute;al.</div>
+        </div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-card__num">02</div>
+        <div>
+          <div class="step-card__title">On construit ta machine</div>
+          <div class="step-card__desc">Audiences chirurgicales, cr&eacute;as test&eacute;es, landing pages optimis&eacute;es. Tout est pens&eacute; pour capter des d&eacute;cideurs, pas des curieux.</div>
+        </div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-card__num">03</div>
+        <div>
+          <div class="step-card__title">On lance et on optimise</div>
+          <div class="step-card__desc">Chaque semaine, on analyse les donn&eacute;es. On coupe ce qui co&ucirc;te, on pousse ce qui convertit.</div>
+        </div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-card__num">04</div>
+        <div>
+          <div class="step-card__title">Tu re&ccedil;ois des leads qualifi&eacute;s</div>
+          <div class="step-card__desc">Dans ton CRM, pr&ecirc;ts &agrave; &ecirc;tre appel&eacute;s. Des gens qui ont un besoin, un budget, et une autorit&eacute; de d&eacute;cision.</div>
+        </div>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-card__num">05</div>
+        <div>
+          <div class="step-card__title">On scale ensemble</div>
+          <div class="step-card__desc">Plus de budget = plus de leads, sans perte de qualit&eacute;. On a test&eacute; sur +47 entreprises B2B, &ccedil;a marche.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ SECTION 3: TESTIMONIALS (W3) ════════════════════════ -->
+<section class="testimonials-section">
+  <div class="container">
+    <div class="section-label reveal">+47 entreprises B2B. Un seul constat.</div>
+    <h2 class="section-title reveal">Elles g&eacute;n&egrave;rent des leads qualifi&eacute;s chaque semaine.</h2>
+    <p class="section-subtitle reveal">Voici leurs r&eacute;sultats apr&egrave;s 90 jours avec LEADX.</p>
+
+    <div class="testimonial-grid">
+      <div class="testimonial-card reveal">
+        <div>
+          <div class="testimonial-card__quote-mark">&ldquo;</div>
+          <div class="testimonial-card__text">On est pass&eacute; de 3 &agrave; 28 leads par semaine en 60 jours. Le co&ucirc;t par lead a &eacute;t&eacute; divis&eacute; par 3. C&rsquo;est le meilleur investissement qu&rsquo;on ait fait cette ann&eacute;e.</div>
+        </div>
+        <div class="testimonial-card__author">
+          <div>
+            <div class="testimonial-card__name">Thomas D.</div>
+            <div class="testimonial-card__role">CEO &mdash; SaaS B2B</div>
+          </div>
+          <div class="testimonial-card__badge">+833% de leads</div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <div>
+          <div class="testimonial-card__quote-mark">&ldquo;</div>
+          <div class="testimonial-card__text">LEADX a compl&egrave;tement transform&eacute; notre acquisition. Avant, on d&eacute;pendait du bouche-&agrave;-oreille. Maintenant, on a un flux constant de RDV qualifi&eacute;s.</div>
+        </div>
+        <div class="testimonial-card__author">
+          <div>
+            <div class="testimonial-card__name">Julie M.</div>
+            <div class="testimonial-card__role">Directrice &mdash; Agence Marketing</div>
+          </div>
+          <div class="testimonial-card__badge">12 RDV/semaine</div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <div>
+          <div class="testimonial-card__quote-mark">&ldquo;</div>
+          <div class="testimonial-card__text">En 3 mois, on a g&eacute;n&eacute;r&eacute; plus de 150 leads qualifi&eacute;s et sign&eacute; 8 nouveaux clients. Le ROI est x4.2 sur notre investissement META.</div>
+        </div>
+        <div class="testimonial-card__author">
+          <div>
+            <div class="testimonial-card__name">Nicolas P.</div>
+            <div class="testimonial-card__role">Fondateur &mdash; Cabinet Consulting</div>
+          </div>
+          <div class="testimonial-card__badge">ROI x4.2</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ SECTION 4: POURQUOI META ADS (W3) ════════════════════════ -->
+<section class="meta-section">
+  <div class="container">
+    <h2 class="section-title section-title--spaced reveal">Pourquoi ils ont choisi META Ads</h2>
+    <div class="meta-cards">
+      <div class="meta-card reveal">
+        <div class="meta-card__dot"></div>
+        <div>
+          <div class="meta-card__client-quote">&laquo;&thinsp;On payait 95&euro; par lead sur LinkedIn. Avec META, on est &agrave; 18&euro;.&thinsp;&raquo; &mdash; Thomas D.</div>
+          <h3>Co&ucirc;t par lead 2-5x inf&eacute;rieur &agrave; LinkedIn Ads</h3>
+          <p>META permet de toucher les m&ecirc;mes d&eacute;cideurs &agrave; une fraction du co&ucirc;t. Nos clients B2B g&eacute;n&egrave;rent des leads qualifi&eacute;s pour 5 &agrave; 25&thinsp;&euro; l&agrave; o&ugrave; LinkedIn co&ucirc;te 50 &agrave; 120&thinsp;&euro;.</p>
+        </div>
+      </div>
+      <div class="meta-card reveal">
+        <div class="meta-card__dot"></div>
+        <div>
+          <div class="meta-card__client-quote">&laquo;&thinsp;On touche des DG et des DAF qu&rsquo;on n&rsquo;aurait jamais atteints autrement.&thinsp;&raquo; &mdash; Julie M.</div>
+          <h3>Acc&egrave;s aux d&eacute;cideurs via des audiences ultra-cibl&eacute;es</h3>
+          <p>DG, DAF, CEO &mdash; on construit des audiences sur-mesure qui ciblent les profils qui signent, pas les curieux qui scrollent.</p>
+        </div>
+      </div>
+      <div class="meta-card reveal">
+        <div class="meta-card__dot"></div>
+        <div>
+          <div class="meta-card__client-quote">&laquo;&thinsp;On a tripl&eacute; le budget et les r&eacute;sultats ont suivi. Aucune perte de qualit&eacute;.&thinsp;&raquo; &mdash; Nicolas P.</div>
+          <h3>Scalabilit&eacute; : de 10 &agrave; 100 leads/semaine sans friction</h3>
+          <p>Une fois le syst&egrave;me en place, on augmente le budget progressivement. Plus de budget = plus de leads qualifi&eacute;s, sans perte de qualit&eacute;.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ SECTION 5: MID CTA ════════════════════════ -->
+<div class="mid-cta reveal">
+  <button class="cta-btn open-modal">D&Eacute;COUVRIR LA M&Eacute;THODE &rarr;</button>
 </div>
 
-<!-- ════════════════════════ WHITE SECTION ════════════════════════ -->
-<section class="white-section">
+<!-- ════════════════════════ SECTION 6: FAQ (W2 PUNCHY) ════════════════════════ -->
+<section class="faq-section">
   <div class="container">
-
-    <!-- Counters -->
-    <div class="w-counters">
-      <div class="w-counter reveal">
-        <div class="w-counter__value" data-target="33000" data-prefix="+" data-suffix=" £">+33 000 £</div>
-        <div class="w-counter__label">de CA généré en 2025</div>
-      </div>
-      <div class="w-counter reveal">
-        <div class="w-counter__value" data-target="47" data-prefix="+">+47</div>
-        <div class="w-counter__label">entreprises B2B accompagnées</div>
-      </div>
-      <div class="w-counter reveal">
-        <div class="w-counter__value" data-target="12" data-suffix=" min">12 min</div>
-        <div class="w-counter__label">pour comprendre la méthode</div>
-      </div>
-    </div>
-
-    <!-- Bento Grid -->
-    <h2 class="w-bento-title reveal">La méthode en 6 étapes</h2>
-    <div class="w-bento-grid">
-      <div class="w-bento-card reveal">
-        <div class="w-bento-card__num">01</div>
-        <span class="w-bento-card__icon">🎯</span>
-        <div class="w-bento-card__title">Audit de ton marché</div>
-        <div class="w-bento-card__desc">On analyse ta cible, tes concurrents et ton positionnement pour identifier les angles qui convertissent en B2B.</div>
-      </div>
-      <div class="w-bento-card reveal">
-        <div class="w-bento-card__num">02</div>
-        <span class="w-bento-card__icon">🧱</span>
-        <div class="w-bento-card__title">Construction du funnel META</div>
-        <div class="w-bento-card__desc">On structure ton compte publicitaire, tes audiences et tes campagnes pour toucher les décideurs, pas les curieux.</div>
-      </div>
-      <div class="w-bento-card reveal">
-        <div class="w-bento-card__num">03</div>
-        <span class="w-bento-card__icon">🎨</span>
-        <div class="w-bento-card__title">Création des ads qui performent</div>
-        <div class="w-bento-card__desc">On produit les créas testées sur +47 comptes B2B pour maximiser le taux de clic et la qualité des leads.</div>
-      </div>
-      <div class="w-bento-card reveal">
-        <div class="w-bento-card__num">04</div>
-        <span class="w-bento-card__icon">🚀</span>
-        <div class="w-bento-card__title">Lancement & optimisation</div>
-        <div class="w-bento-card__desc">On lance, on teste, on scale. Chaque semaine, on coupe ce qui ne marche pas et on pousse ce qui performe.</div>
-      </div>
-      <div class="w-bento-card reveal">
-        <div class="w-bento-card__num">05</div>
-        <span class="w-bento-card__icon">📊</span>
-        <div class="w-bento-card__title">Reporting & décisions</div>
-        <div class="w-bento-card__desc">Tu reçois un reporting clair avec les KPIs qui comptent : CPL, taux de qualification, coût par RDV.</div>
-      </div>
-      <div class="w-bento-card reveal">
-        <div class="w-bento-card__num">06</div>
-        <span class="w-bento-card__icon">📞</span>
-        <div class="w-bento-card__title">Leads livrés, RDV bookés</div>
-        <div class="w-bento-card__desc">Tes leads arrivent directement dans ton CRM. Tu n'as plus qu'à closer.</div>
-      </div>
-    </div>
-
-    <!-- Mid CTA -->
-    <div class="w-mid-cta reveal">
-      <button class="cta-btn cta-btn--dark open-modal">DÉCOUVRIR LA MÉTHODE →</button>
-    </div>
-
-    <!-- FAQ -->
-    <div class="w-faq">
-      <h2 class="w-faq__title reveal">Questions fréquentes</h2>
-
-      <div class="w-faq-item reveal">
-        <button class="w-faq-item__q">
-          Est-ce que META Ads fonctionne vraiment en B2B ?
-          <span class="w-faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+    <h2 class="section-title section-title--spaced reveal">Questions fr&eacute;quentes</h2>
+    <div class="faq-list">
+      <div class="faq-item reveal">
+        <button class="faq-item__q">
+          META Ads, &ccedil;a marche vraiment pour le B2B ?
+          <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
-        <div class="w-faq-item__a"><p>Oui. Contrairement à ce que pensent la plupart des agences, META est un levier B2B sous-exploité. Nos clients génèrent des leads décideurs (dirigeants, DG, DAF) à un coût 2 à 5x inférieur à LinkedIn Ads. On te montre exactement comment dans la vidéo.</p></div>
+        <div class="faq-item__a"><p>Mieux que tu ne le penses. Nos clients paient leurs leads 2 &agrave; 5x moins cher que sur LinkedIn, et ils sont tout aussi qualifi&eacute;s. On te montre comment dans la m&eacute;thode.</p></div>
       </div>
-
-      <div class="w-faq-item reveal">
-        <button class="w-faq-item__q">
-          Combien coûte un accompagnement LEADX ?
-          <span class="w-faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      <div class="faq-item reveal">
+        <button class="faq-item__q">
+          Combien &ccedil;a co&ucirc;te ?
+          <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
-        <div class="w-faq-item__a"><p>Nos formules démarrent à 497€/mois selon le volume et la complexité de tes campagnes. On en parle en détail lors de l'appel stratégique après la vidéo.</p></div>
+        <div class="faq-item__a"><p>&Agrave; partir de 497&euro;/mois. Mais la vraie question, c&rsquo;est combien te co&ucirc;te de NE PAS avoir un syst&egrave;me d&rsquo;acquisition qui fonctionne. On en parle lors de l&rsquo;appel.</p></div>
       </div>
-
-      <div class="w-faq-item reveal">
-        <button class="w-faq-item__q">
-          Je n'ai jamais fait de pub META, c'est un problème ?
-          <span class="w-faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      <div class="faq-item reveal">
+        <button class="faq-item__q">
+          J&rsquo;ai d&eacute;j&agrave; essay&eacute; META et &ccedil;a n&rsquo;a pas march&eacute;.
+          <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
-        <div class="w-faq-item__a"><p>Pas du tout. On gère tout de A à Z : la stratégie, les créas, le lancement et l'optimisation. Toi, tu reçois les leads dans ton CRM.</p></div>
+        <div class="faq-item__a"><p>Normal &mdash; sans la bonne m&eacute;thode, META en B2B ne fonctionne pas. C&rsquo;est justement pour &ccedil;a qu&rsquo;on existe. On a craqu&eacute; le code sur +47 comptes B2B.</p></div>
       </div>
-
-      <div class="w-faq-item reveal">
-        <button class="w-faq-item__q">
-          En combien de temps je vois des résultats ?
-          <span class="w-faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      <div class="faq-item reveal">
+        <button class="faq-item__q">
+          En combien de temps je vois des r&eacute;sultats ?
+          <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
-        <div class="w-faq-item__a"><p>Les premiers leads arrivent généralement dans les 7 à 14 jours après le lancement des campagnes. L'optimisation complète du système prend 30 à 60 jours.</p></div>
+        <div class="faq-item__a"><p>Premiers leads en 7-14 jours. Syst&egrave;me optimis&eacute; en 30-60 jours. On ne fait pas de magie, mais on a un track record solide.</p></div>
       </div>
     </div>
-
-    <!-- Final CTA Card -->
-    <div class="w-final-cta-card reveal">
-      <h3>Prêt à générer tes premiers leads B2B ?</h3>
-      <p>Regarde la méthode. C'est gratuit, ça prend 12 minutes, et ça peut changer ton acquisition.</p>
-      <button class="cta-btn cta-btn--dark open-modal">ACCÉDER À LA MÉTHODE →</button>
-    </div>
-
   </div>
+</section>
 
-  <!-- Spacer before red -->
-  <div style="height:80px;"></div>
+<!-- ════════════════════════ SECTION 7: FINAL CTA CARD ════════════════════════ -->
+<section class="final-section">
+  <div class="container">
+    <div class="final-card reveal">
+      <h3>Stop aux campagnes qui br&ucirc;lent du cash.</h3>
+      <p>Regarde la m&eacute;thode. 12 minutes pour comprendre pourquoi +47 entreprises B2B nous font confiance.</p>
+      <button class="cta-btn open-modal">ACC&Eacute;DER &Agrave; LA M&Eacute;THODE &rarr;</button>
+    </div>
+  </div>
 </section>
 
 <!-- ════════════════════════ BIG CTA (RED) ════════════════════════ -->
@@ -842,61 +847,22 @@ body::before {
 
   revealEls.forEach((el, i) => {
     // Stagger within each parent section
-    const parent = el.closest('section, .white-section, .big-cta');
+    const parent = el.closest('section, .big-cta, .mid-cta');
     const siblings = parent ? parent.querySelectorAll('.reveal') : [el];
     const idx = Array.from(siblings).indexOf(el);
     el.style.transitionDelay = (idx * 0.08) + 's';
     revealObs.observe(el);
   });
 
-  // ── Bento mobile scroll-active ──
-  if (window.innerWidth <= 640) {
-    const bentoCards = document.querySelectorAll('.w-bento-card');
-    const bentoObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        e.target.classList.toggle('scroll-active', e.isIntersecting);
-      });
-    }, { threshold: 0.6 });
-    bentoCards.forEach(c => bentoObs.observe(c));
-  }
-
   // ── FAQ ──
-  document.querySelectorAll('.w-faq-item__q').forEach(btn => {
+  document.querySelectorAll('.faq-item__q').forEach(btn => {
     btn.addEventListener('click', () => {
-      const item = btn.parentElement;
+      const item = btn.closest('.faq-item');
       const wasOpen = item.classList.contains('open');
-      document.querySelectorAll('.w-faq-item.open').forEach(i => i.classList.remove('open'));
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
       if (!wasOpen) item.classList.add('open');
     });
   });
-
-  // ── Counter animation ──
-  const counterEls = document.querySelectorAll('.w-counter__value[data-target]');
-  const counterObs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        animateCounter(e.target);
-        counterObs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.5 });
-  counterEls.forEach(el => counterObs.observe(el));
-
-  function animateCounter(el) {
-    const target = parseInt(el.dataset.target);
-    const prefix = el.dataset.prefix || '';
-    const suffix = el.dataset.suffix || '';
-    const duration = 1200;
-    const start = performance.now();
-    function step(now) {
-      const t = Math.min((now - start) / duration, 1);
-      const eased = 1 - Math.pow(1 - t, 4);
-      const val = Math.floor(eased * target);
-      el.textContent = prefix + val.toLocaleString('fr-FR') + suffix;
-      if (t < 1) requestAnimationFrame(step);
-    }
-    requestAnimationFrame(step);
-  }
 
   // ── Modal ──
   const modalOverlay = document.getElementById('modal-overlay');
