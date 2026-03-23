@@ -180,9 +180,31 @@ body::before {
   animation: livePulse 2s ease-in-out infinite;
 }
 
+/* ── Hero Metric Block ── */
+.hero__metric {
+  text-align: center; margin-bottom: 28px;
+}
+.hero__metric-number {
+  font-family: var(--font-main); font-weight: 900;
+  font-size: clamp(56px, 10vw, 96px); line-height: 1;
+  color: var(--accent); letter-spacing: -0.04em;
+  text-shadow: 0 0 40px rgba(255,38,0,0.25), 0 0 80px rgba(255,38,0,0.1);
+  position: relative; display: inline-block;
+}
+.hero__metric-number::after {
+  content: ''; position: absolute; bottom: -4px; left: 10%; right: 10%; height: 3px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  border-radius: 2px; opacity: 0.4;
+}
+.hero__metric-label {
+  font-size: clamp(16px, 2.5vw, 22px); font-weight: 600;
+  color: rgba(255,255,255,0.7); margin-top: 8px; letter-spacing: 0.02em;
+}
+.hero__metric-label span { color: rgba(255,255,255,0.4); }
+
 .hero h1 {
   font-family: var(--font-main); font-weight: 800;
-  font-size: clamp(28px, 5vw, 48px); line-height: 1.15;
+  font-size: clamp(24px, 4vw, 40px); line-height: 1.2;
   color: #fff; margin-bottom: 20px; letter-spacing: -0.02em;
 }
 .hero h1 .accent { color: var(--accent); }
@@ -571,7 +593,12 @@ body::before {
       <span style="color:#FF2600;font-weight:800;">12</span> <span style="color:#fff;">systèmes d'acquisition actifs</span>
     </div>
 
-    <h1 class="reveal">Le système META Ads qui génère <span class="accent">+50 prospects qualifiés par mois</span> pour les boîtes de prestation de service</h1>
+    <div class="hero__metric reveal">
+      <div class="hero__metric-number">+50</div>
+      <div class="hero__metric-label">prospects qualifiés <span>par mois</span></div>
+    </div>
+
+    <h1 class="reveal">Le système META Ads qui remplit ton agenda de <span class="accent">rendez-vous qualifiés</span> — en automatique</h1>
 
     <p class="hero__sub reveal">Découvre le système META Ads qui remplit ton agenda de rendez-vous qualifiés — sans prospecter, sans dépendre du bouche-à-oreille.</p>
 
