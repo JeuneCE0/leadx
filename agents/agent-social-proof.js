@@ -9,11 +9,11 @@
   const CONFIG = {
     names: ['TechVision', 'GrowthLab', 'DataPulse', 'ScaleUp Pro', 'NexGen B2B', 'CloudForce', 'AdSphere', 'B2B Connect', 'LeadFactory', 'SalesIQ', 'StratEdge', 'ProximaB2B', 'AcquiPro', 'LeadPilot', 'DigitalCore'],
     templates: [
-      '{name} a sa campagne active 🚀',
-      '{name} a généré +{leads} prospects cette semaine 🔥',
-      '{name} a généré +{percent}% de chiffre d\'affaires 📈',
-      '{name} a divisé son coût par lead par 2 💰',
-      '{name} a réservé {rdv} rendez-vous qualifiés cette semaine ✅'
+      '{name} a activé son système d\'acquisition 🚀',
+      '{name} génère +{leads} prospects qualifiés ce mois 🔥',
+      '{name} a augmenté son CA de +{percent}% 📈',
+      '{name} a divisé son coût par prospect par {rdv} 💰',
+      '{name} a rempli son pipe commercial cette semaine ✅'
     ],
     displayDuration: 8000,
     interval: 12000,
