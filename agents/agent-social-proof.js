@@ -7,13 +7,13 @@
   'use strict';
 
   const CONFIG = {
-    names: ['Thomas', 'Julie', 'Maxime', 'Sarah', 'Alexandre', 'Camille', 'Nicolas', 'Laura', 'Pierre', 'Emma', 'Antoine', 'Léa', 'Romain', 'Chloé', 'Sébastien'],
+    names: ['TechVision', 'GrowthLab', 'DataPulse', 'ScaleUp Pro', 'NexGen B2B', 'CloudForce', 'AdSphere', 'B2B Connect', 'LeadFactory', 'SalesIQ', 'StratEdge', 'ProximaB2B', 'AcquiPro', 'LeadPilot', 'DigitalCore'],
     templates: [
-      '{name} vient de s\'inscrire 🔥',
-      '{name} regarde la méthode en ce moment',
-      '{name} a réservé son appel stratégique',
-      '{name} vient d\'accéder à la masterclass',
-      '{name} a rejoint LEADX il y a {time} min'
+      '{name} a sa campagne active 🚀',
+      '{name} a généré +{leads} prospects cette semaine 🔥',
+      '{name} a généré +{percent}% de chiffre d\'affaires 📈',
+      '{name} a divisé son coût par lead par 2 💰',
+      '{name} a réservé {rdv} rendez-vous qualifiés cette semaine ✅'
     ],
     displayDuration: 8000,
     interval: 12000,
@@ -102,12 +102,16 @@
 
     const name = CONFIG.names[Math.floor(Math.random() * CONFIG.names.length)];
     const templateIdx = Math.floor(Math.random() * CONFIG.templates.length);
-    const time = Math.floor(Math.random() * 16) + 2;
+    const leads = Math.floor(Math.random() * 25) + 8;
+    const percent = Math.floor(Math.random() * 30) + 15;
+    const rdv = Math.floor(Math.random() * 8) + 3;
     const imgId = Math.floor(Math.random() * 70) + 1;
 
     let text = CONFIG.templates[templateIdx]
       .replace('{name}', name)
-      .replace('{time}', time);
+      .replace('{leads}', leads)
+      .replace('{percent}', percent)
+      .replace('{rdv}', rdv);
 
     const avatar = notifEl.querySelector('.social-notif__avatar, #notif-avatar');
     const textEl = notifEl.querySelector('.social-notif__text, #notif-text');
