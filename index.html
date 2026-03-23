@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>LEADX — Génère des Leads B2B Qualifiés avec META Ads</title>
 <meta name="description" content="Découvre la méthode META Ads qui permet aux entreprises B2B de générer +30 leads qualifiés par semaine.">
@@ -14,6 +15,7 @@
 <link rel="canonical" href="https://go.lead-x.fr/">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#000000">
+<link rel="preconnect" href="https://i.pravatar.cc" crossorigin>
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Organization","name":"LEADX","legalName":"LEADX PARTNERS LTD","url":"https://go.lead-x.fr","contactPoint":{"@type":"ContactPoint","email":"contact@lead-x.fr","contactType":"customer service"},"address":{"@type":"PostalAddress","streetAddress":"DEPT 5394, 196 HIGH ROAD, WOOD GREEN","addressLocality":"London","postalCode":"N22 8HH","addressCountry":"GB"}}
 </script>
@@ -229,11 +231,13 @@ body::before {
 /* ── Section Orbs (placed via HTML) ── */
 .section-orb { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; }
 
-/* ── Section Dividers ── */
-.s-divider { height: 1px; max-width: 50%; margin: 0 auto; background: linear-gradient(90deg, transparent, rgba(255,38,0,0.12) 30%, rgba(255,38,0,0.12) 70%, transparent); }
+/* ── Section Bleed Transitions ── */
+.s-bleed { height: 120px; pointer-events: none; position: relative; z-index: 1; }
+.s-bleed--down { background: linear-gradient(to bottom, var(--from), var(--to)); }
 
-.problem-section { background: #0A0A0A; padding: 100px 0; position: relative; overflow: hidden; }
-.problem-section::before { content: ''; position: absolute; top: -200px; right: -150px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.05) 0%, transparent 70%); pointer-events: none; }
+.problem-section { background: #060606; padding: 100px 0 100px; position: relative; overflow: hidden; }
+.problem-section::before { content: ''; position: absolute; top: -100px; right: -100px; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.06) 0%, transparent 65%); pointer-events: none; }
+.problem-section::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 200px; background: linear-gradient(to bottom, transparent, #040404); pointer-events: none; }
 .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
 @media(max-width:640px){ .problem-grid { grid-template-columns: 1fr; } }
 .problem-card { background: #141414; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 28px 24px; position: relative; overflow: hidden; }
@@ -245,9 +249,14 @@ body::before {
 /* ══════════════════════════════════════
    STEPS SECTION
    ══════════════════════════════════════ */
-.steps-section { background: #050505; padding: 100px 0; position: relative; overflow: hidden; }
-.steps-section::before { content:''; position:absolute; inset:0; pointer-events:none; background-image: linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 48px 48px; }
-.steps-section::after { content: ''; position: absolute; bottom: -100px; left: -100px; width: 450px; height: 450px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.06) 0%, transparent 70%); pointer-events: none; }
+.steps-section { background: #040404; padding: 100px 0; position: relative; overflow: hidden; }
+.steps-section::before { content:''; position:absolute; inset:0; pointer-events:none;
+  background-image: linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 48px 48px;
+  -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 50%, #000 30%, transparent 80%);
+  mask-image: radial-gradient(ellipse 60% 70% at 50% 50%, #000 30%, transparent 80%);
+}
+.steps-section::after { content: ''; position: absolute; bottom: -150px; left: -150px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.07) 0%, transparent 60%); pointer-events: none; }
 .steps-list { display: flex; flex-direction: column; gap: 16px; max-width: 700px; margin: 0 auto; }
 .step-card { display: flex; gap: 24px; background: #141414; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 24px 28px; transition: border-color 0.3s; }
 .step-card:hover { border-color: rgba(255,38,0,0.2); }
@@ -259,9 +268,13 @@ body::before {
 /* ══════════════════════════════════════
    TESTIMONIALS SECTION
    ══════════════════════════════════════ */
-.testimonials-section { background: #0D0D0D; padding: 100px 0; position: relative; overflow: hidden; }
-.testimonials-section::before { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 800px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.05) 0%, transparent 55%); pointer-events: none; }
-.testimonials-section::after { content: ''; position: absolute; inset: 0; pointer-events: none; background-image: radial-gradient(circle, rgba(255,255,255,0.02) 1px, transparent 1px); background-size: 28px 28px; }
+.testimonials-section { background: linear-gradient(180deg, #080808 0%, #0A0A0A 50%, #060606 100%); padding: 100px 0; position: relative; overflow: hidden; }
+.testimonials-section::before { content: ''; position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); width: 900px; height: 500px; border-radius: 50%; background: radial-gradient(ellipse, rgba(255,38,0,0.06) 0%, transparent 50%); pointer-events: none; }
+.testimonials-section::after { content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(255,255,255,0.015) 1px, transparent 1px); background-size: 24px 24px;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 5%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.5) 70%, transparent 95%);
+  mask-image: linear-gradient(to bottom, transparent 5%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,0.5) 70%, transparent 95%);
+}
 .section-label { font-size: 13px; color: #FF2600; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; text-align: center; margin-bottom: 12px; }
 .section-title { font-family: var(--font-main); font-weight: 700; font-size: clamp(22px, 4vw, 36px); text-align: center; margin-bottom: 12px; color: #fff; position: relative; z-index: 1; }
 .section-title--spaced { margin-bottom: 48px; }
@@ -279,9 +292,9 @@ body::before {
 /* ══════════════════════════════════════
    META / WHY SECTION
    ══════════════════════════════════════ */
-.meta-section { background: #030303; padding: 100px 0; position: relative; overflow: hidden; }
-.meta-section::before { content:''; position:absolute; inset:0; pointer-events:none; background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 32px 32px; }
-.meta-section::after { content: ''; position: absolute; top: -150px; right: -200px; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.05) 0%, transparent 65%); pointer-events: none; }
+.meta-section { background: linear-gradient(180deg, #060606 0%, #030303 50%, #050505 100%); padding: 100px 0; position: relative; overflow: hidden; }
+.meta-section::before { content: ''; position: absolute; top: -100px; right: -150px; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.06) 0%, transparent 55%); pointer-events: none; }
+.meta-section::after { content: ''; position: absolute; bottom: -100px; left: -100px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.03) 0%, transparent 60%); pointer-events: none; }
 .meta-cards { display: flex; flex-direction: column; gap: 16px; max-width: 700px; margin: 0 auto; }
 .meta-card { display: flex; gap: 16px; background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 24px; transition: border-color 0.3s; }
 .meta-card:hover { border-color: rgba(255,38,0,0.2); }
@@ -294,14 +307,19 @@ body::before {
 /* ══════════════════════════════════════
    MID CTA
    ══════════════════════════════════════ */
-.mid-cta { text-align: center; padding: 60px 0; background: #050505; position: relative; }
+.mid-cta { text-align: center; padding: 60px 0; background: transparent; position: relative; }
 
 /* ══════════════════════════════════════
    FAQ SECTION (DARK)
    ══════════════════════════════════════ */
-.faq-section { background: #070707; padding: 80px 0 60px; position: relative; overflow: hidden; }
-.faq-section::before { content:''; position:absolute; inset:0; pointer-events:none; background-image: linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px); background-size: 56px 56px; }
-.faq-section::after { content: ''; position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%); width: 500px; height: 350px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.04) 0%, transparent 55%); pointer-events: none; }
+.faq-section { background: linear-gradient(180deg, #050505 0%, #080808 50%, #040404 100%); padding: 80px 0 60px; position: relative; overflow: hidden; }
+.faq-section::before { content:''; position:absolute; inset:0; pointer-events:none;
+  background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 50% 60% at 50% 50%, #000 20%, transparent 75%);
+  mask-image: radial-gradient(ellipse 50% 60% at 50% 50%, #000 20%, transparent 75%);
+}
+.faq-section::after { content: ''; position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.05) 0%, transparent 50%); pointer-events: none; }
 .faq-list { max-width: 740px; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
 .faq-item { background: #141414; border: 1px solid rgba(255,255,255,0.06); border-radius: 14px; overflow: hidden; transition: border-color 0.3s ease, box-shadow 0.3s ease; }
 .faq-item:hover { border-color: rgba(255,38,0,0.2); }
@@ -317,8 +335,8 @@ body::before {
 /* ══════════════════════════════════════
    FINAL CTA CARD
    ══════════════════════════════════════ */
-.final-section { background: #0A0A0A; padding: 80px 0 100px; position: relative; overflow: hidden; }
-.final-section::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 400px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.06) 0%, transparent 60%); pointer-events: none; }
+.final-section { background: linear-gradient(180deg, #040404 0%, #080808 40%, #0A0A0A 100%); padding: 80px 0 100px; position: relative; overflow: hidden; }
+.final-section::before { content: ''; position: absolute; top: -50px; left: 50%; transform: translateX(-50%); width: 500px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.07) 0%, transparent 55%); pointer-events: none; }
 .final-card { background: #141414; border: 1px solid rgba(255,38,0,0.15); border-radius: 20px; padding: 48px 40px; text-align: center; max-width: 700px; margin: 0 auto; }
 .final-card h3 { font-weight: 700; font-size: clamp(20px, 3.5vw, 28px); margin-bottom: 12px; color: #fff; }
 .final-card p { color: rgba(255,255,255,0.55); margin-bottom: 28px; max-width: 520px; margin-left: auto; margin-right: auto; font-size: 15px; }
@@ -481,6 +499,15 @@ body::before {
   body { padding-bottom: 80px; }
 }
 
+/* ── Header ── */
+.hero-header { position: absolute; top: 0; left: 0; right: 0; z-index: 10; padding: 20px 24px; }
+.hero-header nav { display: flex; align-items: center; }
+.hero-header nav a { display: inline-flex; min-height: 44px; min-width: 44px; align-items: center; }
+
+/* ── Touch targets ── */
+.faq-item__q { min-height: 44px; }
+.footer__links a { min-height: 44px; display: inline-flex; align-items: center; }
+
 /* ── Confetti ── */
 .confetti-piece {
   position: fixed; z-index: 10010; pointer-events: none;
@@ -491,7 +518,15 @@ body::before {
 <body>
 
 <!-- Scroll Progress -->
-<div id="scroll-progress"></div>
+<div id="scroll-progress" aria-hidden="true"></div>
+
+<header class="hero-header" role="banner">
+  <nav aria-label="Navigation principale">
+    <a href="index.html">
+      <img src="assets/LEADX-wordmark-light.svg" alt="LEADX - Accueil" style="height:36px;width:auto;" loading="lazy">
+    </a>
+  </nav>
+</header>
 
 <main>
 <!-- ════════════════════════ HERO (DARK) ════════════════════════ -->
@@ -510,10 +545,6 @@ body::before {
   <div class="hero__notif hero__notif--green" style="bottom:28%;left:10%;animation:gentleFloat 4.4s ease-in-out 2s infinite;">Campagne active</div>
 
   <div class="container hero__inner">
-    <div class="reveal" style="text-align:center;margin-bottom:32px;">
-      <img src="assets/LEADX-wordmark-light.svg" alt="LEADX" style="height:36px;width:auto;margin:0 auto;">
-    </div>
-
     <div class="hero__badge reveal">
       <span class="hero__badge-dot"></span>
       <span style="color:#FF2600;font-weight:800;">27</span> <span style="color:#fff;">campagnes META actives</span>
@@ -582,7 +613,6 @@ body::before {
   </div>
 </section>
 
-<div class="s-divider"></div>
 
 <!-- ════════════════════════ SECTION 2: VOICI COMMENT ON RETOURNE LA SITUATION (W2) ════════════════════════ -->
 <section class="steps-section">
@@ -628,7 +658,6 @@ body::before {
   </div>
 </section>
 
-<div class="s-divider"></div>
 
 <!-- ════════════════════════ SECTION 3: TESTIMONIALS (W3) ════════════════════════ -->
 <section class="testimonials-section">
@@ -683,7 +712,6 @@ body::before {
   </div>
 </section>
 
-<div class="s-divider"></div>
 
 <!-- ════════════════════════ SECTION 4: POURQUOI META ADS (W3) ════════════════════════ -->
 <section class="meta-section">
@@ -723,7 +751,6 @@ body::before {
   <button class="cta-btn open-modal">D&Eacute;COUVRIR LA M&Eacute;THODE &rarr;</button>
 </div>
 
-<div class="s-divider"></div>
 
 <!-- ════════════════════════ SECTION 6: FAQ (W2 PUNCHY) ════════════════════════ -->
 <section class="faq-section">
@@ -731,28 +758,28 @@ body::before {
     <h2 class="section-title section-title--spaced reveal">Questions fr&eacute;quentes</h2>
     <div class="faq-list">
       <div class="faq-item reveal">
-        <button class="faq-item__q">
+        <button class="faq-item__q" aria-expanded="false">
           META Ads, &ccedil;a marche vraiment pour le B2B ?
           <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
         <div class="faq-item__a"><p>Mieux que tu ne le penses. Nos clients paient leurs leads 2 &agrave; 5x moins cher que sur LinkedIn, et ils sont tout aussi qualifi&eacute;s. On te montre comment dans la m&eacute;thode.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-item__q">
+        <button class="faq-item__q" aria-expanded="false">
           Combien &ccedil;a co&ucirc;te ?
           <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
         <div class="faq-item__a"><p>&Agrave; partir de 497&euro;/mois. Mais la vraie question, c&rsquo;est combien te co&ucirc;te de NE PAS avoir un syst&egrave;me d&rsquo;acquisition qui fonctionne. On en parle lors de l&rsquo;appel.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-item__q">
+        <button class="faq-item__q" aria-expanded="false">
           J&rsquo;ai d&eacute;j&agrave; essay&eacute; META et &ccedil;a n&rsquo;a pas march&eacute;.
           <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
         <div class="faq-item__a"><p>Normal &mdash; sans la bonne m&eacute;thode, META en B2B ne fonctionne pas. C&rsquo;est justement pour &ccedil;a qu&rsquo;on existe. On a craqu&eacute; le code sur +47 comptes B2B.</p></div>
       </div>
       <div class="faq-item reveal">
-        <button class="faq-item__q">
+        <button class="faq-item__q" aria-expanded="false">
           En combien de temps je vois des r&eacute;sultats ?
           <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
@@ -762,7 +789,6 @@ body::before {
   </div>
 </section>
 
-<div class="s-divider"></div>
 
 <!-- ════════════════════════ SECTION 7: FINAL CTA CARD ════════════════════════ -->
 <section class="final-section">
@@ -786,8 +812,8 @@ body::before {
 </main>
 
 <!-- ════════════════════════ FOOTER ════════════════════════ -->
-<footer class="footer">
-  <div class="footer__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="footer__logo-img" style="height:24px;width:auto;"></div>
+<footer class="footer" role="contentinfo">
+  <div class="footer__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="footer__logo-img" style="height:24px;width:auto;" loading="lazy"></div>
   <nav class="footer__links" aria-label="Liens légaux">
     <a href="politique-de-confidentialite.html">Politique de confidentialité</a>
     <a href="cgv.html">CGV</a>
@@ -896,8 +922,14 @@ body::before {
     btn.addEventListener('click', () => {
       const item = btn.closest('.faq-item');
       const wasOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
-      if (!wasOpen) item.classList.add('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => {
+        i.classList.remove('open');
+        i.querySelector('.faq-item__q').setAttribute('aria-expanded', 'false');
+      });
+      if (!wasOpen) {
+        item.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
     });
   });
 
