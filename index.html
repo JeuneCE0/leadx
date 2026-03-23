@@ -55,6 +55,19 @@ a { text-decoration: none; color: inherit; }
 button { cursor: pointer; border: none; font-family: inherit; }
 ::selection { background: var(--accent); color: #fff; }
 
+/* ── Custom Cursor ── */
+html { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Ccircle cx='10' cy='10' r='8' fill='%23FF2600' opacity='0.9'/%3E%3Ccircle cx='10' cy='10' r='4' fill='white'/%3E%3C/svg%3E") 10 10, auto; }
+a, button, .cta-btn, .faq-item__q, [role="button"] {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%23FF2600'/%3E%3Ccircle cx='12' cy='12' r='5' fill='white'/%3E%3C/svg%3E") 12 12, pointer;
+}
+
+/* ── Emoji Burst on Hover ── */
+.emoji-particle {
+  position: fixed; pointer-events: none; z-index: 10010;
+  font-size: 18px; line-height: 1;
+  will-change: transform, opacity;
+}
+
 /* ── Noise Overlay ── */
 body::before {
   content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
@@ -1179,6 +1192,76 @@ body::before {
     requestAnimationFrame(fFrame);
   }
 
+})();
+
+// ── Emoji Burst on Button Hover ──
+(function(){
+  const emojis = ['📈','💰','🎯','🚀','📊','💎','🔥','📞','✅','💼','🏆','📉','👤','🤝','💸'];
+  const buttons = document.querySelectorAll('.cta-btn, .modal__submit, .sticky-cta__btn');
+  let burstActive = false;
+  let burstInterval = null;
+
+  function spawnEmoji(rect) {
+    const el = document.createElement('span');
+    el.className = 'emoji-particle';
+    el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+
+    // Random position along the button edges
+    const side = Math.random();
+    let x, y;
+    if (side < 0.25) { // top
+      x = rect.left + Math.random() * rect.width;
+      y = rect.top;
+    } else if (side < 0.5) { // bottom
+      x = rect.left + Math.random() * rect.width;
+      y = rect.bottom;
+    } else if (side < 0.75) { // left
+      x = rect.left;
+      y = rect.top + Math.random() * rect.height;
+    } else { // right
+      x = rect.right;
+      y = rect.top + Math.random() * rect.height;
+    }
+
+    el.style.left = x + 'px';
+    el.style.top = y + 'px';
+    document.body.appendChild(el);
+
+    const angle = (Math.random() * 360) * Math.PI / 180;
+    const dist = 40 + Math.random() * 60;
+    const dx = Math.cos(angle) * dist;
+    const dy = Math.sin(angle) * dist - 30;
+    const rot = (Math.random() - 0.5) * 60;
+    const scale = 0.7 + Math.random() * 0.6;
+
+    el.animate([
+      { transform: 'translate(0,0) scale(0) rotate(0deg)', opacity: 0 },
+      { transform: 'translate(0,0) scale(' + scale + ') rotate(0deg)', opacity: 1, offset: 0.15 },
+      { transform: 'translate(' + dx + 'px,' + dy + 'px) scale(' + (scale * 0.5) + ') rotate(' + rot + 'deg)', opacity: 0 }
+    ], { duration: 800 + Math.random() * 400, easing: 'cubic-bezier(.25,.46,.45,.94)', fill: 'forwards' });
+
+    setTimeout(function(){ el.remove(); }, 1300);
+  }
+
+  buttons.forEach(function(btn) {
+    btn.addEventListener('mouseenter', function() {
+      if (burstActive) return;
+      burstActive = true;
+      const rect = btn.getBoundingClientRect();
+      // Initial burst
+      for (let i = 0; i < 5; i++) {
+        setTimeout(function(){ spawnEmoji(rect); }, i * 60);
+      }
+      // Continuous trickle while hovering
+      burstInterval = setInterval(function(){
+        spawnEmoji(btn.getBoundingClientRect());
+      }, 250);
+    });
+    btn.addEventListener('mouseleave', function() {
+      burstActive = false;
+      clearInterval(burstInterval);
+    });
+  });
 })();
 </script>
 
