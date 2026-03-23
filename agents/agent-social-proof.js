@@ -49,7 +49,7 @@
     notifEl.className = 'social-notif';
     notifEl.id = 'social-notif';
     notifEl.innerHTML = `
-      <img class="social-notif__avatar" id="notif-avatar" src="" alt="" loading="lazy">
+      <div class="social-notif__logo" id="notif-logo"></div>
       <div>
         <div class="social-notif__text" id="notif-text"></div>
         <div class="social-notif__time" id="notif-time"></div>
@@ -63,18 +63,22 @@
       style.textContent = `
         .social-notif {
           position: fixed; bottom: 24px; left: 24px; z-index: 9990;
-          background: #fff; border-radius: 14px; padding: 14px 18px 14px 14px;
+          background: #141414; border-radius: 14px; padding: 14px 18px 14px 14px;
           display: flex; align-items: center; gap: 12px;
-          box-shadow: 0 8px 30px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+          box-shadow: 0 8px 30px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.06);
           border-left: 3px solid #FF2600;
           transform: translateX(-120%); opacity: 0;
           transition: all 0.5s cubic-bezier(.25,.46,.45,.94);
-          max-width: 320px;
+          max-width: 340px;
         }
         .social-notif.show { transform: translateX(0); opacity: 1; }
-        .social-notif__avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; flex-shrink: 0; }
-        .social-notif__text { font-size: 13px; color: #000; line-height: 1.4; }
-        .social-notif__time { font-size: 11px; color: #777; }
+        .social-notif__logo {
+          width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 14px; font-weight: 800; color: #fff; letter-spacing: -0.5px;
+        }
+        .social-notif__text { font-size: 13px; color: rgba(255,255,255,0.9); line-height: 1.4; }
+        .social-notif__time { font-size: 11px; color: rgba(255,255,255,0.4); }
         @media(max-width:640px){
           .social-notif { bottom: auto; top: 12px; left: 12px; right: 12px; max-width: none; }
         }
@@ -113,13 +117,16 @@
       .replace('{percent}', percent)
       .replace('{rdv}', rdv);
 
-    const avatar = notifEl.querySelector('.social-notif__avatar, #notif-avatar');
+    const logoEl = notifEl.querySelector('.social-notif__logo, #notif-logo');
     const textEl = notifEl.querySelector('.social-notif__text, #notif-text');
     const timeEl = notifEl.querySelector('.social-notif__time, #notif-time');
 
-    if (avatar) {
-      avatar.src = CONFIG.avatarService + imgId;
-      avatar.onerror = function() { this.style.display = 'none'; };
+    // Company logo colors
+    const logoColors = ['#FF2600','#C11D00','#2563eb','#7c3aed','#0891b2','#059669','#d97706','#dc2626'];
+    const color = logoColors[Math.floor(Math.random() * logoColors.length)];
+    if (logoEl) {
+      logoEl.textContent = name.substring(0, 2).toUpperCase();
+      logoEl.style.background = color;
     }
     if (textEl) textEl.textContent = text;
     if (timeEl) timeEl.textContent = 'il y a ' + (Math.floor(Math.random() * 12) + 1) + ' min';
