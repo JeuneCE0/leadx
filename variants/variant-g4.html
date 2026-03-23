@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEADX — Variante G4 — Dark Cinematic Funnel</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background: #000000;
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* Subtle grid */
+  .grid-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  /* Red orbs for depth */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .orb-top {
+    top: -10%;
+    right: -5%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(255,38,0,0.06) 0%, transparent 70%);
+  }
+  .orb-bottom {
+    bottom: -8%;
+    left: -5%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255,38,0,0.04) 0%, transparent 70%);
+  }
+
+  /* Funnel SVG */
+  .funnel-canvas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* Convergence glow */
+  .convergence-glow {
+    position: absolute;
+    bottom: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    height: 200px;
+    background: radial-gradient(ellipse, rgba(255,38,0,0.12) 0%, rgba(255,38,0,0.04) 40%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 1;
+    animation: pulseGlow 3s ease-in-out infinite;
+  }
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.67; }
+    50% { opacity: 1; }
+  }
+
+  /* Floating notification bubbles */
+  .notif-bubble {
+    position: absolute;
+    z-index: 3;
+    background: rgba(20,20,20,0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.85);
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+  .notif-bubble:nth-child(1) { top: 14%; left: 4%; animation: floatBubble 6s ease-in-out infinite 0s; }
+  .notif-bubble:nth-child(2) { top: 32%; left: 2%; animation: floatBubble 7s ease-in-out infinite 1s; }
+  .notif-bubble:nth-child(3) { top: 52%; left: 3%; animation: floatBubble 5.5s ease-in-out infinite 2s; }
+  .notif-bubble:nth-child(4) { top: 16%; right: 4%; left: auto; animation: floatBubble 6.5s ease-in-out infinite 0.5s; }
+  .notif-bubble:nth-child(5) { top: 34%; right: 2%; left: auto; animation: floatBubble 5s ease-in-out infinite 1.5s; }
+  .notif-bubble:nth-child(6) { top: 54%; right: 3%; left: auto; animation: floatBubble 7.5s ease-in-out infinite 2.5s; }
+
+  @keyframes floatBubble {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+
+  /* Result cards */
+  .result-cards-container {
+    position: absolute;
+    bottom: 2%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 4;
+    pointer-events: none;
+    width: 280px;
+    height: 70px;
+  }
+  .result-card {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%) scale(0.7);
+    background: #141414;
+    border-left: 3px solid #FF2600;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    white-space: nowrap;
+    box-shadow: 0 4px 20px rgba(255,38,0,0.08), 0 2px 8px rgba(0,0,0,0.5);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Content layer */
+  .content {
+    position: relative;
+    z-index: 5;
+    max-width: 660px;
+    width: 100%;
+    padding: 0 24px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* Logo */
+  .logo { margin-bottom: 32px; }
+
+  /* Badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,38,0,0.08);
+    border: 1px solid rgba(255,38,0,0.15);
+    border-radius: 100px;
+    padding: 6px 16px 6px 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #FF4D2E;
+    margin-bottom: 28px;
+    letter-spacing: -0.01em;
+  }
+  .badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #FF2600;
+    animation: pulseDot 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+  @keyframes pulseDot {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255,38,0,0.4); }
+    50% { opacity: 0.7; box-shadow: 0 0 0 6px rgba(255,38,0,0); }
+  }
+
+  /* Headline */
+  .headline {
+    font-size: clamp(28px, 5vw, 46px);
+    font-weight: 800;
+    line-height: 1.13;
+    letter-spacing: -0.035em;
+    color: #ffffff;
+    margin-bottom: 20px;
+  }
+
+  /* Subtitle */
+  .subtitle {
+    font-size: 17px;
+    line-height: 1.55;
+    color: rgba(255,255,255,0.55);
+    max-width: 520px;
+    margin-bottom: 28px;
+    font-weight: 400;
+  }
+
+  /* Bullets */
+  .bullets {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 32px;
+    text-align: left;
+    align-self: center;
+  }
+  .bullets li {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.80);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .bullets li span.check {
+    flex-shrink: 0;
+  }
+
+  /* CTA */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #FF2600;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 16px 36px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 0 0 0 rgba(255,38,0,0), 0 4px 20px rgba(255,38,0,0.25);
+    margin-bottom: 28px;
+  }
+  .cta:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 0 30px rgba(255,38,0,0.3), 0 8px 30px rgba(255,38,0,0.25);
+  }
+
+  /* Proof bar */
+  .proof-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    font-weight: 500;
+  }
+  .avatars {
+    display: flex;
+  }
+  .avatars .av {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    margin-left: -6px;
+    border: 2px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+  }
+  .avatars .av:first-child { margin-left: 0; }
+
+  /* Pill layer */
+  .pill-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 2;
+  }
+  .prospect-pill {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,38,0,0.10);
+    border: 1px solid rgba(255,38,0,0.20);
+    border-radius: 100px;
+    padding: 4px 12px 4px 6px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #FF4D2E;
+    white-space: nowrap;
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  .prospect-pill .pill-avatar {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  /* Particle layer */
+  .particle-layer {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: rgba(255,38,0,0.3);
+    will-change: transform, opacity;
+  }
+
+  /* ---- Responsive ---- */
+  @media (max-width: 640px) {
+    .notif-bubble:nth-child(n+4) { display: none; }
+    .particle-layer { display: none; }
+    .convergence-glow { filter: none !important; }
+    .headline { font-size: 26px; }
+    .subtitle { font-size: 15px; }
+    .cta { font-size: 14px; padding: 14px 28px; }
+    .notif-bubble { font-size: 11px; padding: 8px 12px; }
+    .result-cards-container { width: 220px; }
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <!-- Grid background -->
+  <div class="grid-bg"></div>
+
+  <!-- Red orbs -->
+  <div class="orb orb-top"></div>
+  <div class="orb orb-bottom"></div>
+
+  <!-- Funnel SVG -->
+  <svg class="funnel-canvas" id="funnelSVG" preserveAspectRatio="none"></svg>
+
+  <!-- Convergence glow -->
+  <div class="convergence-glow"></div>
+
+  <!-- Particle layer -->
+  <div class="particle-layer" id="particleLayer"></div>
+
+  <!-- Pill layer -->
+  <div class="pill-layer" id="pillLayer"></div>
+
+  <!-- Floating notification bubbles -->
+  <div class="notif-bubble">Nouveau prospect B2B 🔥</div>
+  <div class="notif-bubble">+47 leads ce mois</div>
+  <div class="notif-bubble">ROI x3.2 📈</div>
+  <div class="notif-bubble">CPL divisé par 2 📉</div>
+  <div class="notif-bubble">Budget META optimisé 💰</div>
+  <div class="notif-bubble">Campagne active 🚀</div>
+
+  <!-- Result cards -->
+  <div class="result-cards-container" id="resultCards"></div>
+
+  <!-- Content -->
+  <div class="content">
+    <div class="logo">
+      <img src="assets/LEADX-wordmark-light.svg" alt="LEADX" style="height:36px;width:auto;">
+    </div>
+
+    <div class="badge">
+      <span class="badge-dot"></span>
+      32 inscrits cette semaine
+    </div>
+
+    <h1 class="headline">
+      La méthode META Ads qui génère des <span style="color:#FF2600">leads B2B qualifiés</span> chaque semaine — sans exploser ton budget
+    </h1>
+
+    <p class="subtitle">
+      Découvre le système clé-en-main pour attirer des prospects B2B qualifiés avec META Ads, même si tu pars de zéro ou que tu as déjà cramé du budget sans résultat.
+    </p>
+
+    <ul class="bullets">
+      <li><span class="check">✅</span> Un système META Ads éprouvé pour générer des leads B2B chaque semaine</li>
+      <li><span class="check">✅</span> Des campagnes optimisées qui divisent ton coût par lead par 2</li>
+      <li><span class="check">✅</span> Un process complet du clic au rendez-vous qualifié</li>
+    </ul>
+
+    <a href="#" class="cta">VOIR LA MÉTHODE GRATUITEMENT →</a>
+
+    <div class="proof-bar">
+      <div class="avatars">
+        <div class="av" style="background:#FF2600;">T</div>
+        <div class="av" style="background:#c41e00;">S</div>
+        <div class="av" style="background:#8a1500;">M</div>
+        <div class="av" style="background:#ff4d2e;">L</div>
+        <div class="av" style="background:#cc2200;">A</div>
+      </div>
+      +120 dirigeants utilisent déjà LEADX
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  'use strict';
+
+  // ─── CONFIG ─────────────────────────────────────
+  const isMobile = window.innerWidth <= 640;
+
+  // ─── FUNNEL GEOMETRY ────────────────────────────
+  function getFunnelPaths(w, h) {
+    const cx = w / 2;
+    const topY = h * 0.06;
+    const botY = h * 0.92;
+    const topSpreadOuter = w * 0.42;
+    const topSpreadInner = w * 0.34;
+    const botSpread = w * 0.025;
+    const cp1Y = h * 0.35;
+    const cp2Y = h * 0.65;
+
+    return {
+      outerLeft:  { p0: [cx - topSpreadOuter, topY], cp1: [cx - topSpreadOuter * 0.7, cp1Y], cp2: [cx - botSpread * 3, cp2Y], p3: [cx - botSpread, botY] },
+      outerRight: { p0: [cx + topSpreadOuter, topY], cp1: [cx + topSpreadOuter * 0.7, cp1Y], cp2: [cx + botSpread * 3, cp2Y], p3: [cx + botSpread, botY] },
+      innerLeft:  { p0: [cx - topSpreadInner, topY], cp1: [cx - topSpreadInner * 0.65, cp1Y], cp2: [cx - botSpread * 2, cp2Y], p3: [cx - botSpread * 0.6, botY] },
+      innerRight: { p0: [cx + topSpreadInner, topY], cp1: [cx + topSpreadInner * 0.65, cp1Y], cp2: [cx + botSpread * 2, cp2Y], p3: [cx + botSpread * 0.6, botY] },
+    };
+  }
+
+  function bezierPath(c) {
+    return `M${c.p0[0]},${c.p0[1]} C${c.cp1[0]},${c.cp1[1]} ${c.cp2[0]},${c.cp2[1]} ${c.p3[0]},${c.p3[1]}`;
+  }
+
+  function bezierPoint(c, t) {
+    const u = 1 - t;
+    const x = u*u*u*c.p0[0] + 3*u*u*t*c.cp1[0] + 3*u*t*t*c.cp2[0] + t*t*t*c.p3[0];
+    const y = u*u*u*c.p0[1] + 3*u*u*t*c.cp1[1] + 3*u*t*t*c.cp2[1] + t*t*t*c.p3[1];
+    return [x, y];
+  }
+
+  // ─── BUILD SVG FUNNEL ───────────────────────────
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.getElementById('funnelSVG');
+
+  function buildFunnel() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    svg.innerHTML = '';
+
+    const paths = getFunnelPaths(w, h);
+
+    // Defs for filters
+    const defs = document.createElementNS(svgNS, 'defs');
+
+    const filter = document.createElementNS(svgNS, 'filter');
+    filter.setAttribute('id', 'glowFilter');
+    filter.setAttribute('x', '-50%'); filter.setAttribute('y', '-50%');
+    filter.setAttribute('width', '200%'); filter.setAttribute('height', '200%');
+    const feGauss = document.createElementNS(svgNS, 'feGaussianBlur');
+    feGauss.setAttribute('stdDeviation', '6');
+    feGauss.setAttribute('result', 'blur');
+    filter.appendChild(feGauss);
+    defs.appendChild(filter);
+
+    // Gradient for inner fill
+    const grad = document.createElementNS(svgNS, 'linearGradient');
+    grad.setAttribute('id', 'innerFillGrad');
+    grad.setAttribute('x1', '0'); grad.setAttribute('y1', '0');
+    grad.setAttribute('x2', '0'); grad.setAttribute('y2', '1');
+    const stop1 = document.createElementNS(svgNS, 'stop');
+    stop1.setAttribute('offset', '0%'); stop1.setAttribute('stop-color', 'rgba(255,38,0,0.03)');
+    const stop2 = document.createElementNS(svgNS, 'stop');
+    stop2.setAttribute('offset', '100%'); stop2.setAttribute('stop-color', 'rgba(255,38,0,0.10)');
+    grad.appendChild(stop1); grad.appendChild(stop2);
+    defs.appendChild(grad);
+
+    svg.appendChild(defs);
+
+    if (!isMobile) {
+      // Outer fill between curves
+      const outerFill = document.createElementNS(svgNS, 'path');
+      const ofd = bezierPath(paths.outerLeft) + ` L${paths.outerRight.p3[0]},${paths.outerRight.p3[1]}` +
+        ` C${paths.outerRight.cp2[0]},${paths.outerRight.cp2[1]} ${paths.outerRight.cp1[0]},${paths.outerRight.cp1[1]} ${paths.outerRight.p0[0]},${paths.outerRight.p0[1]} Z`;
+      outerFill.setAttribute('d', ofd);
+      outerFill.setAttribute('fill', 'rgba(255,38,0,0.02)');
+      svg.appendChild(outerFill);
+
+      // Inner fill between curves
+      const innerFill = document.createElementNS(svgNS, 'path');
+      const ifd = bezierPath(paths.innerLeft) + ` L${paths.innerRight.p3[0]},${paths.innerRight.p3[1]}` +
+        ` C${paths.innerRight.cp2[0]},${paths.innerRight.cp2[1]} ${paths.innerRight.cp1[0]},${paths.innerRight.cp1[1]} ${paths.innerRight.p0[0]},${paths.innerRight.p0[1]} Z`;
+      innerFill.setAttribute('d', ifd);
+      innerFill.setAttribute('fill', 'url(#innerFillGrad)');
+      svg.appendChild(innerFill);
+
+      // Glow layers (inner curves with blur)
+      ['innerLeft', 'innerRight'].forEach(key => {
+        const glow = document.createElementNS(svgNS, 'path');
+        glow.setAttribute('d', bezierPath(paths[key]));
+        glow.setAttribute('fill', 'none');
+        glow.setAttribute('stroke', 'rgba(255,38,0,0.06)');
+        glow.setAttribute('stroke-width', '8');
+        glow.setAttribute('filter', 'url(#glowFilter)');
+        svg.appendChild(glow);
+      });
+
+      // Outer strokes
+      ['outerLeft', 'outerRight'].forEach(key => {
+        const p = document.createElementNS(svgNS, 'path');
+        p.setAttribute('d', bezierPath(paths[key]));
+        p.setAttribute('fill', 'none');
+        p.setAttribute('stroke', 'rgba(255,38,0,0.08)');
+        p.setAttribute('stroke-width', '0.8');
+        svg.appendChild(p);
+      });
+
+      // Inner strokes
+      ['innerLeft', 'innerRight'].forEach(key => {
+        const p = document.createElementNS(svgNS, 'path');
+        p.setAttribute('d', bezierPath(paths[key]));
+        p.setAttribute('fill', 'none');
+        p.setAttribute('stroke', 'rgba(255,38,0,0.30)');
+        p.setAttribute('stroke-width', '1.5');
+        svg.appendChild(p);
+      });
+    } else {
+      // Mobile: single funnel
+      const fill = document.createElementNS(svgNS, 'path');
+      const fd = bezierPath(paths.innerLeft) + ` L${paths.innerRight.p3[0]},${paths.innerRight.p3[1]}` +
+        ` C${paths.innerRight.cp2[0]},${paths.innerRight.cp2[1]} ${paths.innerRight.cp1[0]},${paths.innerRight.cp1[1]} ${paths.innerRight.p0[0]},${paths.innerRight.p0[1]} Z`;
+      fill.setAttribute('d', fd);
+      fill.setAttribute('fill', 'url(#innerFillGrad)');
+      svg.appendChild(fill);
+
+      ['innerLeft', 'innerRight'].forEach(key => {
+        const p = document.createElementNS(svgNS, 'path');
+        p.setAttribute('d', bezierPath(paths[key]));
+        p.setAttribute('fill', 'none');
+        p.setAttribute('stroke', 'rgba(255,38,0,0.25)');
+        p.setAttribute('stroke-width', '1');
+        svg.appendChild(p);
+      });
+    }
+  }
+
+  buildFunnel();
+  window.addEventListener('resize', () => { buildFunnel(); });
+
+  // ─── ANIMATED PROSPECT PILLS ────────────────────
+  const pillLabels = [
+    { text: 'Prospect B2B', avatar: '#FF2600' },
+    { text: 'Dirigeant', avatar: '#c41e00' },
+    { text: 'CEO', avatar: null },
+    { text: 'Lead qualifié', avatar: '#ff6640' },
+    { text: 'Contact', avatar: null },
+    { text: 'DG', avatar: '#FF2600' },
+    { text: 'Fondateur', avatar: '#8a1500' },
+    { text: 'Décideur', avatar: null },
+    { text: 'Entreprise', avatar: '#cc2200' },
+    { text: 'CFO', avatar: '#ff4d2e' },
+  ];
+
+  const pillCount = isMobile ? 4 : 10;
+  const pillLayer = document.getElementById('pillLayer');
+  const pills = [];
+
+  for (let i = 0; i < pillCount; i++) {
+    const el = document.createElement('div');
+    el.className = 'prospect-pill';
+    const info = pillLabels[i % pillLabels.length];
+    if (info.avatar) {
+      el.innerHTML = `<div class="pill-avatar" style="background:${info.avatar}"></div>${info.text}`;
+    } else {
+      el.innerHTML = info.text;
+      el.style.paddingLeft = '12px';
+    }
+    pillLayer.appendChild(el);
+    pills.push({
+      el,
+      side: i % 2 === 0 ? 'left' : 'right',
+      t: (i / pillCount),
+      speed: 0.0003 + Math.random() * 0.0002,
+      flashing: false,
+      flashStart: 0,
+    });
+  }
+
+  // ─── PARTICLES ──────────────────────────────────
+  const particleLayer = document.getElementById('particleLayer');
+  const particles = [];
+  if (!isMobile) {
+    for (let i = 0; i < 15; i++) {
+      const el = document.createElement('div');
+      el.className = 'particle';
+      const size = 2 + Math.random();
+      el.style.width = size + 'px';
+      el.style.height = size + 'px';
+      el.style.opacity = 0.15 + Math.random() * 0.25;
+      particleLayer.appendChild(el);
+      particles.push({
+        el,
+        t: Math.random(),
+        speed: 0.0001 + Math.random() * 0.0003,
+        swayAmp: 5 + Math.random() * 15,
+        swayFreq: 0.5 + Math.random() * 1.5,
+        phase: Math.random() * Math.PI * 2,
+      });
+    }
+  }
+
+  // ─── RESULT CARDS ───────────────────────────────
+  const resultTexts = [
+    '+2 500€ de CA 💰',
+    'Nouveau client signé ✅',
+    'RDV qualifié réservé 📅',
+    'Paiement reçu 🎉',
+    '+1 lead B2B qualifié 🎯',
+    'Contrat validé 📝',
+  ];
+  const resultContainer = document.getElementById('resultCards');
+  let currentResultIndex = 0;
+  let lastResultTime = 0;
+  const resultInterval = 3200;
+
+  function spawnResultCard(now) {
+    const card = document.createElement('div');
+    card.className = 'result-card';
+    card.textContent = resultTexts[currentResultIndex % resultTexts.length];
+    const offset = (currentResultIndex % 2 === 0) ? -18 : 18;
+    card.style.transform = `translateX(calc(-50% + ${offset}px)) scale(0.7)`;
+    resultContainer.appendChild(card);
+    currentResultIndex++;
+
+    const start = now;
+    const dur = 2500;
+    function animateCard(ts) {
+      const elapsed = ts - start;
+      const progress = Math.min(elapsed / dur, 1);
+
+      if (progress < 0.15) {
+        // Pop in with easeOutBack
+        const p = progress / 0.15;
+        const c1 = 1.70158;
+        const val = 1 + (c1 + 1) * Math.pow(p - 1, 3) + c1 * Math.pow(p - 1, 2);
+        card.style.opacity = Math.min(p * 3, 1);
+        card.style.transform = `translateX(calc(-50% + ${offset}px)) scale(${0.7 + 0.3 * val})`;
+      } else if (progress < 0.85) {
+        card.style.opacity = 1;
+        const drift = (progress - 0.15) * 10;
+        card.style.transform = `translateX(calc(-50% + ${offset}px)) translateY(${drift}px) scale(1)`;
+      } else {
+        const fadeP = (progress - 0.85) / 0.15;
+        const drift = (progress - 0.15) * 10;
+        card.style.opacity = 1 - fadeP;
+        card.style.transform = `translateX(calc(-50% + ${offset}px)) translateY(${drift}px) scale(${1 - fadeP * 0.1})`;
+      }
+
+      if (progress < 1) {
+        requestAnimationFrame(animateCard);
+      } else {
+        card.remove();
+      }
+    }
+    requestAnimationFrame(animateCard);
+  }
+
+  // ─── MAIN ANIMATION LOOP ───────────────────────
+  function animate(now) {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    const paths = getFunnelPaths(w, h);
+
+    // Animate pills
+    pills.forEach(pill => {
+      pill.t += pill.speed;
+      if (pill.t >= 1) {
+        pill.t = 0;
+        pill.flashing = false;
+      }
+
+      const curve = pill.side === 'left' ? paths.innerLeft : paths.innerRight;
+      const [px, py] = bezierPoint(curve, pill.t);
+
+      // Fade in/out
+      let opacity = 1;
+      if (pill.t < 0.08) opacity = pill.t / 0.08;
+      if (pill.t > 0.88) {
+        opacity = 1 - (pill.t - 0.88) / 0.12;
+        // Flash at convergence
+        if (!pill.flashing && pill.t > 0.90) {
+          pill.flashing = true;
+          pill.el.style.boxShadow = '0 0 16px rgba(255,38,0,0.5)';
+          setTimeout(() => { pill.el.style.boxShadow = 'none'; }, 200);
+        }
+      }
+
+      pill.el.style.opacity = opacity;
+      pill.el.style.transform = `translate(${px - 40}px, ${py - 12}px)`;
+    });
+
+    // Animate particles
+    particles.forEach(p => {
+      p.t += p.speed;
+      if (p.t >= 1) p.t = 0;
+
+      // Interpolate between inner left and right for a position inside funnel
+      const [lx, ly] = bezierPoint(paths.innerLeft, p.t);
+      const [rx, ry] = bezierPoint(paths.innerRight, p.t);
+      const ratio = 0.3 + Math.sin(now * 0.001 * p.swayFreq + p.phase) * 0.2;
+      const px = lx + (rx - lx) * ratio + Math.sin(now * 0.0005 * p.swayFreq + p.phase) * p.swayAmp;
+      const py = ly + (ry - ly) * ratio;
+
+      p.el.style.transform = `translate(${px}px, ${py}px)`;
+    });
+
+    // Result cards
+    if (now - lastResultTime > resultInterval) {
+      lastResultTime = now;
+      spawnResultCard(now);
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  requestAnimationFrame(animate);
+
+})();
+</script>
+
+</body>
+</html>

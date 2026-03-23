@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LEADX — Variant I5: Diamond / Prism Funnel</title>
+<style>
+/* ══════════════════════════════════════
+   DESIGN SYSTEM
+   ══════════════════════════════════════ */
+:root {
+  --accent: #FF2600;
+  --accent-dark: #C11D00;
+  --accent-light: #FF4D2E;
+  --accent-glow: rgba(255, 38, 0, 0.35);
+  --accent-subtle: rgba(255, 38, 0, 0.08);
+  --bg-light: #FFFFFF;
+  --bg-light-2: #F7F7F7;
+  --bg-dark: #000000;
+  --bg-dark-2: #0A0A0A;
+  --bg-dark-card: #141414;
+  --bg-dark-card-hover: #1A1A1A;
+  --text-dark: #000000;
+  --text-dark-secondary: #555555;
+  --text-light: #FFFFFF;
+  --text-light-secondary: #999999;
+  --text-muted: #777777;
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-dark: rgba(255, 255, 255, 0.10);
+  --border-accent: rgba(255, 38, 0, 0.25);
+  --font-title: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-weight-title: 700;
+  --font-weight-body: 400;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--font-body); font-weight: var(--font-weight-body); color: #fff; background: #000000; overflow-x: hidden; line-height: 1.6; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; font-family: inherit; }
+
+::selection { background: var(--accent); color: #fff; }
+
+/* ── Noise Overlay ── */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  will-change: transform; transform: translateZ(0);
+}
+
+/* ══════════════════════════════════════
+   UTILITY / ANIMATION
+   ══════════════════════════════════════ */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.reveal { opacity: 0; transform: translateY(20px); filter: blur(3px); transition: opacity 0.4s cubic-bezier(.525,0,0,1), transform 0.4s cubic-bezier(.525,0,0,1), filter 0.4s cubic-bezier(.525,0,0,1); will-change: transform, opacity; backface-visibility: hidden; }
+.reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+@keyframes float1 { 0%,100%{ transform: translate(0,0) rotate(0deg); } 50%{ transform: translate(12px,-18px) rotate(8deg); } }
+@keyframes float2 { 0%,100%{ transform: translate(0,0) rotate(0deg); } 50%{ transform: translate(-10px,14px) rotate(-6deg); } }
+@keyframes pulse { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:.6; transform:scale(1.15); } }
+@keyframes livePulse { 0%,100%{ box-shadow: 0 0 0 0 rgba(255,38,0,0.5); } 50%{ box-shadow: 0 0 0 8px rgba(255,38,0,0); } }
+@keyframes shimmer { 0%{ background-position: -200% center; } 100%{ background-position: 200% center; } }
+
+/* ══════════════════════════════════════
+   HERO SECTION
+   ══════════════════════════════════════ */
+.hero {
+  position: relative; padding: 120px 0 60px; overflow: hidden; background: #000;
+  min-height: 100vh;
+}
+
+@media(max-width:640px){
+  .hero { padding: 90px 0 40px; min-height: auto; }
+}
+
+/* ── Company Marquee ── */
+.hero__trust { text-align: center; margin-top: 40px; }
+.hero__trust-label { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 16px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+.hero__marquee-wrap { overflow: hidden; position: relative; max-width: 600px; margin: 0 auto;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+}
+.hero__marquee { display: flex; gap: 32px; animation: marqueeScroll 20s linear infinite; width: max-content; }
+.hero__marquee-item { padding: 8px 20px; border-radius: 8px; font-size: 12px; font-weight: 700;
+  color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+  letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
+}
+@keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ── Section Divider ── */
+.section-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,38,0,0.15) 30%, rgba(255,38,0,0.15) 70%, transparent); margin: 0; }
+
+/* Diamond canvas */
+.funnel-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+
+/* Red orbs at top and bottom points */
+.hero__orb { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; }
+.hero__orb--top { width: 400px; height: 400px; top: -5%; left: 50%; transform: translateX(-50%); background: radial-gradient(circle, rgba(255,38,0,0.12) 0%, transparent 70%); }
+.hero__orb--bottom { width: 350px; height: 350px; bottom: -2%; left: 50%; transform: translateX(-50%); background: radial-gradient(circle, rgba(255,38,0,0.10) 0%, transparent 70%); }
+
+/* Grid bg for hero */
+.hero__grid { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Diamond glow at bottom point */
+.funnel-glow { position: absolute; bottom: 4%; left: 50%; transform: translateX(-50%); width: 280px; height: 200px;
+  background: radial-gradient(ellipse, rgba(255,38,0,0.18) 0%, rgba(255,38,0,0.06) 40%, transparent 70%);
+  border-radius: 50%; pointer-events: none; z-index: 1; animation: glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse { 0%,100%{opacity:.7;transform:translateX(-50%) scale(1)} 50%{opacity:1;transform:translateX(-50%) scale(1.08)} }
+
+/* Flow pills */
+.flow-pill { position: absolute; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 20px;
+  background: rgba(255,38,0,0.12); border: 1px solid rgba(255,38,0,0.25); color: #FF2600;
+  white-space: nowrap; pointer-events: none; opacity: 0; z-index: 3; will-change: transform,opacity; transform: translate(-50%,-50%);
+}
+
+/* Pop-out cards — GLASS MORPHISM matching side badges */
+.popout-card { position: absolute; left: 50%; pointer-events: none; z-index: 3;
+  background: rgba(255,255,255,0.04);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 10px 18px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.9);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+  white-space: nowrap; opacity: 0; transform: translateX(-50%) scale(0); will-change: transform,opacity;
+  display: flex; align-items: center; gap: 10px;
+}
+
+/* White line on top of pop-out cards */
+.popout-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  width: 60%;
+  height: 1px;
+  background: rgba(255,255,255,0.10);
+  border-radius: 1px;
+}
+
+/* Colored dot inside pop-out cards */
+.popout-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ══════════════════════════════════════
+   VARIANT I5: GLASS MORPHISM NOTIFICATION BADGES
+   ══════════════════════════════════════ */
+@keyframes gentleFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+.hero__notif {
+  position: absolute;
+  /* Glass morphism */
+  background: rgba(255,255,255,0.04);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 10px 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+  /* Text */
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  /* Layout */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: none;
+  z-index: 2;
+  white-space: nowrap;
+}
+
+/* Subtle white line at top edge */
+.hero__notif::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  width: 60%;
+  height: 1px;
+  background: rgba(255,255,255,0.10);
+  border-radius: 1px;
+}
+
+/* Status dots */
+.hero__notif-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.hero__notif-dot--green {
+  background: #22c55e;
+  box-shadow: 0 0 6px #22c55e;
+}
+.hero__notif-dot--red {
+  background: #FF2600;
+  box-shadow: 0 0 6px #FF2600;
+}
+.hero__notif-dot--blue {
+  background: #3b82f6;
+  box-shadow: 0 0 6px #3b82f6;
+}
+
+.hero__inner { max-width: 780px; margin: 0 auto; text-align: center; }
+
+.hero__badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent-subtle); border: 1px solid var(--border-accent);
+  border-radius: 100px; padding: 6px 16px; font-size: 13px; font-weight: 600;
+  color: var(--accent); margin-bottom: 28px;
+}
+.hero__badge-dot {
+  width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
+  animation: livePulse 2s ease-in-out infinite;
+}
+
+.hero h1 {
+  font-family: var(--font-title); font-weight: 800;
+  font-size: clamp(28px, 5vw, 48px); line-height: 1.15;
+  color: #fff; margin-bottom: 20px; letter-spacing: -0.02em;
+}
+.hero h1 .accent { color: var(--accent); }
+
+.hero__sub {
+  font-size: clamp(15px, 2.2vw, 18px); color: rgba(255,255,255,0.6);
+  max-width: 620px; margin: 0 auto 32px; line-height: 1.7;
+}
+
+/* ══════════════════════════════════════
+   CTA BUTTON (reusable)
+   ══════════════════════════════════════ */
+.cta-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent); color: #fff;
+  font-family: var(--font-title); font-weight: 700;
+  font-size: clamp(14px, 2vw, 17px); letter-spacing: 0.04em;
+  padding: 18px 40px; border-radius: 12px;
+  transition: all 0.3s cubic-bezier(.25,.46,.45,.94);
+  position: relative; overflow: hidden;
+  box-shadow: 0 4px 20px rgba(255,38,0,0.3), 0 1px 3px rgba(0,0,0,0.1);
+}
+.cta-btn:hover {
+  background: var(--accent-dark); transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255,38,0,0.4), 0 2px 6px rgba(0,0,0,0.15);
+}
+.cta-btn:active { transform: translateY(0); }
+.cta-btn--full { width: 100%; max-width: 520px; }
+
+/* ── Responsive notif badges ── */
+@media(max-width:640px){
+  .hero__notif { font-size: 11px; padding: 8px 14px; }
+}
+</style>
+</head>
+<body>
+
+<main>
+<!-- ════════════════════════ HERO ════════════════════════ -->
+<section class="hero" id="hero-section">
+  <div class="hero__grid"></div>
+  <div class="hero__orb hero__orb--top"></div>
+  <div class="hero__orb hero__orb--bottom"></div>
+  <canvas class="funnel-canvas" id="funnelCanvas"></canvas>
+  <div class="funnel-glow"></div>
+
+  <!-- Glass Morphism Notification Badges -->
+  <div class="hero__notif" style="top:13%;left:15%;animation:gentleFloat 5s ease-in-out infinite;">
+    <span class="hero__notif-dot hero__notif-dot--green"></span>Nouveau prospect
+  </div>
+  <div class="hero__notif" style="top:17%;right:15%;animation:gentleFloat 5.5s ease-in-out 1s infinite;">
+    <span class="hero__notif-dot hero__notif-dot--red"></span>+47 leads/mois
+  </div>
+  <div class="hero__notif" style="top:45%;left:16%;animation:gentleFloat 5.2s ease-in-out 0.5s infinite;">
+    <span class="hero__notif-dot hero__notif-dot--red"></span>ROI x3.2
+  </div>
+  <div class="hero__notif" style="bottom:20%;right:18%;animation:gentleFloat 5.8s ease-in-out 1.5s infinite;">
+    <span class="hero__notif-dot hero__notif-dot--blue"></span>Budget optimis&eacute;
+  </div>
+  <div class="hero__notif" style="bottom:28%;left:17%;animation:gentleFloat 5.4s ease-in-out 2s infinite;">
+    <span class="hero__notif-dot hero__notif-dot--green"></span>Campagne active
+  </div>
+
+  <div class="container hero__inner">
+    <div class="reveal" style="text-align:center;margin-bottom:32px;">
+      <img src="../assets/LEADX-wordmark-light.svg" alt="LEADX" style="height:36px;width:auto;margin:0 auto;">
+    </div>
+
+    <div class="hero__badge reveal">
+      <span class="hero__badge-dot"></span>
+      <span style="color:#FF2600;font-weight:800;">27</span> <span style="color:#fff;">campagnes META actives</span>
+    </div>
+
+    <h1 class="reveal">La m&eacute;thode META Ads qui g&eacute;n&egrave;re des <span class="accent">leads B2B qualifi&eacute;s</span> chaque semaine &mdash; sans exploser ton budget</h1>
+
+    <p class="hero__sub reveal">D&eacute;couvre en 12 minutes comment nos clients B2B obtiennent des rendez-vous qualifi&eacute;s en continu gr&acirc;ce &agrave; un syst&egrave;me META Ads cl&eacute; en main.</p>
+
+    <div class="reveal" id="main-cta" style="text-align:center">
+      <button class="cta-btn cta-btn--full">VOIR LA M&Eacute;THODE GRATUITEMENT &rarr;</button>
+    </div>
+
+    <div class="hero__trust reveal">
+      <div class="hero__trust-label">+27 entreprises nous font confiance</div>
+      <div class="hero__marquee-wrap">
+        <div class="hero__marquee">
+          <span class="hero__marquee-item">TechVision</span>
+          <span class="hero__marquee-item">GrowthLab</span>
+          <span class="hero__marquee-item">DataPulse</span>
+          <span class="hero__marquee-item">ScaleUp Pro</span>
+          <span class="hero__marquee-item">NexGen B2B</span>
+          <span class="hero__marquee-item">CloudForce</span>
+          <span class="hero__marquee-item">AdSphere</span>
+          <span class="hero__marquee-item">B2B Connect</span>
+          <span class="hero__marquee-item">LeadFactory</span>
+          <span class="hero__marquee-item">SalesIQ</span>
+          <!-- Duplicate for seamless loop -->
+          <span class="hero__marquee-item">TechVision</span>
+          <span class="hero__marquee-item">GrowthLab</span>
+          <span class="hero__marquee-item">DataPulse</span>
+          <span class="hero__marquee-item">ScaleUp Pro</span>
+          <span class="hero__marquee-item">NexGen B2B</span>
+          <span class="hero__marquee-item">CloudForce</span>
+          <span class="hero__marquee-item">AdSphere</span>
+          <span class="hero__marquee-item">B2B Connect</span>
+          <span class="hero__marquee-item">LeadFactory</span>
+          <span class="hero__marquee-item">SalesIQ</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+</main>
+
+<script>
+(function(){
+  'use strict';
+
+  // ── Reveal on scroll (staggered) ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.07) + 's';
+    revealObs.observe(el);
+  });
+
+  // ── DIAMOND ANIMATION ──
+  const heroEl = document.getElementById('hero-section');
+  const fCanvas = document.getElementById('funnelCanvas');
+  if (heroEl && fCanvas) {
+    const fCtx = fCanvas.getContext('2d');
+    let fW, fH;
+
+    // Diamond geometry: top point, left point (center-height), right point (center-height), bottom point
+    function getDiamond(){
+      const cx = fW / 2;
+      const topY = fH * 0.04;
+      const bottomY = fH * 0.92;
+      const midY = (topY + bottomY) / 2;
+      const halfWidth = Math.min(fW * 0.30, 340);
+      // Control points for bezier curves (slight curvature for elegance)
+      const curvature = 0.18;
+      return {
+        top: { x: cx, y: topY },
+        left: { x: cx - halfWidth, y: midY },
+        right: { x: cx + halfWidth, y: midY },
+        bottom: { x: cx, y: bottomY },
+        midY: midY,
+        cx: cx,
+        halfWidth: halfWidth,
+        // Bezier control points for each of 4 sides
+        // Top-Left side: top → left
+        tl: {
+          cp1x: cx - halfWidth * curvature, cp1y: topY + (midY - topY) * 0.3,
+          cp2x: cx - halfWidth, cp2y: topY + (midY - topY) * 0.6
+        },
+        // Top-Right side: top → right
+        tr: {
+          cp1x: cx + halfWidth * curvature, cp1y: topY + (midY - topY) * 0.3,
+          cp2x: cx + halfWidth, cp2y: topY + (midY - topY) * 0.6
+        },
+        // Bottom-Left side: left → bottom
+        bl: {
+          cp1x: cx - halfWidth, cp1y: midY + (bottomY - midY) * 0.4,
+          cp2x: cx - halfWidth * curvature, cp2y: midY + (bottomY - midY) * 0.7
+        },
+        // Bottom-Right side: right → bottom
+        br: {
+          cp1x: cx + halfWidth, cp1y: midY + (bottomY - midY) * 0.4,
+          cp2x: cx + halfWidth * curvature, cp2y: midY + (bottomY - midY) * 0.7
+        }
+      };
+    }
+
+    function fResize(){
+      fW = heroEl.offsetWidth;
+      fH = heroEl.offsetHeight;
+      fCanvas.width = fW * devicePixelRatio;
+      fCanvas.height = fH * devicePixelRatio;
+      fCanvas.style.width = fW + 'px';
+      fCanvas.style.height = fH + 'px';
+      fCtx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+    }
+
+    function drawDiamond(now){
+      fCtx.clearRect(0, 0, fW, fH);
+      const d = getDiamond();
+
+      fCtx.save();
+
+      // ── Fill: gradient top→center→bottom ──
+      const fillPath = new Path2D();
+      // Top → Right
+      fillPath.moveTo(d.top.x, d.top.y);
+      fillPath.bezierCurveTo(d.tr.cp1x, d.tr.cp1y, d.tr.cp2x, d.tr.cp2y, d.right.x, d.right.y);
+      // Right → Bottom
+      fillPath.bezierCurveTo(d.br.cp1x, d.br.cp1y, d.br.cp2x, d.br.cp2y, d.bottom.x, d.bottom.y);
+      // Bottom → Left
+      fillPath.bezierCurveTo(d.bl.cp2x, d.bl.cp2y, d.bl.cp1x, d.bl.cp1y, d.left.x, d.left.y);
+      // Left → Top
+      fillPath.bezierCurveTo(d.tl.cp2x, d.tl.cp2y, d.tl.cp1x, d.tl.cp1y, d.top.x, d.top.y);
+      fillPath.closePath();
+
+      const grad = fCtx.createLinearGradient(0, d.top.y, 0, d.bottom.y);
+      grad.addColorStop(0, 'rgba(255,38,0,0.03)');
+      grad.addColorStop(0.45, 'rgba(255,38,0,0.10)');
+      grad.addColorStop(0.55, 'rgba(255,38,0,0.10)');
+      grad.addColorStop(1, 'rgba(255,38,0,0.03)');
+      fCtx.fillStyle = grad;
+      fCtx.fill(fillPath);
+
+      // ── Cross-hatching pattern inside diamond ──
+      fCtx.save();
+      fCtx.clip(fillPath);
+      fCtx.strokeStyle = 'rgba(255,38,0,0.02)';
+      fCtx.lineWidth = 0.5;
+      const spacing = 24;
+      for (let i = -fH; i < fW + fH; i += spacing) {
+        // Diagonal lines ↘
+        fCtx.beginPath();
+        fCtx.moveTo(i, d.top.y);
+        fCtx.lineTo(i + fH, d.bottom.y);
+        fCtx.stroke();
+        // Diagonal lines ↙
+        fCtx.beginPath();
+        fCtx.moveTo(i, d.top.y);
+        fCtx.lineTo(i - fH, d.bottom.y);
+        fCtx.stroke();
+      }
+      fCtx.restore();
+
+      // ── Strokes with glow ──
+      fCtx.shadowColor = 'rgba(255,38,0,0.35)';
+      fCtx.shadowBlur = 16;
+      fCtx.strokeStyle = 'rgba(255,38,0,0.25)';
+      fCtx.lineWidth = 1.5;
+
+      // Top-Left edge
+      fCtx.beginPath();
+      fCtx.moveTo(d.top.x, d.top.y);
+      fCtx.bezierCurveTo(d.tl.cp1x, d.tl.cp1y, d.tl.cp2x, d.tl.cp2y, d.left.x, d.left.y);
+      fCtx.stroke();
+
+      // Top-Right edge
+      fCtx.beginPath();
+      fCtx.moveTo(d.top.x, d.top.y);
+      fCtx.bezierCurveTo(d.tr.cp1x, d.tr.cp1y, d.tr.cp2x, d.tr.cp2y, d.right.x, d.right.y);
+      fCtx.stroke();
+
+      // Bottom-Left edge
+      fCtx.beginPath();
+      fCtx.moveTo(d.left.x, d.left.y);
+      fCtx.bezierCurveTo(d.bl.cp1x, d.bl.cp1y, d.bl.cp2x, d.bl.cp2y, d.bottom.x, d.bottom.y);
+      fCtx.stroke();
+
+      // Bottom-Right edge
+      fCtx.beginPath();
+      fCtx.moveTo(d.right.x, d.right.y);
+      fCtx.bezierCurveTo(d.br.cp1x, d.br.cp1y, d.br.cp2x, d.br.cp2y, d.bottom.x, d.bottom.y);
+      fCtx.stroke();
+
+      // ── Processing line at center (horizontal) ──
+      fCtx.shadowBlur = 8;
+      fCtx.strokeStyle = 'rgba(255,38,0,0.18)';
+      fCtx.lineWidth = 1;
+      fCtx.beginPath();
+      fCtx.moveTo(d.left.x + 10, d.midY);
+      fCtx.lineTo(d.right.x - 10, d.midY);
+      fCtx.stroke();
+
+      // Animated dots along processing line
+      fCtx.shadowBlur = 12;
+      fCtx.shadowColor = 'rgba(255,38,0,0.6)';
+      const lineLen = (d.right.x - 10) - (d.left.x + 10);
+      const dotCount = 5;
+      const time = (now || 0) / 1000;
+      for (let i = 0; i < dotCount; i++) {
+        const phase = (time * 0.3 + i / dotCount) % 1;
+        const dx = d.left.x + 10 + phase * lineLen;
+        const alpha = Math.sin(phase * Math.PI) * 0.8;
+        fCtx.fillStyle = 'rgba(255,38,0,' + alpha + ')';
+        fCtx.beginPath();
+        fCtx.arc(dx, d.midY, 3, 0, Math.PI * 2);
+        fCtx.fill();
+      }
+
+      // ── Red glow orbs at top and bottom points ──
+      fCtx.shadowBlur = 0;
+      const orbGrad1 = fCtx.createRadialGradient(d.top.x, d.top.y, 0, d.top.x, d.top.y, 60);
+      orbGrad1.addColorStop(0, 'rgba(255,38,0,0.15)');
+      orbGrad1.addColorStop(1, 'transparent');
+      fCtx.fillStyle = orbGrad1;
+      fCtx.beginPath();
+      fCtx.arc(d.top.x, d.top.y, 60, 0, Math.PI * 2);
+      fCtx.fill();
+
+      const orbGrad2 = fCtx.createRadialGradient(d.bottom.x, d.bottom.y, 0, d.bottom.x, d.bottom.y, 60);
+      orbGrad2.addColorStop(0, 'rgba(255,38,0,0.15)');
+      orbGrad2.addColorStop(1, 'transparent');
+      fCtx.fillStyle = orbGrad2;
+      fCtx.beginPath();
+      fCtx.arc(d.bottom.x, d.bottom.y, 60, 0, Math.PI * 2);
+      fCtx.fill();
+
+      fCtx.restore();
+    }
+
+    // ── Bezier helper for cubic curves ──
+    function cubicBezierPt(p0x,p0y,c1x,c1y,c2x,c2y,p1x,p1y,t){
+      const u=1-t;
+      return{
+        x:u*u*u*p0x + 3*u*u*t*c1x + 3*u*t*t*c2x + t*t*t*p1x,
+        y:u*u*u*p0y + 3*u*u*t*c1y + 3*u*t*t*c2y + t*t*t*p1y
+      };
+    }
+
+    // Flow pills — enter from TOP, flow down left and right edges to center, pause/process, then continue to bottom
+    const fPillLabels=['Prospect','Rendez-vous','Signature','Paiement','Recommandations','Prospect','Rendez-vous','Signature','Paiement','Recommandations'];
+    // First 5 go left edge, last 5 go right edge
+    const fPillSides=['left','left','left','left','left','right','right','right','right','right'];
+    const fPillDelays=[0,1800,3600,5400,7200,900,2700,4500,6300,8100];
+    const fPillDuration=8000; // longer to accommodate the pause at center
+    const fPillCycle=10000;
+    const fIsMobile=window.innerWidth<=640;
+    const fPillCount=fIsMobile?4:10;
+    const fMobileIdx=[0,2,5,7];
+    const fPills=[];
+    for(let i=0;i<fPillCount;i++){
+      const idx=fIsMobile?fMobileIdx[i]:i;
+      const el=document.createElement('div');
+      el.className='flow-pill';
+      el.textContent=fPillLabels[idx];
+      heroEl.appendChild(el);
+      fPills.push({el,side:fPillSides[idx],delay:fPillDelays[idx]});
+    }
+
+    function updateFPills(now){
+      const d=getDiamond();
+      fPills.forEach(p=>{
+        const elapsed=((now-p.delay)%fPillCycle+fPillCycle)%fPillCycle;
+        if(elapsed>fPillDuration){p.el.style.opacity=0;return;}
+        const t=elapsed/fPillDuration;
+
+        let pos, alpha=1, scale=1;
+
+        // Phase 1: top → center (0 to 0.4) — flow down top edge to the widest point
+        // Phase 2: pause/process at center (0.4 to 0.55)
+        // Phase 3: center → bottom (0.55 to 0.95)
+        // Fade in/out at edges
+
+        if(t < 0.4){
+          // Top to center along top edges
+          const st = t / 0.4;
+          if(p.side === 'left'){
+            pos = cubicBezierPt(d.top.x, d.top.y, d.tl.cp1x, d.tl.cp1y, d.tl.cp2x, d.tl.cp2y, d.left.x, d.left.y, st);
+          } else {
+            pos = cubicBezierPt(d.top.x, d.top.y, d.tr.cp1x, d.tr.cp1y, d.tr.cp2x, d.tr.cp2y, d.right.x, d.right.y, st);
+          }
+          if(st < 0.15) alpha = st / 0.15;
+        } else if(t < 0.55){
+          // Pause at center — pulse
+          const st = (t - 0.4) / 0.15;
+          if(p.side === 'left'){
+            pos = { x: d.left.x, y: d.left.y };
+          } else {
+            pos = { x: d.right.x, y: d.right.y };
+          }
+          scale = 1 + 0.15 * Math.sin(st * Math.PI);
+          alpha = 0.9;
+        } else if(t < 0.95){
+          // Center to bottom
+          const st = (t - 0.55) / 0.4;
+          if(p.side === 'left'){
+            pos = cubicBezierPt(d.left.x, d.left.y, d.bl.cp1x, d.bl.cp1y, d.bl.cp2x, d.bl.cp2y, d.bottom.x, d.bottom.y, st);
+          } else {
+            pos = cubicBezierPt(d.right.x, d.right.y, d.br.cp1x, d.br.cp1y, d.br.cp2x, d.br.cp2y, d.bottom.x, d.bottom.y, st);
+          }
+          if(st > 0.8) alpha = (1 - st) / 0.2;
+        } else {
+          alpha = 0;
+          pos = { x: d.bottom.x, y: d.bottom.y };
+        }
+
+        p.el.style.opacity = alpha * 0.9;
+        p.el.style.left = pos.x + 'px';
+        p.el.style.top = pos.y + 'px';
+        p.el.style.transform = 'translate(-50%,-50%) scale(' + scale + ')';
+      });
+    }
+
+    // Pop-out cards — emerge from bottom point with glass morphism
+    const fPopData=[
+      {text:'+1 200\u20AC de CA', color:'#22c55e'},
+      {text:'Client sign\u00E9', color:'#FF2600'},
+      {text:'RDV confirm\u00E9', color:'#3b82f6'},
+      {text:'Lead qualifi\u00E9', color:'#FF2600'},
+      {text:'Paiement re\u00E7u', color:'#22c55e'}
+    ];
+    const fPopDelay=3200;
+    const fPopDuration=2800;
+    const fPopCycle=fPopData.length*fPopDelay;
+    const fPopCards=[];
+    fPopData.forEach(item=>{
+      const el=document.createElement('div');
+      el.className='popout-card';
+      // Colored dot
+      const dot=document.createElement('span');
+      dot.className='popout-dot';
+      dot.style.background=item.color;
+      dot.style.boxShadow='0 0 6px '+item.color;
+      el.appendChild(dot);
+      // Text
+      const txt=document.createElement('span');
+      txt.textContent=item.text;
+      el.appendChild(txt);
+      heroEl.appendChild(el);
+      fPopCards.push(el);
+    });
+
+    function easeOutBack(t){const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2);}
+
+    function updateFPopouts(now){
+      const d=getDiamond();
+      const baseY=d.bottom.y+16;
+      fPopCards.forEach((el,i)=>{
+        const elapsed=((now-i*fPopDelay)%fPopCycle+fPopCycle)%fPopCycle;
+        if(elapsed>fPopDuration){el.style.opacity=0;return;}
+        const t=elapsed/fPopDuration;
+        let scale,alpha,dy;
+        if(t<0.15){const p=t/0.15;scale=easeOutBack(p);alpha=p;dy=0;}
+        else if(t<0.72){scale=1;alpha=1;dy=0;}
+        else{const p=(t-0.72)/0.28;scale=1-p*0.1;alpha=1-p;dy=p*28;}
+        el.style.opacity=alpha;
+        el.style.top=(baseY+dy)+'px';
+        el.style.transform='translateX(-50%) scale('+scale+')';
+      });
+    }
+
+    let fStart=null;
+    function fFrame(ts){
+      if(!fStart)fStart=ts;
+      const now=ts-fStart;
+      drawDiamond(now);
+      updateFPills(now);
+      updateFPopouts(now);
+      requestAnimationFrame(fFrame);
+    }
+    window.addEventListener('resize',fResize);
+    fResize();
+    requestAnimationFrame(fFrame);
+  }
+
+})();
+</script>
+
+</body>
+</html>

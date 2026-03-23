@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEADX — Variante B — Pipeline 3D</title>
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+  :root{
+    --accent:#FF2600;
+    --accent-dark:#C11D00;
+    --font:"Neue Haas Grotesk Display Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+
+  body{
+    font-family:var(--font);
+    background:#fff;
+    color:#1a1a1a;
+    overflow-x:hidden;
+  }
+
+  /* ── Hero ─────────────────────────────────── */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    overflow:hidden;
+  }
+
+  /* Dot grid */
+  .hero::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background-image:radial-gradient(circle,rgba(0,0,0,.07) 1px,transparent 1px);
+    background-size:28px 28px;
+    z-index:0;
+  }
+
+  /* ── Background orbs ──────────────────────── */
+  .orb{
+    position:absolute;
+    border-radius:50%;
+    filter:blur(90px);
+    pointer-events:none;
+    z-index:0;
+  }
+  .orb--1{width:420px;height:420px;background:rgba(255,38,0,.06);top:-80px;left:-120px}
+  .orb--2{width:340px;height:340px;background:rgba(255,38,0,.05);bottom:40px;right:-60px}
+  .orb--3{width:260px;height:260px;background:rgba(193,29,0,.04);top:50%;left:60%}
+
+  /* ── Funnel / Pipeline ────────────────────── */
+  .pipeline{
+    position:absolute;
+    z-index:1;
+    /* center in hero */
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    width:420px;
+    height:520px;
+    pointer-events:none;
+  }
+
+  .stage{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:11px;
+    font-weight:700;
+    letter-spacing:2.5px;
+    text-transform:uppercase;
+    color:rgba(255,38,0,.45);
+  }
+
+  /* Trapezoid shapes via clip-path with perspective feel */
+  .stage--1{
+    top:40px;
+    width:360px;height:120px;
+    background:linear-gradient(180deg,rgba(255,38,0,.04),rgba(255,38,0,.07));
+    clip-path:polygon(8% 0%,92% 0%,82% 100%,18% 100%);
+    border-radius:6px;
+  }
+  .stage--2{
+    top:165px;
+    width:280px;height:120px;
+    background:linear-gradient(180deg,rgba(255,38,0,.08),rgba(255,38,0,.12));
+    clip-path:polygon(6% 0%,94% 0%,84% 100%,16% 100%);
+  }
+  .stage--3{
+    top:290px;
+    width:200px;height:120px;
+    background:linear-gradient(180deg,rgba(255,38,0,.14),rgba(255,38,0,.20));
+    clip-path:polygon(5% 0%,95% 0%,85% 100%,15% 100%);
+  }
+
+  /* Connector lines between stages */
+  .connector{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:2px;
+    border-left:2px dashed rgba(255,38,0,.10);
+  }
+  .connector--1{top:160px;height:10px}
+  .connector--2{top:285px;height:10px}
+  .connector--3{top:410px;height:30px}
+
+  /* Small arrow at bottom */
+  .pipeline-arrow{
+    position:absolute;
+    bottom:60px;left:50%;
+    transform:translateX(-50%);
+    width:0;height:0;
+    border-left:8px solid transparent;
+    border-right:8px solid transparent;
+    border-top:10px solid rgba(255,38,0,.15);
+  }
+
+  /* ── Floating bubbles ─────────────────────── */
+  .bubble{
+    position:absolute;
+    z-index:2;
+    background:rgba(255,255,255,.55);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    border:1px solid rgba(255,255,255,.6);
+    border-radius:14px;
+    padding:10px 16px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:13px;
+    font-weight:500;
+    color:#1a1a1a;
+    white-space:nowrap;
+    box-shadow:0 4px 24px rgba(0,0,0,.06),0 1px 3px rgba(0,0,0,.04);
+    pointer-events:none;
+    animation:bubbleFloat 5s ease-in-out infinite,bubblePulse 4s ease-in-out infinite;
+  }
+
+  .bubble .avatar{
+    width:26px;height:26px;
+    border-radius:50%;
+    flex-shrink:0;
+  }
+
+  @keyframes bubbleFloat{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-18px)}
+  }
+  @keyframes bubblePulse{
+    0%,100%{transform:scale(1)}
+    50%{transform:scale(1.03)}
+  }
+
+  /* Positions & delays */
+  .bubble--1{top:8%;left:6%;animation-delay:0s,.2s}
+  .bubble--2{top:16%;right:5%;animation-delay:.8s,1s}
+  .bubble--3{top:42%;left:3%;animation-delay:1.6s,1.8s}
+  .bubble--4{top:58%;right:4%;animation-delay:2.4s,2.6s}
+  .bubble--5{bottom:18%;left:7%;animation-delay:3.2s,3.4s}
+  .bubble--6{bottom:8%;right:6%;animation-delay:4s,4.2s}
+
+  /* Dashed connecting lines between some bubbles — SVG overlay */
+  .connections{
+    position:absolute;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+  }
+
+  /* ── Title overlay ────────────────────────── */
+  .hero-content{
+    position:relative;
+    z-index:3;
+    text-align:center;
+  }
+
+  .hero-title{
+    font-size:clamp(3rem,8vw,6.5rem);
+    font-weight:800;
+    letter-spacing:-2px;
+    line-height:1;
+    color:#1a1a1a;
+  }
+
+  .hero-subtitle{
+    margin-top:14px;
+    font-size:clamp(.85rem,2vw,1.1rem);
+    font-weight:500;
+    letter-spacing:1px;
+    color:#888;
+  }
+
+  /* ── Responsive ≤640px ────────────────────── */
+  @media(max-width:640px){
+    .pipeline{width:260px;height:360px}
+    .stage--1{width:230px;height:80px;top:20px;font-size:9px}
+    .stage--2{width:180px;height:80px;top:105px;font-size:9px}
+    .stage--3{width:130px;height:80px;top:190px;font-size:9px}
+    .connector--1{top:100px;height:8px}
+    .connector--2{top:185px;height:8px}
+    .connector--3{top:270px;height:20px}
+    .pipeline-arrow{bottom:50px}
+
+    .bubble{font-size:11px;padding:8px 12px;border-radius:10px}
+    .bubble .avatar{width:20px;height:20px}
+    .bubble--1{left:2%}
+    .bubble--2{right:2%}
+    .bubble--3{left:1%}
+    .bubble--4{right:1%}
+    .bubble--5{left:2%}
+    .bubble--6{right:2%}
+
+    .orb--1{width:220px;height:220px}
+    .orb--2{width:180px;height:180px}
+    .orb--3{width:140px;height:140px}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+
+  <!-- Background orbs -->
+  <div class="orb orb--1"></div>
+  <div class="orb orb--2"></div>
+  <div class="orb orb--3"></div>
+
+  <!-- 3D Pipeline / Funnel -->
+  <div class="pipeline">
+    <div class="stage stage--1">Prospects</div>
+    <div class="connector connector--1"></div>
+    <div class="stage stage--2">Leads</div>
+    <div class="connector connector--2"></div>
+    <div class="stage stage--3">Clients</div>
+    <div class="connector connector--3"></div>
+    <div class="pipeline-arrow"></div>
+  </div>
+
+  <!-- Dashed connecting lines -->
+  <svg class="connections" viewBox="0 0 1440 900" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <line x1="180" y1="120" x2="400" y2="220" stroke="rgba(255,38,0,.08)" stroke-width="1" stroke-dasharray="6 6"/>
+    <line x1="1260" y1="180" x2="1040" y2="300" stroke="rgba(255,38,0,.08)" stroke-width="1" stroke-dasharray="6 6"/>
+    <line x1="160" y1="420" x2="380" y2="480" stroke="rgba(255,38,0,.06)" stroke-width="1" stroke-dasharray="6 6"/>
+    <line x1="1280" y1="540" x2="1060" y2="460" stroke="rgba(255,38,0,.06)" stroke-width="1" stroke-dasharray="6 6"/>
+  </svg>
+
+  <!-- Floating bubbles -->
+  <div class="bubble bubble--1">
+    <div class="avatar" style="background:linear-gradient(135deg,#FF6B4A,#FF2600)"></div>
+    Nouveau prospect 🔥
+  </div>
+  <div class="bubble bubble--2">
+    <div class="avatar" style="background:linear-gradient(135deg,#34C759,#0A8A2E)"></div>
+    +2 500€ générés
+  </div>
+  <div class="bubble bubble--3">
+    <div class="avatar" style="background:linear-gradient(135deg,#5856D6,#3634A3)"></div>
+    Nouveau client ✅
+  </div>
+  <div class="bubble bubble--4">
+    <div class="avatar" style="background:linear-gradient(135deg,#FF9500,#C76E00)"></div>
+    RDV confirmé 📅
+  </div>
+  <div class="bubble bubble--5">
+    <div class="avatar" style="background:linear-gradient(135deg,#FF2D55,#C11D00)"></div>
+    Lead qualifié 🎯
+  </div>
+  <div class="bubble bubble--6">
+    <div class="avatar" style="background:linear-gradient(135deg,#007AFF,#004ECC)"></div>
+    Campagne optimisée 📊
+  </div>
+
+  <!-- Title -->
+  <div class="hero-content">
+    <h1 class="hero-title">LEADX</h1>
+    <p class="hero-subtitle">Variante B — Pipeline 3D</p>
+  </div>
+
+</section>
+
+</body>
+</html>

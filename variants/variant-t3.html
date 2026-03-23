@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Variant T3 — Red Accent Band Divider</title>
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: #ffffff;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      min-height: 60vh;
+      background: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .hero-content {
+      padding: 60px 24px 0;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero-content p {
+      font-size: clamp(1rem, 1.6vw, 1.25rem);
+      font-weight: 400;
+      opacity: 0.55;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ─── TRANSITION: RED ACCENT BAND ─── */
+    .red-band {
+      position: relative;
+      height: 72px;
+      background: #FF2600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    /* subtle grid overlay */
+    .red-band::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+    }
+
+    /* top crisp edge */
+    .red-band::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    /* bottom edge */
+    .red-band-bottom-edge {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(0, 0, 0, 0.08);
+      pointer-events: none;
+    }
+
+    .red-band-stats {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 0;
+      color: #ffffff;
+    }
+
+    .red-band-stat {
+      padding: 0 clamp(16px, 3vw, 40px);
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .red-band-stat:not(:last-child) {
+      border-right: 1px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .red-band-stat .stat-value {
+      font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.3;
+    }
+
+    /* ─── WHITE SECTION ─── */
+    .white-section {
+      position: relative;
+      background: #ffffff;
+      padding: 0 24px 80px;
+    }
+
+    /* ─── COUNTERS ─── */
+    .counters {
+      display: flex;
+      justify-content: center;
+      gap: clamp(32px, 6vw, 80px);
+      padding: 60px 0 56px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .counter {
+      text-align: center;
+    }
+
+    .counter-value {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #000000;
+      line-height: 1;
+    }
+
+    .counter-label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.45);
+      margin-top: 8px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    /* ─── BENTO CARDS ─── */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .bento-card {
+      background: #f5f5f5;
+      border-radius: 16px;
+      padding: 36px 32px;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .bento-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000000;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .bento-card p {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.5);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      .bento-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .counters {
+        gap: 24px;
+      }
+
+      .red-band {
+        height: 64px;
+      }
+
+      .red-band-stat {
+        padding: 0 12px;
+      }
+
+      .red-band-stat .stat-value {
+        font-size: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO (dark) -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>LEADX Hero Section</h1>
+      <p>Qualifiez vos prospects avec l'intelligence artificielle et convertissez plus rapidement.</p>
+    </div>
+  </section>
+
+  <!-- TRANSITION: RED ACCENT BAND -->
+  <div class="red-band">
+    <div class="red-band-bottom-edge"></div>
+    <div class="red-band-stats">
+      <div class="red-band-stat">
+        <div class="stat-value">+33K &euro; de CA</div>
+      </div>
+      <div class="red-band-stat">
+        <div class="stat-value">+47 entreprises</div>
+      </div>
+      <div class="red-band-stat">
+        <div class="stat-value">12 min pour comprendre</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHITE SECTION -->
+  <section class="white-section">
+
+    <div class="counters">
+      <div class="counter">
+        <div class="counter-value">3.2k</div>
+        <div class="counter-label">Leads qualifi&eacute;s</div>
+      </div>
+      <div class="counter">
+        <div class="counter-value">94%</div>
+        <div class="counter-label">Pr&eacute;cision IA</div>
+      </div>
+      <div class="counter">
+        <div class="counter-value">2.4x</div>
+        <div class="counter-label">Conversion</div>
+      </div>
+    </div>
+
+    <div class="bento-grid">
+      <div class="bento-card">
+        <h3>Scoring intelligent</h3>
+        <p>Chaque prospect est analys&eacute; et not&eacute; automatiquement selon son potentiel de conversion.</p>
+      </div>
+      <div class="bento-card">
+        <h3>Qualification temps r&eacute;el</h3>
+        <p>Les donn&eacute;es comportementales alimentent un moteur de d&eacute;cision qui priorise vos actions.</p>
+      </div>
+    </div>
+
+  </section>
+
+</body>
+</html>

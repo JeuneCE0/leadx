@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LEADX — Variant H4: Mini Dashboard Cards</title>
+<meta name="description" content="Variant H4 — Mini Dashboard Cards notification badges.">
+<meta name="theme-color" content="#000000">
+<style>
+/* ══════════════════════════════════════
+   DESIGN SYSTEM
+   ══════════════════════════════════════ */
+:root {
+  --accent: #FF2600;
+  --accent-dark: #C11D00;
+  --accent-light: #FF4D2E;
+  --accent-glow: rgba(255, 38, 0, 0.35);
+  --accent-subtle: rgba(255, 38, 0, 0.08);
+  --bg-dark: #000000;
+  --bg-dark-card: #141414;
+  --text-light: #FFFFFF;
+  --text-light-secondary: #999999;
+  --border-dark: rgba(255, 255, 255, 0.10);
+  --border-accent: rgba(255, 38, 0, 0.25);
+  --font-title: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--font-body); font-weight: 400; color: #fff; background: #000000; overflow-x: hidden; line-height: 1.6; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; font-family: inherit; }
+::selection { background: var(--accent); color: #fff; }
+
+/* ── Noise Overlay ── */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  will-change: transform; transform: translateZ(0);
+}
+
+/* ══════════════════════════════════════
+   UTILITY / ANIMATION
+   ══════════════════════════════════════ */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.reveal { opacity: 0; transform: translateY(20px); filter: blur(3px); transition: opacity 0.4s cubic-bezier(.525,0,0,1), transform 0.4s cubic-bezier(.525,0,0,1), filter 0.4s cubic-bezier(.525,0,0,1); will-change: transform, opacity; backface-visibility: hidden; }
+.reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+@keyframes float1 { 0%,100%{ transform: translate(0,0) rotate(0deg); } 50%{ transform: translate(12px,-18px) rotate(8deg); } }
+@keyframes float2 { 0%,100%{ transform: translate(0,0) rotate(0deg); } 50%{ transform: translate(-10px,14px) rotate(-6deg); } }
+@keyframes pulse { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:.6; transform:scale(1.15); } }
+@keyframes livePulse { 0%,100%{ box-shadow: 0 0 0 0 rgba(255,38,0,0.5); } 50%{ box-shadow: 0 0 0 8px rgba(255,38,0,0); } }
+@keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ══════════════════════════════════════
+   HERO SECTION
+   ══════════════════════════════════════ */
+.hero {
+  position: relative; padding: 120px 0 60px; overflow: hidden; background: #000;
+  min-height: 100vh;
+}
+
+@media(max-width:640px){
+  .hero { padding: 90px 0 40px; min-height: auto; }
+}
+
+/* ── Company Marquee ── */
+.hero__trust { text-align: center; margin-top: 40px; }
+.hero__trust-label { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 16px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+.hero__marquee-wrap { overflow: hidden; position: relative; max-width: 600px; margin: 0 auto;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+}
+.hero__marquee { display: flex; gap: 32px; animation: marqueeScroll 20s linear infinite; width: max-content; }
+.hero__marquee-item { padding: 8px 20px; border-radius: 8px; font-size: 12px; font-weight: 700;
+  color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+  letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
+}
+
+/* Funnel canvas */
+.funnel-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+
+/* Red orbs */
+.hero__orb { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; }
+.hero__orb--1 { width: 600px; height: 600px; top: -10%; left: -10%; background: radial-gradient(circle, rgba(255,38,0,0.08) 0%, transparent 70%); }
+.hero__orb--2 { width: 500px; height: 500px; top: 20%; right: -8%; background: radial-gradient(circle, rgba(255,38,0,0.06) 0%, transparent 70%); }
+
+/* Grid bg for hero */
+.hero__grid { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Funnel glow */
+.funnel-glow { position: absolute; bottom: 6%; left: 50%; transform: translateX(-50%); width: 280px; height: 200px;
+  background: radial-gradient(ellipse, rgba(255,38,0,0.18) 0%, rgba(255,38,0,0.06) 40%, transparent 70%);
+  border-radius: 50%; pointer-events: none; z-index: 1; animation: glowPulse 3s ease-in-out infinite;
+}
+@keyframes glowPulse { 0%,100%{opacity:.7;transform:translateX(-50%) scale(1)} 50%{opacity:1;transform:translateX(-50%) scale(1.08)} }
+
+/* Flow pills */
+.flow-pill { position: absolute; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 20px;
+  background: rgba(255,38,0,0.12); border: 1px solid rgba(255,38,0,0.25); color: #FF2600;
+  white-space: nowrap; pointer-events: none; opacity: 0; z-index: 3; will-change: transform,opacity; transform: translate(-50%,-50%);
+}
+
+/* Pop-out cards */
+.popout-card { position: absolute; left: 50%; pointer-events: none; z-index: 3;
+  background: #141414; border: 1px solid rgba(255,38,0,0.15); border-radius: 12px;
+  padding: 10px 18px; font-size: 13px; font-weight: 600; color: #fff;
+  white-space: nowrap; opacity: 0; transform: translateX(-50%) scale(0); will-change: transform,opacity;
+}
+
+/* ══════════════════════════════════════
+   VARIANT H4: MINI DASHBOARD CARDS
+   ══════════════════════════════════════ */
+.hero__notif {
+  position: absolute;
+  background: linear-gradient(135deg, #141414, #1A1A1A);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+  padding: 14px 18px;
+  pointer-events: none;
+  z-index: 2;
+  white-space: nowrap;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  min-width: 130px;
+}
+
+.hero__notif-label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  margin-bottom: 6px;
+  line-height: 1;
+}
+
+.hero__notif-row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.hero__notif-value {
+  font-size: 18px;
+  font-weight: 800;
+  color: #fff;
+  line-height: 1;
+}
+
+.hero__notif-trend {
+  font-size: 11px;
+  font-weight: 600;
+  color: #22c55e;
+  line-height: 1;
+}
+
+.hero__notif-trend--red-dot {
+  color: rgba(255,255,255,0.5);
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.hero__notif-trend--red-dot .dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  background: #FF2600;
+  border-radius: 50%;
+  animation: livePulse 2s ease-in-out infinite;
+}
+
+/* Mini sparkline positioned bottom-right */
+.hero__notif-sparkline {
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  opacity: 0.6;
+}
+
+/* Dashboard card float animation */
+@keyframes dashFloat1 { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-8px); } }
+@keyframes dashFloat2 { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-8px); } }
+@keyframes dashFloat3 { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-8px); } }
+@keyframes dashFloat4 { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-8px); } }
+@keyframes dashFloat5 { 0%,100%{ transform: translateY(0); } 50%{ transform: translateY(-8px); } }
+
+/* ── Hero inner ── */
+.hero__inner { max-width: 780px; margin: 0 auto; text-align: center; }
+
+.hero__badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent-subtle); border: 1px solid var(--border-accent);
+  border-radius: 100px; padding: 6px 16px; font-size: 13px; font-weight: 600;
+  color: var(--accent); margin-bottom: 28px;
+}
+.hero__badge-dot {
+  width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
+  animation: livePulse 2s ease-in-out infinite;
+}
+
+.hero h1 {
+  font-family: var(--font-title); font-weight: 800;
+  font-size: clamp(28px, 5vw, 48px); line-height: 1.15;
+  color: #fff; margin-bottom: 20px; letter-spacing: -0.02em;
+}
+.hero h1 .accent { color: var(--accent); }
+
+.hero__sub {
+  font-size: clamp(15px, 2.2vw, 18px); color: rgba(255,255,255,0.6);
+  max-width: 620px; margin: 0 auto 32px; line-height: 1.7;
+}
+
+/* ── CTA Button ── */
+.cta-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent); color: #fff;
+  font-family: var(--font-title); font-weight: 700;
+  font-size: clamp(14px, 2vw, 17px); letter-spacing: 0.04em;
+  padding: 18px 40px; border-radius: 12px;
+  transition: all 0.3s cubic-bezier(.25,.46,.45,.94);
+  position: relative; overflow: hidden;
+  box-shadow: 0 4px 20px rgba(255,38,0,0.3), 0 1px 3px rgba(0,0,0,0.1);
+}
+.cta-btn:hover {
+  background: var(--accent-dark); transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255,38,0,0.4), 0 2px 6px rgba(0,0,0,0.15);
+}
+.cta-btn:active { transform: translateY(0); }
+.cta-btn--full { width: 100%; max-width: 520px; }
+
+/* ── Mobile responsive for dashboard cards ── */
+@media(max-width:640px){
+  .hero__notif { display: none; }
+}
+</style>
+</head>
+<body>
+
+<main>
+<!-- ════════════════════════ HERO ════════════════════════ -->
+<section class="hero" id="hero-section">
+  <div class="hero__grid"></div>
+  <div class="hero__orb hero__orb--1"></div>
+  <div class="hero__orb hero__orb--2"></div>
+  <canvas class="funnel-canvas" id="funnelCanvas"></canvas>
+  <div class="funnel-glow"></div>
+
+  <!-- VARIANT H4: Mini Dashboard Cards -->
+  <!-- Card 1: PROSPECTS -->
+  <div class="hero__notif" style="top:14%;left:14%;animation:dashFloat1 5s ease-in-out infinite;">
+    <div class="hero__notif-label">PROSPECTS</div>
+    <div class="hero__notif-row">
+      <span class="hero__notif-value">+12</span>
+      <span class="hero__notif-trend">&#9650; 34%</span>
+    </div>
+    <svg class="hero__notif-sparkline" width="40" height="16" viewBox="0 0 40 16">
+      <polyline points="0,14 6,10 12,12 18,6 24,8 30,3 36,5 40,1" fill="none" stroke="rgba(255,38,0,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- Card 2: ROI -->
+  <div class="hero__notif" style="top:18%;right:14%;animation:dashFloat2 5.5s ease-in-out 0.8s infinite;">
+    <div class="hero__notif-label">ROI</div>
+    <div class="hero__notif-row">
+      <span class="hero__notif-value">x3.2</span>
+      <span class="hero__notif-trend">&#9650; 18%</span>
+    </div>
+    <svg class="hero__notif-sparkline" width="40" height="16" viewBox="0 0 40 16">
+      <polyline points="0,12 7,10 14,11 21,7 28,5 35,3 40,2" fill="none" stroke="rgba(255,38,0,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- Card 3: CPL -->
+  <div class="hero__notif" style="top:46%;left:15%;animation:dashFloat3 6s ease-in-out 0.4s infinite;">
+    <div class="hero__notif-label">CPL</div>
+    <div class="hero__notif-row">
+      <span class="hero__notif-value">-47%</span>
+      <span class="hero__notif-trend">&#9660; optimis&eacute;</span>
+    </div>
+    <svg class="hero__notif-sparkline" width="40" height="16" viewBox="0 0 40 16">
+      <polyline points="0,2 7,5 14,4 21,8 28,10 35,13 40,14" fill="none" stroke="rgba(255,38,0,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- Card 4: LEADS/MOIS -->
+  <div class="hero__notif" style="bottom:22%;right:16%;animation:dashFloat4 5.8s ease-in-out 1.2s infinite;">
+    <div class="hero__notif-label">LEADS/MOIS</div>
+    <div class="hero__notif-row">
+      <span class="hero__notif-value">+47</span>
+      <span class="hero__notif-trend">&#9650; 23%</span>
+    </div>
+    <svg class="hero__notif-sparkline" width="40" height="16" viewBox="0 0 40 16">
+      <polyline points="0,13 6,11 12,9 18,10 24,6 30,4 36,2 40,1" fill="none" stroke="rgba(255,38,0,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <!-- Card 5: CAMPAGNES -->
+  <div class="hero__notif" style="bottom:30%;left:16%;animation:dashFloat5 7s ease-in-out 1.8s infinite;">
+    <div class="hero__notif-label">CAMPAGNES</div>
+    <div class="hero__notif-row">
+      <span class="hero__notif-value">27</span>
+      <span class="hero__notif-trend--red-dot"><span class="dot"></span> actives</span>
+    </div>
+    <svg class="hero__notif-sparkline" width="40" height="16" viewBox="0 0 40 16">
+      <polyline points="0,10 8,8 16,9 24,6 32,5 40,4" fill="none" stroke="rgba(255,38,0,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div class="container hero__inner">
+    <div class="reveal" style="text-align:center;margin-bottom:32px;">
+      <img src="../assets/LEADX-wordmark-light.svg" alt="LEADX" style="height:36px;width:auto;margin:0 auto;">
+    </div>
+
+    <div class="hero__badge reveal">
+      <span class="hero__badge-dot"></span>
+      <span style="color:#FF2600;font-weight:800;">27</span> <span style="color:#fff;">campagnes META actives</span>
+    </div>
+
+    <h1 class="reveal">La m&eacute;thode META Ads qui g&eacute;n&egrave;re des <span class="accent">leads B2B qualifi&eacute;s</span> chaque semaine &mdash; sans exploser ton budget</h1>
+
+    <p class="hero__sub reveal">D&eacute;couvre en 12 minutes comment nos clients B2B obtiennent des rendez-vous qualifi&eacute;s en continu gr&acirc;ce &agrave; un syst&egrave;me META Ads cl&eacute; en main.</p>
+
+    <div class="reveal" id="main-cta" style="text-align:center">
+      <button class="cta-btn cta-btn--full">VOIR LA M&Eacute;THODE GRATUITEMENT &rarr;</button>
+    </div>
+
+    <div class="hero__trust reveal">
+      <div class="hero__trust-label">+27 entreprises nous font confiance</div>
+      <div class="hero__marquee-wrap">
+        <div class="hero__marquee">
+          <span class="hero__marquee-item">TechVision</span>
+          <span class="hero__marquee-item">GrowthLab</span>
+          <span class="hero__marquee-item">DataPulse</span>
+          <span class="hero__marquee-item">ScaleUp Pro</span>
+          <span class="hero__marquee-item">NexGen B2B</span>
+          <span class="hero__marquee-item">CloudForce</span>
+          <span class="hero__marquee-item">AdSphere</span>
+          <span class="hero__marquee-item">B2B Connect</span>
+          <span class="hero__marquee-item">LeadFactory</span>
+          <span class="hero__marquee-item">SalesIQ</span>
+          <!-- Duplicate for seamless loop -->
+          <span class="hero__marquee-item">TechVision</span>
+          <span class="hero__marquee-item">GrowthLab</span>
+          <span class="hero__marquee-item">DataPulse</span>
+          <span class="hero__marquee-item">ScaleUp Pro</span>
+          <span class="hero__marquee-item">NexGen B2B</span>
+          <span class="hero__marquee-item">CloudForce</span>
+          <span class="hero__marquee-item">AdSphere</span>
+          <span class="hero__marquee-item">B2B Connect</span>
+          <span class="hero__marquee-item">LeadFactory</span>
+          <span class="hero__marquee-item">SalesIQ</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+</main>
+
+<!-- ══════════════════════════════════════════════════════
+     JAVASCRIPT
+     ══════════════════════════════════════════════════════ -->
+<script>
+(function(){
+  'use strict';
+
+  // ── Reveal on scroll (staggered) ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.07) + 's';
+    revealObs.observe(el);
+  });
+
+  // ── FUNNEL ANIMATION ──
+  const heroEl = document.getElementById('hero-section');
+  const fCanvas = document.getElementById('funnelCanvas');
+  if (heroEl && fCanvas) {
+    const fCtx = fCanvas.getContext('2d');
+    let fW, fH;
+
+    function getFunnel(){
+      const cx = fW / 2;
+      const topY = fH * 0.04;
+      const bottomY = fH * 0.90;
+      const spread = Math.min(fW * 0.65, 680);
+      const ctrlY = fH * 0.48;
+      return {
+        left: { x0: cx - spread, y0: topY, cx: cx - spread * 0.12, cy: ctrlY, x1: cx, y1: bottomY },
+        right: { x0: cx + spread, y0: topY, cx: cx + spread * 0.12, cy: ctrlY, x1: cx, y1: bottomY },
+        centerX: cx, bottomY: bottomY
+      };
+    }
+
+    function fResize(){
+      fW = heroEl.offsetWidth;
+      fH = heroEl.offsetHeight;
+      fCanvas.width = fW * devicePixelRatio;
+      fCanvas.height = fH * devicePixelRatio;
+      fCanvas.style.width = fW + 'px';
+      fCanvas.style.height = fH + 'px';
+      fCtx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+      drawFunnel();
+    }
+
+    function drawFunnel(){
+      fCtx.clearRect(0, 0, fW, fH);
+      const f = getFunnel();
+      fCtx.save();
+      fCtx.shadowColor = 'rgba(255,38,0,0.35)';
+      fCtx.shadowBlur = 16;
+      // Fill
+      fCtx.beginPath();
+      fCtx.moveTo(f.left.x0, f.left.y0);
+      fCtx.quadraticCurveTo(f.left.cx, f.left.cy, f.left.x1, f.left.y1);
+      fCtx.quadraticCurveTo(f.right.cx, f.right.cy, f.right.x0, f.right.y0);
+      fCtx.closePath();
+      const grad = fCtx.createLinearGradient(0, f.left.y0, 0, f.left.y1);
+      grad.addColorStop(0, 'rgba(255,38,0,0.04)');
+      grad.addColorStop(1, 'rgba(255,38,0,0.12)');
+      fCtx.fillStyle = grad;
+      fCtx.shadowBlur = 0;
+      fCtx.fill();
+      // Strokes with glow
+      fCtx.shadowColor = 'rgba(255,38,0,0.35)';
+      fCtx.shadowBlur = 16;
+      fCtx.strokeStyle = 'rgba(255,38,0,0.25)';
+      fCtx.lineWidth = 1.5;
+      fCtx.beginPath();
+      fCtx.moveTo(f.left.x0, f.left.y0);
+      fCtx.quadraticCurveTo(f.left.cx, f.left.cy, f.left.x1, f.left.y1);
+      fCtx.stroke();
+      fCtx.beginPath();
+      fCtx.moveTo(f.right.x0, f.right.y0);
+      fCtx.quadraticCurveTo(f.right.cx, f.right.cy, f.right.x1, f.right.y1);
+      fCtx.stroke();
+      fCtx.restore();
+    }
+
+    function bezierPt(p0x,p0y,cpx,cpy,p1x,p1y,t){
+      const u=1-t;
+      return{x:u*u*p0x+2*u*t*cpx+t*t*p1x, y:u*u*p0y+2*u*t*cpy+t*t*p1y};
+    }
+
+    // Flow pills
+    const fPillLabels=['Prospect','Rendez-vous','Signature','Paiement','Recommandations','Prospect','Rendez-vous','Signature','Paiement','Recommandations'];
+    const fPillSides=['left','left','left','left','left','right','right','right','right','right'];
+    const fPillDelays=[0,1800,3600,5400,7200,900,2700,4500,6300,8100];
+    const fPillDuration=6000;
+    const fPillCycle=10000;
+    const fIsMobile=window.innerWidth<=640;
+    const fPillCount=fIsMobile?4:10;
+    const fMobileIdx=[0,2,5,7];
+    const fPills=[];
+    for(let i=0;i<fPillCount;i++){
+      const idx=fIsMobile?fMobileIdx[i]:i;
+      const el=document.createElement('div');
+      el.className='flow-pill';
+      el.textContent=fPillLabels[idx];
+      heroEl.appendChild(el);
+      fPills.push({el,side:fPillSides[idx],delay:fPillDelays[idx]});
+    }
+
+    function updateFPills(now){
+      const f=getFunnel();
+      fPills.forEach(p=>{
+        const elapsed=((now-p.delay)%fPillCycle+fPillCycle)%fPillCycle;
+        if(elapsed>fPillDuration){p.el.style.opacity=0;return;}
+        const t=elapsed/fPillDuration;
+        const c=p.side==='left'?f.left:f.right;
+        const pos=bezierPt(c.x0,c.y0,c.cx,c.cy,c.x1,c.y1,t);
+        let alpha=1;
+        if(t<0.1)alpha=t/0.1;
+        else if(t>0.85)alpha=(1-t)/0.15;
+        p.el.style.opacity=alpha*0.9;
+        p.el.style.left=pos.x+'px';
+        p.el.style.top=pos.y+'px';
+      });
+    }
+
+    // Pop-out cards
+    const fPopTexts=['+1 200\u20AC de CA \uD83D\uDCB0','Client sign\u00E9 \u2705','RDV confirm\u00E9 \uD83D\uDCC5','Lead qualifi\u00E9 \uD83C\uDFAF','Paiement re\u00E7u \uD83C\uDF89'];
+    const fPopDelay=3200;
+    const fPopDuration=2800;
+    const fPopCycle=fPopTexts.length*fPopDelay;
+    const fPopCards=[];
+    fPopTexts.forEach(txt=>{
+      const el=document.createElement('div');
+      el.className='popout-card';
+      el.textContent=txt;
+      heroEl.appendChild(el);
+      fPopCards.push(el);
+    });
+
+    function easeOutBack(t){const c1=1.70158,c3=c1+1;return 1+c3*Math.pow(t-1,3)+c1*Math.pow(t-1,2);}
+
+    function updateFPopouts(now){
+      const f=getFunnel();
+      const baseY=f.bottomY+16;
+      fPopCards.forEach((el,i)=>{
+        const elapsed=((now-i*fPopDelay)%fPopCycle+fPopCycle)%fPopCycle;
+        if(elapsed>fPopDuration){el.style.opacity=0;return;}
+        const t=elapsed/fPopDuration;
+        let scale,alpha,dy;
+        if(t<0.15){const p=t/0.15;scale=easeOutBack(p);alpha=p;dy=0;}
+        else if(t<0.72){scale=1;alpha=1;dy=0;}
+        else{const p=(t-0.72)/0.28;scale=1-p*0.1;alpha=1-p;dy=p*28;}
+        el.style.opacity=alpha;
+        el.style.top=(baseY+dy)+'px';
+        el.style.transform='translateX(-50%) scale('+scale+')';
+      });
+    }
+
+    let fStart=null;
+    function fFrame(ts){
+      if(!fStart)fStart=ts;
+      const now=ts-fStart;
+      updateFPills(now);
+      updateFPopouts(now);
+      requestAnimationFrame(fFrame);
+    }
+    window.addEventListener('resize',fResize);
+    fResize();
+    requestAnimationFrame(fFrame);
+  }
+
+})();
+</script>
+
+</body>
+</html>

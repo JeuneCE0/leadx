@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEADX — Variante C — Radial Funnel</title>
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+  :root{
+    --accent:#FF2600;
+    --font:"Neue Haas Grotesk Display Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+
+  body{
+    font-family:var(--font);
+    background:#fff;
+    color:#1a1a1a;
+    overflow-x:hidden;
+  }
+
+  /* ─── HERO ─── */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  /* ─── CONCENTRIC CIRCLES ─── */
+  .circles{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    pointer-events:none;
+  }
+  .circle{
+    position:absolute;
+    border-radius:50%;
+    aspect-ratio:1;
+  }
+  .circle--1{width:min(900px,130vw);background:rgba(255,38,0,.03)}
+  .circle--2{width:min(680px,100vw);background:rgba(255,38,0,.06)}
+  .circle--3{width:min(440px,70vw);background:rgba(255,38,0,.10)}
+  .circle--4{width:min(240px,40vw);background:rgba(255,38,0,.15)}
+  .circle--5{width:min(100px,18vw);background:rgba(255,38,0,.22)}
+
+  /* ─── CENTER COPY ─── */
+  .hero-copy{
+    position:relative;
+    z-index:10;
+    text-align:center;
+    pointer-events:none;
+  }
+  .hero-copy h1{
+    font-size:clamp(2.8rem,7vw,5.5rem);
+    font-weight:800;
+    letter-spacing:-.03em;
+    line-height:1;
+    color:#1a1a1a;
+  }
+  .hero-copy p{
+    margin-top:.6rem;
+    font-size:clamp(.85rem,1.8vw,1.05rem);
+    font-weight:500;
+    color:#888;
+    letter-spacing:.02em;
+  }
+
+  /* ─── CONNECTOR LINES (SVG) ─── */
+  .connectors{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+    z-index:1;
+  }
+  .connectors line{
+    stroke:var(--accent);
+    stroke-width:.7;
+    opacity:.13;
+  }
+
+  /* ─── ORBIT SYSTEM ─── */
+  .orbit{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    pointer-events:none;
+    z-index:5;
+  }
+  .orbit__track{
+    position:absolute;
+    top:50%;left:50%;
+    transform-origin:0 0;
+    animation:spin var(--dur) linear infinite;
+    animation-direction:var(--dir,normal);
+  }
+
+  @keyframes spin{
+    to{transform:rotate(360deg)}
+  }
+
+  .bubble{
+    position:absolute;
+    transform:translate(-50%,-50%);
+    white-space:nowrap;
+    background:#fff;
+    border-radius:10px;
+    padding:7px 14px;
+    font-size:12px;
+    font-weight:600;
+    font-family:var(--font);
+    color:#1a1a1a;
+    box-shadow:0 2px 12px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.04);
+    animation:counter-spin var(--dur) linear infinite;
+    animation-direction:var(--cdir,reverse);
+    pointer-events:auto;
+    user-select:none;
+  }
+  .bubble--accent{
+    border-left:3px solid var(--accent);
+  }
+
+  @keyframes counter-spin{
+    to{transform:translate(-50%,-50%) rotate(360deg)}
+  }
+
+  /* ─── DECORATIVE CROSSES & DOTS ─── */
+  .deco{
+    position:absolute;
+    pointer-events:none;
+    z-index:2;
+    color:rgba(255,38,0,.13);
+    font-size:14px;
+    font-weight:300;
+    animation:float var(--fd,6s) ease-in-out infinite alternate;
+  }
+  .deco--dot{
+    width:5px;height:5px;
+    border-radius:50%;
+    background:rgba(255,38,0,.10);
+    font-size:0;
+  }
+
+  @keyframes float{
+    0%{transform:translateY(0) scale(1);opacity:.18}
+    100%{transform:translateY(var(--fy,-12px)) scale(1.15);opacity:.08}
+  }
+
+  /* ─── RESPONSIVE: MOBILE ─── */
+  @media(max-width:640px){
+    .orbit__track{
+      animation:none !important;
+    }
+    .bubble{
+      animation:none !important;
+      transform:translate(-50%,-50%) !important;
+    }
+    .connectors{display:none}
+
+    /* scatter bubbles statically */
+    .orbit{width:100%;height:100%}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero" id="hero">
+
+  <!-- Concentric circles -->
+  <div class="circles">
+    <div class="circle circle--1"></div>
+    <div class="circle circle--2"></div>
+    <div class="circle circle--3"></div>
+    <div class="circle circle--4"></div>
+    <div class="circle circle--5"></div>
+  </div>
+
+  <!-- Connector lines (drawn by JS) -->
+  <svg class="connectors" id="connectors"></svg>
+
+  <!-- Orbit system -->
+  <div class="orbit" id="orbitContainer"></div>
+
+  <!-- Decorative elements (placed by JS) -->
+
+  <!-- Center copy -->
+  <div class="hero-copy">
+    <h1>LEADX</h1>
+    <p>Variante C &mdash; Radial Funnel</p>
+  </div>
+
+</section>
+
+<script>
+(function(){
+  const bubbles = [
+    { text: "Nouveau prospect \u{1F525}", radius: 340, angle: 0,   dur: 38, accent: true  },
+    { text: "+1\u202F800\u20AC",           radius: 290, angle: 50,  dur: 45, accent: false },
+    { text: "Client sign\u00E9 \u2705",    radius: 400, angle: 110, dur: 55, accent: true  },
+    { text: "Appel book\u00E9 \u{1F4C5}",  radius: 250, angle: 180, dur: 32, accent: false },
+    { text: "Lead qualifi\u00E9 \u{1F3AF}",radius: 370, angle: 240, dur: 48, accent: true  },
+    { text: "Conversion +23%",             radius: 310, angle: 300, dur: 60, accent: false },
+    { text: "+12 leads/semaine",           radius: 430, angle: 160, dur: 42, accent: true  },
+  ];
+
+  const container = document.getElementById("orbitContainer");
+  const svg       = document.getElementById("connectors");
+  const hero      = document.getElementById("hero");
+
+  // Determine center (will update on resize for SVG lines)
+  function getCenter(){
+    const r = hero.getBoundingClientRect();
+    return { x: r.width/2, y: r.height/2 };
+  }
+
+  // Build orbiting bubbles
+  bubbles.forEach((b, i) => {
+    const dir = i % 2 === 0 ? "normal" : "reverse";
+    const cdir = i % 2 === 0 ? "reverse" : "normal";
+
+    // Track element that rotates
+    const track = document.createElement("div");
+    track.className = "orbit__track";
+    track.style.cssText = `--dur:${b.dur}s;--dir:${dir};`;
+    // Start at the bubble's angle
+    track.style.transform = `rotate(${b.angle}deg)`;
+
+    // Bubble card placed at radius distance from center
+    const card = document.createElement("div");
+    card.className = "bubble" + (b.accent ? " bubble--accent" : "");
+    card.textContent = b.text;
+    card.style.cssText = `--dur:${b.dur}s;--cdir:${cdir};left:${b.radius}px;top:0;`;
+
+    track.appendChild(card);
+    container.appendChild(track);
+  });
+
+  // Connector lines from center to a few bubbles
+  function drawLines(){
+    const c = getCenter();
+    const w = hero.offsetWidth;
+    const h = hero.offsetHeight;
+    svg.setAttribute("viewBox", `0 0 ${w} ${h}`);
+    svg.innerHTML = "";
+
+    // Draw lines to 4 bubbles (indices 0,2,4,6)
+    [0,2,4,6].forEach(idx => {
+      const b = bubbles[idx];
+      // Current angle (approximate — static snapshot for lines)
+      const aRad = (b.angle) * Math.PI / 180;
+      const ex = c.x + Math.cos(aRad) * b.radius;
+      const ey = c.y + Math.sin(aRad) * b.radius;
+
+      const line = document.createElementNS("http://www.w3.org/2000/svg","line");
+      line.setAttribute("x1", c.x);
+      line.setAttribute("y1", c.y);
+      line.setAttribute("x2", ex);
+      line.setAttribute("y2", ey);
+      svg.appendChild(line);
+    });
+  }
+  drawLines();
+  window.addEventListener("resize", drawLines);
+
+  // Decorative crosses and dots
+  const decoParent = hero;
+  const decoItems = [
+    { type: "cross", x: "12%", y: "18%", fd: "5s", fy: "-10px" },
+    { type: "cross", x: "85%", y: "25%", fd: "7s", fy: "-14px" },
+    { type: "cross", x: "78%", y: "75%", fd: "6s", fy: "10px"  },
+    { type: "cross", x: "18%", y: "80%", fd: "8s", fy: "-8px"  },
+    { type: "cross", x: "50%", y: "10%", fd: "5.5s", fy: "-12px" },
+    { type: "cross", x: "92%", y: "50%", fd: "7.5s", fy: "6px" },
+    { type: "dot",   x: "25%", y: "30%", fd: "4s", fy: "-6px"  },
+    { type: "dot",   x: "70%", y: "15%", fd: "6s", fy: "8px"   },
+    { type: "dot",   x: "65%", y: "82%", fd: "5s", fy: "-10px" },
+    { type: "dot",   x: "30%", y: "70%", fd: "7s", fy: "12px"  },
+    { type: "dot",   x: "88%", y: "68%", fd: "4.5s", fy: "-5px"},
+    { type: "dot",   x: "10%", y: "50%", fd: "6.5s", fy: "7px" },
+  ];
+
+  decoItems.forEach(d => {
+    const el = document.createElement("span");
+    el.className = "deco" + (d.type === "dot" ? " deco--dot" : "");
+    if(d.type === "cross") el.textContent = "\u2715";
+    el.style.cssText = `left:${d.x};top:${d.y};--fd:${d.fd};--fy:${d.fy};`;
+    decoParent.appendChild(el);
+  });
+
+})();
+</script>
+
+</body>
+</html>

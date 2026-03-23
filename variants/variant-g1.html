@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEADX — Variant G1: Clean Funnel Flow</title>
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+  body{
+    font-family:"Neue Haas Grotesk Display Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+    background:#fff;
+    color:#1a1a1a;
+    overflow-x:hidden;
+  }
+
+  /* ── Hero ─────────────────────────────────── */
+  .hero{
+    position:relative;
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  /* Dot grid background */
+  .dot-grid{
+    position:absolute;inset:0;
+    pointer-events:none;
+    background-image:radial-gradient(circle,rgba(0,0,0,.07) 1px,transparent 1px);
+    background-size:28px 28px;
+    z-index:0;
+  }
+
+  /* SVG Funnel layer */
+  .funnel-canvas{
+    position:absolute;inset:0;
+    pointer-events:none;
+    z-index:1;
+  }
+
+  /* Radial glow at convergence */
+  .funnel-glow{
+    position:absolute;
+    bottom:5%;
+    left:50%;
+    transform:translateX(-50%);
+    width:280px;
+    height:200px;
+    background:radial-gradient(ellipse,rgba(255,38,0,0.13) 0%,rgba(255,38,0,0.04) 45%,transparent 70%);
+    border-radius:50%;
+    pointer-events:none;
+    z-index:1;
+  }
+
+  /* ── Flowing pills ─────────────────────────── */
+  .flow-pill{
+    position:absolute;
+    font-size:11px;
+    font-weight:600;
+    padding:5px 12px;
+    border-radius:20px;
+    background:rgba(255,38,0,0.07);
+    border:1px solid rgba(255,38,0,0.14);
+    color:#FF2600;
+    white-space:nowrap;
+    pointer-events:none;
+    opacity:0;
+    z-index:2;
+    will-change:transform,opacity;
+    transform:translate(-50%,-50%);
+  }
+
+  /* ── Pop-out notification cards ────────────── */
+  .popout-card{
+    position:absolute;
+    left:50%;
+    pointer-events:none;
+    z-index:2;
+    background:#fff;
+    border-radius:12px;
+    padding:10px 18px;
+    font-size:13px;
+    font-weight:600;
+    color:#1a1a1a;
+    box-shadow:0 4px 24px rgba(0,0,0,0.08),0 1px 4px rgba(0,0,0,0.04);
+    white-space:nowrap;
+    opacity:0;
+    transform:translateX(-50%) scale(0);
+    will-change:transform,opacity;
+  }
+
+  /* ── Static floating bubbles ───────────────── */
+  .static-bubble{
+    position:absolute;
+    background:#fff;
+    border-radius:12px;
+    padding:11px 18px;
+    font-size:13px;
+    font-weight:600;
+    color:#1a1a1a;
+    box-shadow:0 4px 20px rgba(0,0,0,0.07),0 1px 3px rgba(0,0,0,0.03);
+    pointer-events:none;
+    z-index:2;
+    white-space:nowrap;
+    display:flex;align-items:center;gap:6px;
+  }
+
+  .sb-1{top:13%;left:5%;  animation:gentleFloat 5s ease-in-out infinite}
+  .sb-2{top:17%;right:4%; animation:gentleFloat 4.5s ease-in-out 1s infinite}
+  .sb-3{bottom:22%;left:5%;  animation:gentleFloat 5.2s ease-in-out .5s infinite}
+  .sb-4{bottom:18%;right:4%; animation:gentleFloat 4.3s ease-in-out 1.5s infinite}
+
+  @keyframes gentleFloat{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-11px)}
+  }
+
+  /* ── Content ──────────────────────────────── */
+  .hero-content{
+    position:relative;
+    z-index:10;
+    text-align:center;
+    padding:40px 24px;
+    max-width:780px;
+  }
+
+  .hero-logo{
+    margin-bottom:24px;
+  }
+
+  .hero-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:7px 18px;
+    border-radius:999px;
+    background:rgba(255,38,0,0.06);
+    font-size:.82rem;
+    font-weight:600;
+    color:#FF2600;
+    letter-spacing:.01em;
+    margin-bottom:28px;
+  }
+  .hero-badge .pulse-dot{
+    width:8px;height:8px;
+    border-radius:50%;
+    background:#FF2600;
+    position:relative;
+    flex-shrink:0;
+  }
+  .hero-badge .pulse-dot::after{
+    content:'';
+    position:absolute;inset:-3px;
+    border-radius:50%;
+    background:rgba(255,38,0,0.35);
+    animation:pulseDot 1.8s ease-in-out infinite;
+  }
+  @keyframes pulseDot{
+    0%,100%{transform:scale(1);opacity:.6}
+    50%{transform:scale(1.6);opacity:0}
+  }
+
+  .hero-title{
+    font-size:clamp(1.9rem,4.8vw,3.4rem);
+    font-weight:800;
+    letter-spacing:-0.03em;
+    line-height:1.12;
+    color:#1a1a1a;
+    margin-bottom:18px;
+  }
+
+  .hero-subtitle{
+    font-size:clamp(.95rem,2vw,1.2rem);
+    font-weight:400;
+    color:#666;
+    line-height:1.6;
+    max-width:600px;
+    margin:0 auto 24px;
+  }
+
+  .hero-bullets{
+    list-style:none;
+    text-align:left;
+    display:inline-block;
+    margin-bottom:32px;
+  }
+  .hero-bullets li{
+    font-size:clamp(.9rem,1.8vw,1.05rem);
+    color:#333;
+    line-height:1.7;
+    display:flex;
+    align-items:flex-start;
+    gap:8px;
+  }
+  .hero-bullets li .check{
+    flex-shrink:0;
+    margin-top:2px;
+  }
+
+  .hero-cta{
+    display:inline-block;
+    padding:16px 36px;
+    background:#FF2600;
+    color:#fff;
+    font-size:1rem;
+    font-weight:700;
+    letter-spacing:.02em;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    text-decoration:none;
+    box-shadow:0 6px 28px rgba(255,38,0,0.3);
+    transition:transform .18s ease,box-shadow .18s ease;
+    margin-bottom:28px;
+  }
+  .hero-cta:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 36px rgba(255,38,0,0.38);
+  }
+
+  .proof-bar{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+    margin-top:4px;
+  }
+  .proof-avatars{
+    display:flex;
+  }
+  .proof-avatars .avatar{
+    width:32px;height:32px;
+    border-radius:50%;
+    border:2px solid #fff;
+    margin-left:-8px;
+    background:#e5e5e5;
+    display:flex;align-items:center;justify-content:center;
+    font-size:12px;
+    font-weight:700;
+    color:#888;
+    overflow:hidden;
+  }
+  .proof-avatars .avatar:first-child{margin-left:0}
+  .proof-avatars .avatar img{
+    width:100%;height:100%;object-fit:cover;
+  }
+  .proof-text{
+    font-size:.82rem;
+    color:#777;
+    font-weight:500;
+  }
+
+  /* ── Responsive ≤640px ─────────────────────── */
+  @media(max-width:640px){
+    .sb-3,.sb-4{display:none}
+    .static-bubble{font-size:11px;padding:8px 13px}
+    .popout-card{font-size:11px;padding:8px 14px}
+    .funnel-glow{width:160px;height:130px}
+    .hero-content{padding:30px 18px}
+    .hero-cta{padding:14px 28px;font-size:.92rem}
+    .proof-avatars .avatar{width:28px;height:28px}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero" id="hero">
+
+  <!-- Dot grid -->
+  <div class="dot-grid"></div>
+
+  <!-- SVG Funnel drawn by JS -->
+  <canvas class="funnel-canvas" id="funnelCanvas"></canvas>
+
+  <!-- Red glow at convergence -->
+  <div class="funnel-glow"></div>
+
+  <!-- 4 static floating notification bubbles -->
+  <div class="static-bubble sb-1">Nouveau prospect &#x1F525;</div>
+  <div class="static-bubble sb-2">+47 leads/mois</div>
+  <div class="static-bubble sb-3">ROI x3.2 &#x1F4C8;</div>
+  <div class="static-bubble sb-4">Campagne active &#x1F680;</div>
+
+  <!-- Main content (z-index above everything) -->
+  <div class="hero-content">
+
+    <div class="hero-logo">
+      <img src="assets/LEADX-wordmark-original.svg" alt="LEADX" style="height:36px;width:auto;">
+    </div>
+
+    <div class="hero-badge">
+      <span class="pulse-dot"></span>
+      32 inscrits cette semaine
+    </div>
+
+    <h1 class="hero-title">
+      La m&eacute;thode META Ads qui g&eacute;n&egrave;re des <span style="color:#FF2600">leads B2B qualifi&eacute;s</span> chaque semaine &mdash; sans exploser ton budget
+    </h1>
+
+    <p class="hero-subtitle">
+      D&eacute;couvre en 12 minutes comment nos clients B2B obtiennent des rendez-vous qualifi&eacute;s en continu gr&acirc;ce &agrave; un syst&egrave;me META Ads cl&eacute; en main.
+    </p>
+
+    <ul class="hero-bullets">
+      <li><span class="check">&#x2705;</span> Un syst&egrave;me META Ads cl&eacute; en main qui g&eacute;n&egrave;re des leads B2B chaque semaine</li>
+      <li><span class="check">&#x2705;</span> Des rendez-vous qualifi&eacute;s en continu, sans prospecter manuellement</li>
+      <li><span class="check">&#x2705;</span> Une m&eacute;thode test&eacute;e par des dirigeants B2B avec un ROI mesurable</li>
+    </ul>
+
+    <a href="#" class="hero-cta">VOIR LA M&Eacute;THODE GRATUITEMENT &rarr;</a>
+
+    <div class="proof-bar">
+      <div class="proof-avatars">
+        <div class="avatar" style="background:#FFD6CC;color:#FF2600;">P</div>
+        <div class="avatar" style="background:#CCE5FF;color:#1a73e8;">M</div>
+        <div class="avatar" style="background:#D4EDDA;color:#28a745;">S</div>
+        <div class="avatar" style="background:#FFF3CD;color:#d48806;">A</div>
+        <div class="avatar" style="background:#E2D9F3;color:#6f42c1;">L</div>
+      </div>
+      <span class="proof-text">Rejoint par des dirigeants B2B</span>
+    </div>
+
+  </div>
+
+</section>
+
+<script>
+(function(){
+  const hero = document.getElementById('hero');
+  const canvas = document.getElementById('funnelCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H;
+
+  /* ── Funnel geometry ──────────────────────── */
+  function getFunnel(){
+    const cx = W / 2;
+    const topY = H * 0.04;
+    const bottomY = H * 0.90;
+    const spread = Math.min(W * 0.44, 460);
+    const ctrlY = H * 0.48;
+    return {
+      left:{
+        x0: cx - spread, y0: topY,
+        cx: cx - spread * 0.12, cy: ctrlY,
+        x1: cx, y1: bottomY
+      },
+      right:{
+        x0: cx + spread, y0: topY,
+        cx: cx + spread * 0.12, cy: ctrlY,
+        x1: cx, y1: bottomY
+      },
+      centerX: cx,
+      bottomY: bottomY
+    };
+  }
+
+  function resize(){
+    W = hero.offsetWidth;
+    H = hero.offsetHeight;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    drawFunnel();
+  }
+
+  function drawFunnel(){
+    ctx.clearRect(0, 0, W, H);
+    const f = getFunnel();
+
+    // Filled area
+    ctx.beginPath();
+    ctx.moveTo(f.left.x0, f.left.y0);
+    ctx.quadraticCurveTo(f.left.cx, f.left.cy, f.left.x1, f.left.y1);
+    ctx.quadraticCurveTo(f.right.cx, f.right.cy, f.right.x0, f.right.y0);
+    ctx.closePath();
+
+    const grad = ctx.createLinearGradient(0, f.left.y0, 0, f.left.y1);
+    grad.addColorStop(0, 'rgba(255,38,0,0.03)');
+    grad.addColorStop(1, 'rgba(255,38,0,0.08)');
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Left stroke
+    ctx.beginPath();
+    ctx.moveTo(f.left.x0, f.left.y0);
+    ctx.quadraticCurveTo(f.left.cx, f.left.cy, f.left.x1, f.left.y1);
+    ctx.strokeStyle = 'rgba(255,38,0,0.12)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Right stroke
+    ctx.beginPath();
+    ctx.moveTo(f.right.x0, f.right.y0);
+    ctx.quadraticCurveTo(f.right.cx, f.right.cy, f.right.x1, f.right.y1);
+    ctx.stroke();
+  }
+
+  /* ── Bezier helper ────────────────────────── */
+  function bezierPt(x0,y0,cpx,cpy,x1,y1,t){
+    const u = 1 - t;
+    return {
+      x: u*u*x0 + 2*u*t*cpx + t*t*x1,
+      y: u*u*y0 + 2*u*t*cpy + t*t*y1
+    };
+  }
+
+  /* ── Flowing prospect pills ───────────────── */
+  const pillLabels = ['Prospect','Visiteur','Contact','Lead','Entreprise','Dirigeant','CEO','DG'];
+  const pillSides  = ['left','right','left','right','left','right','left','right'];
+  const pillDelays = [0, 1000, 2000, 3000, 4000, 5000, 6000, 7000];
+  const pillDuration = 4500;
+  const pillCycle = 8000;
+
+  const isMobile = window.innerWidth <= 640;
+  const pillCount = isMobile ? 4 : 8;
+  const mobileIdx = [0, 1, 2, 3];
+
+  const pills = [];
+  for(let i = 0; i < pillCount; i++){
+    const idx = isMobile ? mobileIdx[i] : i;
+    const el = document.createElement('div');
+    el.className = 'flow-pill';
+    el.textContent = pillLabels[idx];
+    hero.appendChild(el);
+    pills.push({el, side: pillSides[idx], delay: pillDelays[idx]});
+  }
+
+  function updatePills(now){
+    const f = getFunnel();
+    pills.forEach(function(p){
+      const elapsed = ((now - p.delay) % pillCycle + pillCycle) % pillCycle;
+      if(elapsed > pillDuration){
+        p.el.style.opacity = '0';
+        return;
+      }
+      const t = elapsed / pillDuration;
+      const c = p.side === 'left' ? f.left : f.right;
+      const pos = bezierPt(c.x0, c.y0, c.cx, c.cy, c.x1, c.y1, t);
+
+      var alpha = 1;
+      if(t < 0.1) alpha = t / 0.1;
+      else if(t > 0.85) alpha = (1 - t) / 0.15;
+
+      p.el.style.opacity = alpha;
+      p.el.style.left = pos.x + 'px';
+      p.el.style.top = pos.y + 'px';
+    });
+  }
+
+  /* ── Pop-out result notifications ─────────── */
+  var popTexts = [
+    '+1 200\u20AC de CA \uD83D\uDCB0',
+    'Client sign\u00E9 \u2705',
+    'RDV confirm\u00E9 \uD83D\uDCC5',
+    'Lead qualifi\u00E9 \uD83C\uDFAF',
+    'Paiement re\u00E7u \uD83C\uDF89'
+  ];
+  var popDelay = 3200;
+  var popDuration = 2800;
+  var popCycleLen = popTexts.length * popDelay;
+
+  var popCards = [];
+  popTexts.forEach(function(txt){
+    var el = document.createElement('div');
+    el.className = 'popout-card';
+    el.textContent = txt;
+    hero.appendChild(el);
+    popCards.push(el);
+  });
+
+  function easeOutBack(t){
+    var c1 = 1.70158;
+    var c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+  }
+
+  function updatePopouts(now){
+    var f = getFunnel();
+    var baseY = f.bottomY + 16;
+    popCards.forEach(function(el, i){
+      var elapsed = ((now - i * popDelay) % popCycleLen + popCycleLen) % popCycleLen;
+      if(elapsed > popDuration){
+        el.style.opacity = '0';
+        return;
+      }
+      var t = elapsed / popDuration;
+      var scale, alpha, dy;
+      if(t < 0.15){
+        var p = t / 0.15;
+        scale = easeOutBack(p);
+        alpha = p;
+        dy = 0;
+      } else if(t < 0.70){
+        scale = 1;
+        alpha = 1;
+        dy = 0;
+      } else {
+        var p2 = (t - 0.70) / 0.30;
+        scale = 1 - p2 * 0.1;
+        alpha = 1 - p2;
+        dy = p2 * 25;
+      }
+      el.style.opacity = alpha;
+      el.style.top = (baseY + dy) + 'px';
+      el.style.transform = 'translateX(-50%) scale(' + scale + ')';
+    });
+  }
+
+  /* ── Animation loop ───────────────────────── */
+  var startTime = null;
+  function frame(ts){
+    if(!startTime) startTime = ts;
+    var now = ts - startTime;
+    updatePills(now);
+    updatePopouts(now);
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  requestAnimationFrame(frame);
+})();
+</script>
+
+</body>
+</html>

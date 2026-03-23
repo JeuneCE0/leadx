@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LEADX — Variant V1 — Results-First</title>
+<meta name="robots" content="noindex, nofollow">
+<style>
+/* ══════════════════════════════════════
+   DESIGN SYSTEM
+   ══════════════════════════════════════ */
+:root {
+  --accent: #FF2600;
+  --accent-dark: #C11D00;
+  --accent-light: #FF4D2E;
+  --accent-glow: rgba(255, 38, 0, 0.35);
+  --accent-subtle: rgba(255, 38, 0, 0.08);
+  --bg-light: #FFFFFF;
+  --bg-dark: #000000;
+  --bg-dark-card: #141414;
+  --text-dark: #000000;
+  --text-dark-secondary: #555555;
+  --text-light: #FFFFFF;
+  --text-light-secondary: #999999;
+  --text-muted: #777777;
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-dark: rgba(255, 255, 255, 0.10);
+  --border-accent: rgba(255, 38, 0, 0.25);
+  --font-main: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ease: cubic-bezier(.525, 0, 0, 1);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--font-main); font-weight: 400; color: #000; background: #fff; overflow-x: hidden; line-height: 1.6; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; font-family: inherit; background: none; }
+::selection { background: var(--accent); color: #fff; }
+
+/* ── Noise Overlay ── */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  will-change: transform; transform: translateZ(0);
+}
+
+/* ── Reveal System ── */
+.reveal {
+  opacity: 0; transform: translateY(28px); filter: blur(3px);
+  transition: opacity 0.6s var(--ease), transform 0.6s var(--ease), filter 0.6s var(--ease);
+  will-change: transform, opacity;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+/* Stagger children */
+.stagger-parent .reveal:nth-child(1) { transition-delay: 0ms; }
+.stagger-parent .reveal:nth-child(2) { transition-delay: 100ms; }
+.stagger-parent .reveal:nth-child(3) { transition-delay: 200ms; }
+.stagger-parent .reveal:nth-child(4) { transition-delay: 300ms; }
+.stagger-parent .reveal:nth-child(5) { transition-delay: 400ms; }
+
+/* ── Container ── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* ── CTA Button ── */
+.cta-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent); color: #fff;
+  font-family: var(--font-main); font-weight: 700;
+  font-size: clamp(14px, 2vw, 17px); letter-spacing: 0.04em;
+  padding: 18px 40px; border-radius: 12px;
+  transition: all 0.3s cubic-bezier(.25,.46,.45,.94);
+  position: relative; overflow: hidden;
+  box-shadow: 0 4px 20px rgba(255,38,0,0.3), 0 1px 3px rgba(0,0,0,0.1);
+}
+.cta-btn:hover {
+  background: var(--accent-dark); transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255,38,0,0.4), 0 2px 6px rgba(0,0,0,0.15);
+}
+.cta-btn:active { transform: translateY(0); }
+.cta-btn--inverse { background: #fff; color: var(--accent); box-shadow: 0 4px 20px rgba(255,255,255,0.2); }
+.cta-btn--inverse:hover { background: #f5f5f5; }
+
+/* ══════════════════════════════════════
+   HERO PLACEHOLDER
+   ══════════════════════════════════════ */
+.hero-placeholder {
+  min-height: 60vh; background: #000;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.3); font-size: 32px; font-weight: 700; letter-spacing: 0.08em;
+}
+
+/* ══════════════════════════════════════
+   RED BAND
+   ══════════════════════════════════════ */
+.red-band {
+  background: linear-gradient(135deg, rgba(255,38,0,0.7), rgba(193,29,0,0.8));
+  position: relative; overflow: hidden; padding: 20px 24px;
+}
+.red-band::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.red-band__inner { max-width: 700px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 32px; position: relative; z-index: 1; }
+.red-band__stat { text-align: center; }
+.red-band__value { font-weight: 800; font-size: clamp(18px, 3vw, 24px); color: #fff; display: block; line-height: 1.2; }
+.red-band__label { font-size: clamp(11px, 1.5vw, 13px); color: rgba(255,255,255,0.65); display: block; margin-top: 2px; }
+.red-band__sep { width: 1px; height: 32px; background: rgba(255,255,255,0.2); flex-shrink: 0; }
+
+/* ══════════════════════════════════════
+   RESULTS SECTION (WHITE)
+   ══════════════════════════════════════ */
+.results-section {
+  background: #fff; padding: 80px 24px 60px; position: relative; overflow: hidden;
+}
+/* Dot grid background */
+.results-section::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.results-section .container { position: relative; z-index: 1; }
+
+.results-section__title {
+  font-weight: 800; font-size: clamp(24px, 4vw, 36px); color: var(--text-dark);
+  text-align: center; margin-bottom: 48px; letter-spacing: -0.02em; line-height: 1.2;
+}
+
+/* Results 2x2 Grid */
+.results-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+  max-width: 720px; margin: 0 auto 60px;
+}
+@media (max-width: 640px) {
+  .results-grid { grid-template-columns: 1fr; gap: 16px; }
+}
+
+.result-card {
+  background: #fff; border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px; padding: 32px 28px; text-align: center;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.result-card:hover {
+  border-color: var(--accent); box-shadow: 0 8px 32px rgba(255,38,0,0.08);
+}
+.result-card__metric {
+  font-size: 36px; font-weight: 800; color: var(--accent);
+  line-height: 1.1; margin-bottom: 8px; letter-spacing: -0.02em;
+}
+.result-card__desc {
+  font-size: 14px; color: var(--text-dark-secondary); line-height: 1.5;
+  margin-bottom: 16px;
+}
+.result-card__tag {
+  display: inline-block; font-size: 11px; font-weight: 600; color: var(--text-muted);
+  background: rgba(0,0,0,0.04); border-radius: 100px; padding: 4px 14px;
+  letter-spacing: 0.02em; text-transform: uppercase;
+}
+
+/* Social Proof Bar */
+.proof-bar {
+  text-align: center; padding: 40px 0 0;
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+.proof-bar__text {
+  font-size: 15px; color: var(--text-dark-secondary); margin-bottom: 24px; font-weight: 500;
+}
+.proof-bar__logos {
+  display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap;
+}
+.proof-bar__logo {
+  width: 80px; height: 32px; border-radius: 6px; background: rgba(0,0,0,0.05);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: rgba(0,0,0,0.3); font-weight: 600; letter-spacing: 0.05em;
+}
+
+/* ══════════════════════════════════════
+   TIMELINE SECTION
+   ══════════════════════════════════════ */
+.timeline-section {
+  background: #fafafa; padding: 80px 24px; position: relative; overflow: hidden;
+}
+.timeline-section__title {
+  font-weight: 800; font-size: clamp(24px, 4vw, 36px); color: var(--text-dark);
+  text-align: center; margin-bottom: 64px; letter-spacing: -0.02em; line-height: 1.2;
+}
+
+.timeline { position: relative; max-width: 800px; margin: 0 auto; }
+
+/* Vertical red line */
+.timeline::before {
+  content: ''; position: absolute; left: 50%; top: 0; bottom: 0;
+  width: 3px; background: linear-gradient(to bottom, var(--accent), rgba(255,38,0,0.2));
+  transform: translateX(-50%); border-radius: 2px;
+}
+
+.timeline-step {
+  display: flex; align-items: flex-start; margin-bottom: 56px; position: relative;
+}
+.timeline-step:last-child { margin-bottom: 0; }
+
+/* Alternating layout */
+.timeline-step:nth-child(odd) { flex-direction: row; }
+.timeline-step:nth-child(even) { flex-direction: row-reverse; }
+
+.timeline-step__circle {
+  position: absolute; left: 50%; top: 0;
+  transform: translateX(-50%);
+  width: 48px; height: 48px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  font-size: 18px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 2; flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(255,38,0,0.3);
+}
+
+.timeline-step__content {
+  width: calc(50% - 48px);
+  padding: 4px 0;
+}
+.timeline-step:nth-child(odd) .timeline-step__content { padding-right: 32px; text-align: right; }
+.timeline-step:nth-child(even) .timeline-step__content { padding-left: 32px; text-align: left; }
+
+.timeline-step__icon {
+  width: 44px; height: 44px; border-radius: 12px;
+  background: var(--accent-subtle); color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 12px; font-size: 20px;
+}
+.timeline-step:nth-child(odd) .timeline-step__icon { margin-left: auto; }
+
+.timeline-step__title {
+  font-size: 18px; font-weight: 700; color: var(--text-dark);
+  margin-bottom: 6px; line-height: 1.3;
+}
+.timeline-step__desc {
+  font-size: 14px; color: var(--text-dark-secondary); line-height: 1.6;
+}
+
+/* Mobile: stack vertically, line on left */
+@media (max-width: 640px) {
+  .timeline::before { left: 24px; }
+  .timeline-step { flex-direction: row !important; }
+  .timeline-step__circle {
+    position: relative; left: auto; top: auto; transform: none;
+    flex-shrink: 0; margin-right: 20px;
+  }
+  .timeline-step__content {
+    width: auto !important; padding: 0 !important; text-align: left !important;
+  }
+  .timeline-step:nth-child(odd) .timeline-step__icon,
+  .timeline-step:nth-child(even) .timeline-step__icon { margin-left: 0; }
+}
+
+/* ══════════════════════════════════════
+   CTA SECTION (WHITE)
+   ══════════════════════════════════════ */
+.cta-section {
+  background: #fff; padding: 80px 24px; text-align: center;
+}
+.cta-section__title {
+  font-weight: 800; font-size: clamp(22px, 3.5vw, 32px); color: var(--text-dark);
+  margin-bottom: 12px; letter-spacing: -0.02em; line-height: 1.2;
+}
+.cta-section__sub {
+  font-size: 16px; color: var(--text-dark-secondary); margin-bottom: 32px;
+  max-width: 540px; margin-left: auto; margin-right: auto; line-height: 1.6;
+}
+
+/* ══════════════════════════════════════
+   FAQ (WHITE)
+   ══════════════════════════════════════ */
+.faq-section { background: #fafafa; padding: 80px 24px; }
+.faq-section__title {
+  font-weight: 800; font-size: clamp(24px, 4vw, 36px); color: var(--text-dark);
+  text-align: center; margin-bottom: 48px; letter-spacing: -0.02em;
+}
+.faq-list { max-width: 700px; margin: 0 auto; }
+
+.faq-item {
+  background: #fff; border: 1px solid rgba(0,0,0,0.06); border-radius: 14px;
+  margin-bottom: 12px; overflow: hidden;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.faq-item:hover { border-color: rgba(255,38,0,0.2); box-shadow: 0 4px 16px rgba(0,0,0,0.04); }
+
+.faq-item__q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; font-family: var(--font-main); font-weight: 600;
+  font-size: 15px; color: var(--text-dark); text-align: left;
+  cursor: pointer; gap: 16px; line-height: 1.4;
+}
+.faq-item__arrow {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: rgba(0,0,0,0.05); display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background 0.3s ease, transform 0.3s ease;
+}
+.faq-item.open .faq-item__arrow { background: var(--accent); transform: rotate(180deg); }
+.faq-item__arrow svg { width: 14px; height: 14px; stroke: #333; fill: none; stroke-width: 2; }
+.faq-item.open .faq-item__arrow svg { stroke: #fff; }
+
+.faq-item__a {
+  max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease), padding 0.4s var(--ease);
+  padding: 0 24px;
+}
+.faq-item.open .faq-item__a {
+  max-height: 300px; padding: 0 24px 20px;
+}
+.faq-item__a p { font-size: 14px; color: var(--text-dark-secondary); line-height: 1.7; }
+
+/* ══════════════════════════════════════
+   BIG CTA (RED BAND)
+   ══════════════════════════════════════ */
+.big-cta {
+  background: var(--accent); position: relative; overflow: hidden;
+  padding: 100px 24px; text-align: center;
+}
+.big-cta::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.big-cta::after {
+  content: ''; position: absolute; top: -50%; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 400px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+}
+.big-cta h2 {
+  font-family: var(--font-main); font-weight: 800;
+  font-size: clamp(22px, 4vw, 36px); color: #fff;
+  max-width: 700px; margin: 0 auto 16px; position: relative; z-index: 1; line-height: 1.2;
+}
+.big-cta p {
+  color: rgba(255,255,255,0.85); font-size: clamp(14px, 2vw, 17px);
+  max-width: 580px; margin: 0 auto 32px; position: relative; z-index: 1; line-height: 1.6;
+}
+.big-cta .cta-btn { position: relative; z-index: 1; }
+
+/* ══════════════════════════════════════
+   FOOTER
+   ══════════════════════════════════════ */
+.footer { background: #000; padding: 48px 24px 32px; text-align: center; }
+.footer__logo { margin-bottom: 20px; }
+.footer__logo-img { height: 24px; width: auto; margin: 0 auto; }
+.footer__links { display: flex; gap: 24px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+.footer__links a { font-size: 13px; color: rgba(255,255,255,0.5); transition: color 0.2s; }
+.footer__links a:hover { color: var(--accent); }
+.footer__copy { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+.footer__disclaimer { font-size: 11px; color: rgba(255,255,255,0.4); max-width: 600px; margin: 0 auto; line-height: 1.5; opacity: 0.7; }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════ */
+@media (max-width: 900px) {
+  .results-grid { gap: 16px; }
+  .result-card { padding: 24px 20px; }
+  .result-card__metric { font-size: 30px; }
+  .timeline-step { margin-bottom: 40px; }
+}
+@media (max-width: 640px) {
+  .results-section { padding: 60px 24px 40px; }
+  .results-section__title { margin-bottom: 32px; }
+  .timeline-section { padding: 60px 24px; }
+  .timeline-section__title { margin-bottom: 40px; }
+  .cta-section { padding: 60px 24px; }
+  .faq-section { padding: 60px 24px; }
+  .big-cta { padding: 64px 24px; }
+  .proof-bar__logos { gap: 16px; }
+  .proof-bar__logo { width: 64px; height: 28px; font-size: 9px; }
+  .red-band__inner { gap: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════════════ HERO PLACEHOLDER ════════════════════════ -->
+<section class="hero-placeholder">[ HERO ]</section>
+
+<!-- ════════════════════════ RED BAND ════════════════════════ -->
+<div class="red-band">
+  <div class="red-band__inner">
+    <div class="red-band__stat"><span class="red-band__value">+33K &#163;</span><span class="red-band__label">de CA g&#233;n&#233;r&#233;</span></div>
+    <div class="red-band__sep"></div>
+    <div class="red-band__stat"><span class="red-band__value">+47</span><span class="red-band__label">entreprises B2B</span></div>
+    <div class="red-band__sep"></div>
+    <div class="red-band__stat"><span class="red-band__value">12 min</span><span class="red-band__label">pour comprendre</span></div>
+  </div>
+</div>
+
+<!-- ════════════════════════ RESULTS SECTION ════════════════════════ -->
+<section class="results-section">
+  <div class="container">
+    <h2 class="results-section__title reveal">Les r&#233;sultats parlent d&#8217;eux-m&#234;mes</h2>
+
+    <div class="results-grid stagger-parent">
+      <div class="result-card reveal">
+        <div class="result-card__metric">+312%</div>
+        <div class="result-card__desc">d'augmentation du nombre de leads</div>
+        <span class="result-card__tag">R&#233;sultat client SaaS B2B</span>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-card__metric">-67%</div>
+        <div class="result-card__desc">de r&#233;duction du co&#251;t par lead</div>
+        <span class="result-card__tag">R&#233;sultat client Consulting</span>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-card__metric">+48</div>
+        <div class="result-card__desc">RDV qualifi&#233;s par mois en moyenne</div>
+        <span class="result-card__tag">R&#233;sultat client Agence</span>
+      </div>
+      <div class="result-card reveal">
+        <div class="result-card__metric">x4.2</div>
+        <div class="result-card__desc">de ROI sur les d&#233;penses META Ads</div>
+        <span class="result-card__tag">R&#233;sultat client Formation</span>
+      </div>
+    </div>
+
+    <div class="proof-bar reveal">
+      <div class="proof-bar__text">Rejoins +47 entreprises B2B qui g&#233;n&#232;rent des leads en continu</div>
+      <div class="proof-bar__logos">
+        <div class="proof-bar__logo">LOGO</div>
+        <div class="proof-bar__logo">LOGO</div>
+        <div class="proof-bar__logo">LOGO</div>
+        <div class="proof-bar__logo">LOGO</div>
+        <div class="proof-bar__logo">LOGO</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ TIMELINE — COMMENT CA MARCHE ════════════════════════ -->
+<section class="timeline-section">
+  <div class="container">
+    <h2 class="timeline-section__title reveal">Comment &#231;a marche</h2>
+
+    <div class="timeline">
+
+      <!-- Step 1 -->
+      <div class="timeline-step reveal">
+        <div class="timeline-step__circle">1</div>
+        <div class="timeline-step__content">
+          <div class="timeline-step__icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </div>
+          <div class="timeline-step__title">Regarde la m&#233;thode</div>
+          <div class="timeline-step__desc">12 minutes pour comprendre notre approche unique META Ads B2B</div>
+        </div>
+        <!-- spacer for opposite side -->
+        <div style="width:calc(50% - 48px)"></div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="timeline-step reveal">
+        <div class="timeline-step__circle">2</div>
+        <div style="width:calc(50% - 48px)"></div>
+        <div class="timeline-step__content">
+          <div class="timeline-step__icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div class="timeline-step__title">R&#233;serve ton appel</div>
+          <div class="timeline-step__desc">On analyse ton march&#233; et on d&#233;finit ta strat&#233;gie sur-mesure</div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="timeline-step reveal">
+        <div class="timeline-step__circle">3</div>
+        <div class="timeline-step__content">
+          <div class="timeline-step__icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="timeline-step__title">On lance tes campagnes</div>
+          <div class="timeline-step__desc">Notre &#233;quipe cr&#233;e, lance et optimise tes pubs META en continu</div>
+        </div>
+        <div style="width:calc(50% - 48px)"></div>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="timeline-step reveal">
+        <div class="timeline-step__circle">4</div>
+        <div style="width:calc(50% - 48px)"></div>
+        <div class="timeline-step__content">
+          <div class="timeline-step__icon">
+            <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <div class="timeline-step__title">Tu re&#231;ois des leads</div>
+          <div class="timeline-step__desc">Des leads B2B qualifi&#233;s arrivent directement dans ton CRM</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ CTA SECTION ════════════════════════ -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="cta-section__title reveal">Pr&#234;t &#224; transformer ton acquisition B2B ?</h2>
+    <p class="cta-section__sub reveal">Rejoins les +47 entreprises qui g&#233;n&#232;rent des leads qualifi&#233;s chaque semaine.</p>
+    <div class="reveal" style="text-align:center">
+      <a href="https://go.lead-x.fr/masterclass" class="cta-btn">VOIR LA M&#201;THODE GRATUITEMENT &#8594;</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ FAQ ════════════════════════ -->
+<section class="faq-section">
+  <div class="container">
+    <h2 class="faq-section__title reveal">Questions fr&#233;quentes</h2>
+    <div class="faq-list stagger-parent">
+
+      <div class="faq-item reveal">
+        <button class="faq-item__q">
+          Est-ce que META Ads fonctionne vraiment en B2B ?
+          <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-item__a"><p>Oui. Contrairement &#224; ce que pensent la plupart des agences, META est un levier B2B sous-exploit&#233;. Nos clients g&#233;n&#232;rent des leads d&#233;cideurs (dirigeants, DG, DAF) &#224; un co&#251;t 2 &#224; 5x inf&#233;rieur &#224; LinkedIn Ads. On te montre exactement comment dans la vid&#233;o.</p></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-item__q">
+          Combien co&#251;te un accompagnement LEADX ?
+          <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-item__a"><p>Nos formules d&#233;marrent &#224; 497&#8364;/mois selon le volume et la complexit&#233; de tes campagnes. On en parle en d&#233;tail lors de l'appel strat&#233;gique apr&#232;s la vid&#233;o.</p></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-item__q">
+          Je n'ai jamais fait de pub META, c'est un probl&#232;me ?
+          <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-item__a"><p>Pas du tout. On g&#232;re tout de A &#224; Z : la strat&#233;gie, les cr&#233;as, le lancement et l'optimisation. Toi, tu re&#231;ois les leads dans ton CRM.</p></div>
+      </div>
+
+      <div class="faq-item reveal">
+        <button class="faq-item__q">
+          En combien de temps je vois des r&#233;sultats ?
+          <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-item__a"><p>Les premiers leads arrivent g&#233;n&#233;ralement dans les 7 &#224; 14 jours apr&#232;s le lancement des campagnes. L'optimisation compl&#232;te du syst&#232;me prend 30 &#224; 60 jours.</p></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════ BIG CTA (RED) ════════════════════════ -->
+<section class="big-cta">
+  <h2 class="reveal">Arr&#234;te de perdre du budget sur des leads qui ne convertissent pas.</h2>
+  <p class="reveal">Regarde la m&#233;thode LEADX &#8212; 12 minutes pour comprendre comment on g&#233;n&#232;re des RDV B2B qualifi&#233;s avec META.</p>
+  <div class="reveal" style="text-align:center">
+    <a href="https://go.lead-x.fr/masterclass" class="cta-btn cta-btn--inverse">VOIR LA M&#201;THODE MAINTENANT &#8594;</a>
+  </div>
+</section>
+
+<!-- ════════════════════════ FOOTER ════════════════════════ -->
+<footer class="footer">
+  <div class="footer__logo"><img src="../assets/LEADX-wordmark-light.svg" alt="LEADX" class="footer__logo-img" style="height:24px;width:auto;"></div>
+  <nav class="footer__links" aria-label="Liens l&#233;gaux">
+    <a href="../politique-de-confidentialite.html">Politique de confidentialit&#233;</a>
+    <a href="../cgv.html">CGV</a>
+    <a href="../mentions-legales.html">Mentions l&#233;gales</a>
+  </nav>
+  <div class="footer__copy">&copy; 2025 LEADX PARTNERS LTD &#8212; Company Number 16372013 &#8212; Tous droits r&#233;serv&#233;s.</div>
+  <div class="footer__disclaimer">This site is not a part of the Facebook&trade; website or Facebook&trade; Inc. Additionally, this site is NOT endorsed by Facebook&trade; in any way. FACEBOOK&trade; is a trademark of FACEBOOK&trade;, Inc.</div>
+</footer>
+
+<!-- ════════════════════════ JAVASCRIPT ════════════════════════ -->
+<script>
+(function(){
+  // ── Reveal on scroll with IntersectionObserver ──
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const obs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(function(el) { obs.observe(el); });
+  } else {
+    reveals.forEach(function(el) { el.classList.add('visible'); });
+  }
+
+  // ── FAQ accordion ──
+  document.querySelectorAll('.faq-item__q').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var item = btn.parentElement;
+      var isOpen = item.classList.contains('open');
+      // Close all others
+      document.querySelectorAll('.faq-item.open').forEach(function(i) { i.classList.remove('open'); });
+      // Toggle current
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>LEADX — Réserve ton appel stratégique</title>
 <meta name="description" content="Réserve ton appel stratégique gratuit de 30 minutes. On analyse ton marché et on te montre comment générer des leads B2B qualifiés avec META Ads.">
@@ -462,6 +463,15 @@ body::before {
 </head>
 <body>
 
+<header role="banner" style="position:absolute;top:0;left:0;z-index:10;padding:20px 24px;">
+  <nav aria-label="Navigation principale">
+    <a href="index.html" style="display:inline-flex;min-height:44px;align-items:center;">
+      <img src="assets/LEADX-wordmark-light.svg" alt="LEADX - Accueil" style="height:32px;width:auto;" loading="lazy">
+    </a>
+  </nav>
+</header>
+
+<main>
 <!-- ══════════════════════════════════════
      BOOKING SPLIT LAYOUT
      ══════════════════════════════════════ -->
@@ -470,7 +480,7 @@ body::before {
   <!-- LEFT: Pitch -->
   <div class="booking__pitch">
     <div class="reveal">
-      <div class="booking__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="booking__logo-img" style="height:32px;width:auto;"></div>
+      <div class="booking__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="booking__logo-img" style="height:32px;width:auto;" loading="lazy"></div>
     </div>
 
     <h1 class="booking__h1 reveal">Réserve ton appel stratégique</h1>
@@ -545,7 +555,7 @@ body::before {
     <h2 class="faq__title reveal">Questions fréquentes</h2>
 
     <div class="faq__item reveal">
-      <button class="faq__question" onclick="toggleFaq(this)">
+      <button class="faq__question" aria-expanded="false" onclick="toggleFaq(this)">
         C'est vraiment gratuit ?
         <span class="faq__icon">
           <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -557,7 +567,7 @@ body::before {
     </div>
 
     <div class="faq__item reveal">
-      <button class="faq__question" onclick="toggleFaq(this)">
+      <button class="faq__question" aria-expanded="false" onclick="toggleFaq(this)">
         Combien de temps dure l'appel ?
         <span class="faq__icon">
           <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -569,7 +579,7 @@ body::before {
     </div>
 
     <div class="faq__item reveal">
-      <button class="faq__question" onclick="toggleFaq(this)">
+      <button class="faq__question" aria-expanded="false" onclick="toggleFaq(this)">
         Je dois préparer quelque chose ?
         <span class="faq__icon">
           <svg viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
@@ -582,12 +592,14 @@ body::before {
   </div>
 </section>
 
+</main>
+
 <!-- ══════════════════════════════════════
      FOOTER
      ══════════════════════════════════════ -->
-<footer class="footer">
+<footer class="footer" role="contentinfo">
   <div class="footer__inner">
-    <div class="footer__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="footer__logo-img" style="height:24px;width:auto;"></div>
+    <div class="footer__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="footer__logo-img" style="height:24px;width:auto;" loading="lazy"></div>
     <p class="footer__copy">&copy; 2025 LEADX PARTNERS LTD &mdash; Company Number 16372013</p>
     <nav class="footer__links" aria-label="Liens légaux">
       <a href="mentions-legales.html">Mentions légales</a>
@@ -630,11 +642,13 @@ function toggleFaq(btn) {
   // Close all
   document.querySelectorAll('.faq__item').forEach(function(el) {
     el.classList.remove('open');
+    el.querySelector('.faq__question').setAttribute('aria-expanded', 'false');
   });
 
   // Open clicked (if it was closed)
   if (!isOpen) {
     item.classList.add('open');
+    btn.setAttribute('aria-expanded', 'true');
   }
 }
 </script>

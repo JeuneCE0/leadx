@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Variant T4 — Hard Cut with Overlapping Card</title>
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: #ffffff;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      min-height: 60vh;
+      background: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #ffffff;
+      padding: 60px 24px 100px;
+    }
+
+    .hero-content {
+      max-width: 680px;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 18px;
+    }
+
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.6;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ─── TRUST BAR (overlapping card) ─── */
+    .trust-bar-wrapper {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      margin-top: -60px; /* pulls card UP over the hero */
+      padding: 0 24px;
+    }
+
+    .trust-bar {
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+      border-top: 2px solid #e63427;
+      max-width: 700px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 40px;
+    }
+
+    .trust-stat {
+      text-align: center;
+      flex: 1;
+    }
+
+    .trust-stat + .trust-stat {
+      border-left: 1px solid #e8e8e8;
+    }
+
+    .trust-stat .value {
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: #e63427;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+    }
+
+    .trust-stat .label {
+      font-size: 0.82rem;
+      color: #888888;
+      margin-top: 4px;
+      letter-spacing: 0.01em;
+    }
+
+    /* ─── WHITE SECTION ─── */
+    .white-section {
+      background: #ffffff;
+      padding: 100px 24px 80px;
+    }
+
+    .white-section-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+      font-weight: 700;
+      color: #111111;
+      letter-spacing: -0.02em;
+      margin-bottom: 12px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 1.05rem;
+      color: #777777;
+      max-width: 540px;
+      margin: 0 auto 52px;
+      line-height: 1.6;
+    }
+
+    /* ─── CARDS GRID ─── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .card {
+      background: #fafafa;
+      border: 1px solid #eeeeee;
+      border-radius: 14px;
+      padding: 36px 28px;
+      transition: box-shadow 0.25s ease, transform 0.25s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 6px 28px rgba(0, 0, 0, 0.07);
+      transform: translateY(-2px);
+    }
+
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: #fdecea;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      font-size: 1.2rem;
+    }
+
+    .card h3 {
+      font-size: 1.1rem;
+      font-weight: 650;
+      color: #111111;
+      margin-bottom: 8px;
+      letter-spacing: -0.01em;
+    }
+
+    .card p {
+      font-size: 0.92rem;
+      color: #777777;
+      line-height: 1.55;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 680px) {
+      .trust-bar {
+        flex-direction: column;
+        gap: 24px;
+        padding: 28px 24px;
+      }
+
+      .trust-stat + .trust-stat {
+        border-left: none;
+        border-top: 1px solid #e8e8e8;
+        padding-top: 20px;
+      }
+
+      .cards-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (min-width: 681px) and (max-width: 900px) {
+      .cards-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO — pure black, hard edge -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Générez des leads B2B qualifiés en continu</h1>
+      <p>Un système de prospection clé en main, pensé pour les entreprises qui veulent scaler sans recruter.</p>
+    </div>
+  </section>
+
+  <!-- TRUST BAR — overlaps hero/white boundary -->
+  <div class="trust-bar-wrapper">
+    <div class="trust-bar">
+      <div class="trust-stat">
+        <div class="value">+33K&nbsp;€</div>
+        <div class="label">CA généré</div>
+      </div>
+      <div class="trust-stat">
+        <div class="value">+47</div>
+        <div class="label">entreprises B2B</div>
+      </div>
+      <div class="trust-stat">
+        <div class="value">12 min</div>
+        <div class="label">pour comprendre</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- WHITE SECTION — counters + cards -->
+  <section class="white-section">
+    <div class="white-section-inner">
+      <h2 class="section-title">Tout ce qu'il faut pour convertir</h2>
+      <p class="section-subtitle">Trois piliers pour transformer votre prospection en machine à rendez-vous.</p>
+
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e63427" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3>Ciblage ultra-précis</h3>
+          <p>On identifie vos prospects idéaux avec des filtres avancés et une segmentation fine.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e63427" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <h3>Séquences automatisées</h3>
+          <p>Des messages personnalisés envoyés au bon moment, sans intervention manuelle.</p>
+        </div>
+
+        <div class="card">
+          <div class="card-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#e63427" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <h3>Dashboard & reporting</h3>
+          <p>Suivez vos performances en temps réel et optimisez chaque étape du funnel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

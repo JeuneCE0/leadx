@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEADX — Variante A — Funnel Gradient</title>
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+  body{
+    font-family:"Neue Haas Grotesk Display Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+    background:#fff;
+    color:#111;
+    overflow-x:hidden;
+  }
+
+  /* ─── Hero ─── */
+  .hero{
+    position:relative;
+    width:100%;
+    min-height:600px;
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  /* Dot grid */
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:radial-gradient(circle,rgba(0,0,0,.08) 1px,transparent 1px);
+    background-size:28px 28px;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ─── Funnel SVG ─── */
+  .funnel{
+    position:absolute;
+    bottom:0;
+    left:50%;
+    transform:translateX(-50%);
+    width:min(720px,90vw);
+    height:70vh;
+    z-index:1;
+    pointer-events:none;
+  }
+
+  /* ─── Title block ─── */
+  .hero-content{
+    position:relative;
+    z-index:10;
+    text-align:center;
+    padding:0 24px;
+  }
+
+  .hero-content h1{
+    font-size:clamp(48px,8vw,96px);
+    font-weight:800;
+    letter-spacing:-.03em;
+    line-height:1;
+    color:#111;
+  }
+
+  .hero-content h1 span{
+    color:#FF2600;
+  }
+
+  .hero-content p{
+    margin-top:16px;
+    font-size:15px;
+    font-weight:500;
+    color:#888;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+  }
+
+  /* ─── Notification bubbles ─── */
+  .bubble{
+    position:absolute;
+    z-index:5;
+    background:#fff;
+    border:1px solid rgba(0,0,0,.06);
+    border-radius:12px;
+    padding:8px 14px;
+    font-size:13px;
+    font-weight:500;
+    color:#222;
+    white-space:nowrap;
+    box-shadow:0 2px 12px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.03);
+    pointer-events:none;
+    animation:floatBubble 6s ease-in-out infinite;
+  }
+
+  .bubble .dot{
+    display:inline-block;
+    width:6px;
+    height:6px;
+    border-radius:50%;
+    margin-right:6px;
+    vertical-align:middle;
+    position:relative;
+    top:-1px;
+  }
+  .dot--green{background:#22c55e}
+  .dot--red{background:#FF2600}
+
+  /* positions — desktop */
+  .bubble--1{top:18%;left:8%;opacity:.75;animation-delay:0s;font-size:12px}
+  .bubble--2{top:28%;right:7%;opacity:.9;animation-delay:-1.2s}
+  .bubble--3{top:48%;left:5%;opacity:.65;animation-delay:-2.5s;font-size:12px}
+  .bubble--4{top:58%;right:9%;opacity:.85;animation-delay:-3.8s}
+  .bubble--5{top:72%;left:12%;opacity:.6;animation-delay:-0.8s;font-size:12px}
+  .bubble--6{top:34%;left:22%;opacity:.8;animation-delay:-4.5s}
+
+  @keyframes floatBubble{
+    0%,100%{transform:translateY(0) rotate(0deg)}
+    25%{transform:translateY(-10px) rotate(.5deg)}
+    50%{transform:translateY(-6px) rotate(-.3deg)}
+    75%{transform:translateY(-14px) rotate(.4deg)}
+  }
+
+  /* ─── Responsive ─── */
+  @media(max-width:640px){
+    .bubble{font-size:11px;padding:6px 10px}
+    .bubble--3,.bubble--5,.bubble--6{display:none}
+    .bubble--1{top:14%;left:4%}
+    .bubble--2{top:26%;right:4%}
+    .bubble--4{top:62%;right:4%}
+    .funnel{width:100vw;height:60vh}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+
+  <!-- Funnel shape -->
+  <svg class="funnel" viewBox="0 0 720 500" fill="none" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="funnelGrad" x1="360" y1="0" x2="360" y2="500" gradientUnits="userSpaceOnUse">
+        <stop offset="0%" stop-color="rgba(255,38,0,0.06)"/>
+        <stop offset="100%" stop-color="rgba(255,38,0,0.15)"/>
+      </linearGradient>
+      <!-- Soft edge mask -->
+      <mask id="funnelMask">
+        <rect width="720" height="500" fill="white"/>
+        <rect x="0" y="0" width="720" height="30" fill="url(#fadeTop)"/>
+      </mask>
+      <linearGradient id="fadeTop" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="black"/>
+        <stop offset="100%" stop-color="white"/>
+      </linearGradient>
+    </defs>
+    <!-- Funnel body — wide V converging to bottom-center -->
+    <path d="M60,0 L360,480 L660,0 Z" fill="url(#funnelGrad)" mask="url(#funnelMask)"/>
+    <!-- Funnel edge lines -->
+    <line x1="60" y1="0" x2="360" y2="480" stroke="rgba(255,38,0,0.12)" stroke-width="1.5"/>
+    <line x1="660" y1="0" x2="360" y2="480" stroke="rgba(255,38,0,0.12)" stroke-width="1.5"/>
+  </svg>
+
+  <!-- Notification bubbles -->
+  <div class="bubble bubble--1"><span class="dot dot--red"></span>Nouveau prospect 🔥</div>
+  <div class="bubble bubble--2"><span class="dot dot--green"></span>Nouveau client ✅</div>
+  <div class="bubble bubble--3">+1 000€ de CA</div>
+  <div class="bubble bubble--4"><span class="dot dot--green"></span>RDV confirmé 📅</div>
+  <div class="bubble bubble--5">Lead qualifié 🎯</div>
+  <div class="bubble bubble--6">+47 leads ce mois</div>
+
+  <!-- Hero text -->
+  <div class="hero-content">
+    <h1>LEAD<span>X</span></h1>
+    <p>Variante A &mdash; Funnel Gradient</p>
+  </div>
+
+</section>
+
+</body>
+</html>

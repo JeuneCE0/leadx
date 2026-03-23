@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEADX — Variante E</title>
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+  :root{
+    --red:#FF2600;
+    --red-03:rgba(255,38,0,0.03);
+    --red-08:rgba(255,38,0,0.08);
+    --red-12:rgba(255,38,0,0.12);
+    --red-15:rgba(255,38,0,0.15);
+    --red-30:rgba(255,38,0,0.3);
+    --font:"Neue Haas Grotesk Display Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+  }
+
+  body{
+    font-family:var(--font);
+    background:#fff;
+    color:#1a1a1a;
+    overflow-x:hidden;
+  }
+
+  /* ---- HERO ---- */
+  .hero{
+    position:relative;
+    width:100%;
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    background:#fff;
+  }
+
+  /* dot grid */
+  .hero::before{
+    content:'';
+    position:absolute;
+    inset:0;
+    background-image:radial-gradient(circle,rgba(0,0,0,0.06) 1px,transparent 1px);
+    background-size:28px 28px;
+    z-index:0;
+  }
+
+  /* convergence glow */
+  .hero::after{
+    content:'';
+    position:absolute;
+    bottom:0;left:50%;
+    width:480px;height:480px;
+    transform:translate(-50%,40%);
+    background:radial-gradient(circle,var(--red-12) 0%,transparent 70%);
+    z-index:1;
+    pointer-events:none;
+  }
+
+  /* ---- SVG FUNNEL ---- */
+  .funnel-svg{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    z-index:1;
+    pointer-events:none;
+  }
+
+  .funnel-fill-outer{
+    fill:url(#funnelGrad);
+  }
+  .funnel-fill-inner{
+    fill:url(#funnelGradInner);
+  }
+
+  .funnel-stroke{
+    fill:none;
+    stroke:var(--red-30);
+    stroke-width:1.5;
+    stroke-linecap:round;
+  }
+  .funnel-glow{
+    fill:none;
+    stroke:var(--red-15);
+    stroke-width:3;
+    stroke-linecap:round;
+    filter:blur(8px);
+  }
+
+  /* ---- TITLE ---- */
+  .hero-content{
+    position:relative;
+    z-index:10;
+    text-align:center;
+    pointer-events:none;
+  }
+  .hero-title{
+    font-size:clamp(3.2rem,8vw,7rem);
+    font-weight:800;
+    letter-spacing:-0.03em;
+    line-height:1;
+    color:#1a1a1a;
+  }
+  .hero-subtitle{
+    margin-top:12px;
+    font-size:clamp(1rem,2vw,1.35rem);
+    font-weight:500;
+    color:#888;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+
+  /* ---- BUBBLES ---- */
+  .bubble{
+    position:absolute;
+    z-index:8;
+    background:#fff;
+    border-radius:12px;
+    padding:12px 18px;
+    font-size:14px;
+    font-weight:500;
+    color:#1a1a1a;
+    white-space:nowrap;
+    box-shadow:0 2px 16px rgba(0,0,0,0.07),0 0 0 1px rgba(0,0,0,0.04);
+    animation:floatBubble 6s ease-in-out infinite;
+    pointer-events:none;
+  }
+  .bubble.accent{
+    border-left:2px solid var(--red);
+  }
+
+  @keyframes floatBubble{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-12px)}
+  }
+
+  /* bubble positions */
+  .b1{top:12%;left:6%;animation-duration:5.8s;animation-delay:0s}
+  .b2{top:22%;right:7%;animation-duration:6.4s;animation-delay:0.6s}
+  .b3{top:42%;left:4%;animation-duration:5.4s;animation-delay:1.2s}
+  .b4{top:55%;right:5%;animation-duration:6.8s;animation-delay:0.3s}
+  .b5{top:70%;left:12%;animation-duration:5.2s;animation-delay:1.8s}
+  .b6{top:78%;right:14%;animation-duration:7s;animation-delay:0.9s}
+  .b7{top:30%;left:16%;animation-duration:6.2s;animation-delay:1.5s}
+  .b8{top:60%;left:28%;animation-duration:5.6s;animation-delay:2.1s}
+
+  /* ---- PARTICLES ---- */
+  .particles{
+    position:absolute;
+    inset:0;
+    z-index:5;
+    pointer-events:none;
+    overflow:hidden;
+  }
+  .particle{
+    position:absolute;
+    width:3px;height:3px;
+    border-radius:50%;
+    background:var(--red);
+    opacity:0.35;
+    animation:drift linear infinite;
+  }
+  @keyframes drift{
+    0%{transform:translateY(0) translateX(0);opacity:0}
+    10%{opacity:0.4}
+    90%{opacity:0.3}
+    100%{transform:translateY(calc(var(--travel))) translateX(var(--sway));opacity:0}
+  }
+
+  .p1{left:48%;top:18%;--travel:55vh;--sway:8px;animation-duration:7s;animation-delay:0s}
+  .p2{left:52%;top:15%;--travel:60vh;--sway:-6px;animation-duration:8s;animation-delay:1.5s}
+  .p3{left:45%;top:22%;--travel:50vh;--sway:12px;animation-duration:6.5s;animation-delay:3s}
+  .p4{left:55%;top:20%;--travel:52vh;--sway:-10px;animation-duration:7.5s;animation-delay:0.8s}
+  .p5{left:50%;top:25%;--travel:48vh;--sway:5px;animation-duration:9s;animation-delay:2s}
+  .p6{left:47%;top:12%;--travel:58vh;--sway:-8px;animation-duration:6s;animation-delay:4s}
+  .p7{left:53%;top:28%;--travel:42vh;--sway:10px;animation-duration:8.5s;animation-delay:1s}
+  .p8{left:49%;top:30%;--travel:44vh;--sway:-4px;animation-duration:7.2s;animation-delay:2.5s}
+  .p9{left:51%;top:10%;--travel:62vh;--sway:6px;animation-duration:10s;animation-delay:3.5s}
+  .p10{left:46%;top:35%;--travel:38vh;--sway:-12px;animation-duration:6.8s;animation-delay:0.5s}
+  .p11{left:54%;top:32%;--travel:40vh;--sway:9px;animation-duration:7.8s;animation-delay:1.8s}
+  .p12{left:50%;top:16%;--travel:56vh;--sway:-7px;animation-duration:8.2s;animation-delay:4.5s}
+
+  /* ---- RESPONSIVE ---- */
+  @media(max-width:640px){
+    .b5,.b6,.b7,.b8{display:none}
+    .particles{display:none}
+    .bubble{font-size:12px;padding:9px 14px}
+    .b1{top:10%;left:4%}
+    .b2{top:20%;right:4%}
+    .b3{top:40%;left:3%}
+    .b4{top:55%;right:3%}
+    .hero::after{width:280px;height:280px}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+
+  <!-- SVG Funnel -->
+  <svg class="funnel-svg" viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="funnelGrad" x1="0.5" y1="0" x2="0.5" y2="1">
+        <stop offset="0%" stop-color="rgba(255,38,0,0.02)"/>
+        <stop offset="100%" stop-color="rgba(255,38,0,0.08)"/>
+      </linearGradient>
+      <linearGradient id="funnelGradInner" x1="0.5" y1="0" x2="0.5" y2="1">
+        <stop offset="0%" stop-color="rgba(255,38,0,0.01)"/>
+        <stop offset="100%" stop-color="rgba(255,38,0,0.06)"/>
+      </linearGradient>
+    </defs>
+
+    <!-- Outer funnel fill -->
+    <path class="funnel-fill-outer"
+          d="M0,0 Q720,720 1440,0 L1440,900 Q720,600 0,900 Z"
+          opacity="0.5"/>
+
+    <!-- Inner funnel fill -->
+    <path class="funnel-fill-inner"
+          d="M200,0 Q720,620 1240,0 L1240,900 Q720,650 200,900 Z"
+          opacity="0.6"/>
+
+    <!-- Outer funnel glow (behind) -->
+    <path class="funnel-glow"
+          d="M0,0 Q720,720 1440,0"/>
+    <path class="funnel-glow"
+          d="M0,900 Q720,600 1440,900"/>
+
+    <!-- Outer funnel stroke -->
+    <path class="funnel-stroke"
+          d="M0,0 Q720,720 1440,0"/>
+    <path class="funnel-stroke"
+          d="M0,900 Q720,600 1440,900"/>
+
+    <!-- Inner funnel glow (behind) -->
+    <path class="funnel-glow"
+          d="M200,0 Q720,620 1240,0"/>
+    <path class="funnel-glow"
+          d="M200,900 Q720,650 1240,900"/>
+
+    <!-- Inner funnel stroke -->
+    <path class="funnel-stroke"
+          d="M200,0 Q720,620 1240,0"/>
+    <path class="funnel-stroke"
+          d="M200,900 Q720,650 1240,900"/>
+  </svg>
+
+  <!-- Particles -->
+  <div class="particles">
+    <div class="particle p1"></div>
+    <div class="particle p2"></div>
+    <div class="particle p3"></div>
+    <div class="particle p4"></div>
+    <div class="particle p5"></div>
+    <div class="particle p6"></div>
+    <div class="particle p7"></div>
+    <div class="particle p8"></div>
+    <div class="particle p9"></div>
+    <div class="particle p10"></div>
+    <div class="particle p11"></div>
+    <div class="particle p12"></div>
+  </div>
+
+  <!-- Floating Bubbles -->
+  <div class="bubble accent b1">Nouveau prospect 🔥</div>
+  <div class="bubble b2">+2 800€ générés</div>
+  <div class="bubble accent b3">Client signé ✅</div>
+  <div class="bubble b4">Appel confirmé 📅</div>
+  <div class="bubble accent b5">Lead B2B qualifié 🎯</div>
+  <div class="bubble b6">+47 leads ce mois</div>
+  <div class="bubble accent b7">ROI x3.2 📈</div>
+  <div class="bubble b8">Budget optimisé 💰</div>
+
+  <!-- Title -->
+  <div class="hero-content">
+    <h1 class="hero-title">LEADX</h1>
+    <p class="hero-subtitle">Variante E</p>
+  </div>
+
+</section>
+
+</body>
+</html>

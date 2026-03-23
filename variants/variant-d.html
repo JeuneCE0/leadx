@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LEADX — Variant D: Red Funnel Hero</title>
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+  body{
+    font-family:"Neue Haas Grotesk Display Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
+    background:#fff;
+    color:#111;
+    overflow-x:hidden;
+  }
+
+  /* ── Hero ─────────────────────────────────── */
+  .hero{
+    position:relative;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+  }
+
+  /* Dot grid background */
+  .dot-grid{
+    position:absolute;inset:0;
+    background-image:radial-gradient(circle,rgba(0,0,0,.08) 1px,transparent 1px);
+    background-size:28px 28px;
+    z-index:0;
+  }
+
+  /* SVG funnel */
+  .funnel-svg{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    z-index:1;
+  }
+
+  /* ── Notification bubbles ─────────────────── */
+  .bubble{
+    position:absolute;
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 4px 20px rgba(0,0,0,.08);
+    padding:10px 16px;
+    font-size:13px;
+    font-weight:500;
+    white-space:nowrap;
+    z-index:2;
+    display:flex;align-items:center;gap:7px;
+    animation:floatBubble 5s ease-in-out infinite;
+    will-change:transform;
+  }
+  .bubble .dot{
+    width:7px;height:7px;border-radius:50%;flex-shrink:0;
+  }
+  .dot--green{background:#22c55e}
+  .dot--red{background:#FF2600}
+
+  @keyframes floatBubble{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-13px)}
+  }
+
+  /* Individual bubble positions & delays */
+  .b1{top:12%;left:6%;  animation-duration:5.2s;animation-delay:0s;   opacity:.85}
+  .b2{top:18%;right:8%; animation-duration:4.6s;animation-delay:.8s;  opacity:.9}
+  .b3{top:35%;left:10%; animation-duration:5.8s;animation-delay:1.6s; opacity:.75}
+  .b4{top:30%;right:14%;animation-duration:4.4s;animation-delay:.4s;  opacity:.95}
+  .b5{top:55%;left:18%; animation-duration:5s;  animation-delay:2s;   opacity:.8}
+  .b6{top:50%;right:10%;animation-duration:5.4s;animation-delay:1.2s; opacity:.9}
+  .b7{top:68%;left:28%; animation-duration:4.8s;animation-delay:2.4s; opacity:.85}
+  .b8{top:72%;right:22%;animation-duration:5.6s;animation-delay:.6s;  opacity:.7}
+
+  /* ── Content ──────────────────────────────── */
+  .content{
+    position:relative;z-index:3;
+    text-align:center;
+    padding:0 24px;
+  }
+  .content h1{
+    font-size:clamp(3.5rem,8vw,7rem);
+    font-weight:800;
+    letter-spacing:-0.03em;
+    line-height:1;
+    color:#111;
+  }
+  .content h1 span{
+    color:#FF2600;
+  }
+  .content .subtitle{
+    margin-top:18px;
+    font-size:clamp(1rem,2vw,1.35rem);
+    color:#555;
+    font-weight:400;
+    max-width:520px;
+    margin-left:auto;margin-right:auto;
+    line-height:1.5;
+  }
+  .content .badge{
+    display:inline-block;
+    margin-top:28px;
+    padding:8px 20px;
+    border-radius:999px;
+    background:rgba(255,38,0,.07);
+    color:#FF2600;
+    font-size:.85rem;
+    font-weight:600;
+    letter-spacing:.02em;
+  }
+
+  /* ── Responsive ≤640px ────────────────────── */
+  @media(max-width:640px){
+    .b3,.b5,.b7,.b8{display:none}
+    .b1{top:10%;left:4%;font-size:11px;padding:8px 12px}
+    .b2{top:16%;right:4%;font-size:11px;padding:8px 12px}
+    .b4{top:32%;right:6%;font-size:11px;padding:8px 12px}
+    .b6{top:52%;right:4%;font-size:11px;padding:8px 12px}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <!-- Dot grid -->
+  <div class="dot-grid"></div>
+
+  <!-- SVG Funnel shape -->
+  <svg class="funnel-svg" viewBox="0 0 1440 900" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="funnelFill" x1="0.5" y1="0" x2="0.5" y2="1">
+        <stop offset="0%" stop-color="rgba(255,38,0,0.04)"/>
+        <stop offset="100%" stop-color="rgba(255,38,0,0.10)"/>
+      </linearGradient>
+    </defs>
+    <!-- Filled funnel area -->
+    <path
+      d="M 0,0
+         C 200,60 400,260 720,820
+         C 1040,260 1240,60 1440,0
+         L 1440,0 L 0,0 Z"
+      fill="url(#funnelFill)"
+    />
+    <!-- Left funnel stroke -->
+    <path
+      d="M 0,0 C 200,60 400,260 720,820"
+      fill="none"
+      stroke="rgba(255,38,0,0.15)"
+      stroke-width="1.5"
+    />
+    <!-- Right funnel stroke -->
+    <path
+      d="M 1440,0 C 1240,60 1040,260 720,820"
+      fill="none"
+      stroke="rgba(255,38,0,0.15)"
+      stroke-width="1.5"
+    />
+  </svg>
+
+  <!-- Floating notification bubbles -->
+  <div class="bubble b1"><span class="dot dot--green"></span>Nouveau prospect 🔥</div>
+  <div class="bubble b2"><span class="dot dot--green"></span>+1 200€ de CA</div>
+  <div class="bubble b3"><span class="dot dot--red"></span>Client signé ✅</div>
+  <div class="bubble b4">RDV confirmé 📅</div>
+  <div class="bubble b5"><span class="dot dot--green"></span>Lead qualifié 🎯</div>
+  <div class="bubble b6">+32 leads ce mois</div>
+  <div class="bubble b7"><span class="dot dot--red"></span>Campagne lancée 🚀</div>
+  <div class="bubble b8"><span class="dot dot--green"></span>Taux de conversion +23%</div>
+
+  <!-- Content -->
+  <div class="content">
+    <div class="badge">Variant D — Red Funnel</div>
+    <h1>LEAD<span>X</span></h1>
+    <p class="subtitle">Transformez votre acquisition client avec une machine de prospection automatisée qui convertit.</p>
+  </div>
+</section>
+
+</body>
+</html>

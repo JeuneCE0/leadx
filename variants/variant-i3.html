@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LEADX — Variant I3: Spiral Vortex Funnel</title>
+<style>
+/* ══════════════════════════════════════
+   DESIGN SYSTEM
+   ══════════════════════════════════════ */
+:root {
+  --accent: #FF2600;
+  --accent-dark: #C11D00;
+  --accent-light: #FF4D2E;
+  --accent-glow: rgba(255, 38, 0, 0.35);
+  --accent-subtle: rgba(255, 38, 0, 0.08);
+  --bg-light: #FFFFFF;
+  --bg-light-2: #F7F7F7;
+  --bg-dark: #000000;
+  --bg-dark-2: #0A0A0A;
+  --bg-dark-card: #141414;
+  --bg-dark-card-hover: #1A1A1A;
+  --text-dark: #000000;
+  --text-dark-secondary: #555555;
+  --text-light: #FFFFFF;
+  --text-light-secondary: #999999;
+  --text-muted: #777777;
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-dark: rgba(255, 255, 255, 0.10);
+  --border-accent: rgba(255, 38, 0, 0.25);
+  --font-title: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-weight-title: 700;
+  --font-weight-body: 400;
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--font-body); font-weight: var(--font-weight-body); color: #fff; background: #000000; overflow-x: hidden; line-height: 1.6; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; font-family: inherit; }
+
+::selection { background: var(--accent); color: #fff; }
+
+/* ── Noise Overlay ── */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  will-change: transform; transform: translateZ(0);
+}
+
+/* ══════════════════════════════════════
+   UTILITY / ANIMATION
+   ══════════════════════════════════════ */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.reveal { opacity: 0; transform: translateY(20px); filter: blur(3px); transition: opacity 0.4s cubic-bezier(.525,0,0,1), transform 0.4s cubic-bezier(.525,0,0,1), filter 0.4s cubic-bezier(.525,0,0,1); will-change: transform, opacity; backface-visibility: hidden; }
+.reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+@keyframes float1 { 0%,100%{ transform: translate(0,0) rotate(0deg); } 50%{ transform: translate(12px,-18px) rotate(8deg); } }
+@keyframes float2 { 0%,100%{ transform: translate(0,0) rotate(0deg); } 50%{ transform: translate(-10px,14px) rotate(-6deg); } }
+@keyframes pulse { 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:.6; transform:scale(1.15); } }
+@keyframes livePulse { 0%,100%{ box-shadow: 0 0 0 0 rgba(255,38,0,0.5); } 50%{ box-shadow: 0 0 0 8px rgba(255,38,0,0); } }
+@keyframes shimmer { 0%{ background-position: -200% center; } 100%{ background-position: 200% center; } }
+
+/* ══════════════════════════════════════
+   HERO SECTION
+   ══════════════════════════════════════ */
+.hero {
+  position: relative; padding: 120px 0 60px; overflow: hidden; background: #000;
+  min-height: 100vh;
+}
+
+@media(max-width:640px){
+  .hero { padding: 90px 0 40px; min-height: auto; }
+}
+
+/* ── Company Marquee ── */
+.hero__trust { text-align: center; margin-top: 40px; }
+.hero__trust-label { font-size: 13px; color: rgba(255,255,255,0.4); margin-bottom: 16px; font-weight: 500; letter-spacing: 0.05em; text-transform: uppercase; }
+.hero__marquee-wrap { overflow: hidden; position: relative; max-width: 600px; margin: 0 auto;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 15%, #000 85%, transparent);
+}
+.hero__marquee { display: flex; gap: 32px; animation: marqueeScroll 20s linear infinite; width: max-content; }
+.hero__marquee-item { padding: 8px 20px; border-radius: 8px; font-size: 12px; font-weight: 700;
+  color: rgba(255,255,255,0.35); background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06);
+  letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; flex-shrink: 0;
+}
+@keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+/* ── Section Divider ── */
+.section-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(255,38,0,0.15) 30%, rgba(255,38,0,0.15) 70%, transparent); margin: 0; }
+
+/* Vortex canvas */
+.funnel-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+
+/* Red orbs */
+.hero__orb { position: absolute; border-radius: 50%; pointer-events: none; z-index: 0; }
+.hero__orb--1 { width: 600px; height: 600px; top: -10%; left: -10%; background: radial-gradient(circle, rgba(255,38,0,0.08) 0%, transparent 70%); }
+.hero__orb--2 { width: 500px; height: 500px; top: 20%; right: -8%; background: radial-gradient(circle, rgba(255,38,0,0.06) 0%, transparent 70%); }
+
+/* Grid bg for hero */
+.hero__grid { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Vortex center glow */
+.vortex-glow { position: absolute; bottom: 4%; left: 50%; transform: translateX(-50%); width: 200px; height: 200px;
+  background: radial-gradient(ellipse, rgba(255,38,0,0.25) 0%, rgba(255,38,0,0.08) 40%, transparent 70%);
+  border-radius: 50%; pointer-events: none; z-index: 1; animation: vortexPulse 2.5s ease-in-out infinite;
+}
+@keyframes vortexPulse { 0%,100%{opacity:.6;transform:translateX(-50%) scale(1)} 50%{opacity:1;transform:translateX(-50%) scale(1.15)} }
+
+/* Flow pills */
+.flow-pill { position: absolute; font-size: 11px; font-weight: 600; padding: 5px 12px; border-radius: 20px;
+  background: rgba(255,38,0,0.12); border: 1px solid rgba(255,38,0,0.25); color: #FF2600;
+  white-space: nowrap; pointer-events: none; opacity: 0; z-index: 3; will-change: transform,opacity; transform: translate(-50%,-50%);
+}
+
+/* Pop-out cards — GLASS MORPHISM (same as side badges) */
+.popout-card { position: absolute; left: 50%; pointer-events: none; z-index: 3;
+  background: rgba(255,255,255,0.04);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 10px 18px; font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.9);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+  display: flex; align-items: center; gap: 10px;
+  white-space: nowrap; opacity: 0; transform: translateX(-50%) scale(0); will-change: transform,opacity;
+}
+/* White line at top edge */
+.popout-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 20%; width: 60%; height: 1px;
+  background: rgba(255,255,255,0.10);
+  border-radius: 1px;
+}
+/* Colored dot in pop-out cards */
+.popout-card-dot {
+  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+  background: var(--accent);
+  box-shadow: 0 0 6px var(--accent);
+}
+
+/* ══════════════════════════════════════
+   GLASS MORPHISM NOTIFICATION BADGES
+   ══════════════════════════════════════ */
+@keyframes gentleFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+.hero__notif {
+  position: absolute;
+  background: rgba(255,255,255,0.04);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 10px 18px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.05);
+  font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.9);
+  display: flex; align-items: center; gap: 10px;
+  pointer-events: none; z-index: 2; white-space: nowrap;
+}
+.hero__notif::after {
+  content: '';
+  position: absolute; top: 0; left: 20%; width: 60%; height: 1px;
+  background: rgba(255,255,255,0.10); border-radius: 1px;
+}
+.hero__notif-dot {
+  width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+}
+.hero__notif-dot--green { background: #22c55e; box-shadow: 0 0 6px #22c55e; }
+.hero__notif-dot--red { background: #FF2600; box-shadow: 0 0 6px #FF2600; }
+.hero__notif-dot--blue { background: #3b82f6; box-shadow: 0 0 6px #3b82f6; }
+
+.hero__inner { max-width: 780px; margin: 0 auto; text-align: center; }
+
+.hero__badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--accent-subtle); border: 1px solid var(--border-accent);
+  border-radius: 100px; padding: 6px 16px; font-size: 13px; font-weight: 600;
+  color: var(--accent); margin-bottom: 28px;
+}
+.hero__badge-dot {
+  width: 8px; height: 8px; background: var(--accent); border-radius: 50%;
+  animation: livePulse 2s ease-in-out infinite;
+}
+
+.hero h1 {
+  font-family: var(--font-title); font-weight: 800;
+  font-size: clamp(28px, 5vw, 48px); line-height: 1.15;
+  color: #fff; margin-bottom: 20px; letter-spacing: -0.02em;
+}
+.hero h1 .accent { color: var(--accent); }
+
+.hero__sub {
+  font-size: clamp(15px, 2.2vw, 18px); color: rgba(255,255,255,0.6);
+  max-width: 620px; margin: 0 auto 32px; line-height: 1.7;
+}
+
+/* ══════════════════════════════════════
+   CTA BUTTON
+   ══════════════════════════════════════ */
+.cta-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent); color: #fff;
+  font-family: var(--font-title); font-weight: 700;
+  font-size: clamp(14px, 2vw, 17px); letter-spacing: 0.04em;
+  padding: 18px 40px; border-radius: 12px;
+  transition: all 0.3s cubic-bezier(.25,.46,.45,.94);
+  position: relative; overflow: hidden;
+  box-shadow: 0 4px 20px rgba(255,38,0,0.3), 0 1px 3px rgba(0,0,0,0.1);
+}
+.cta-btn:hover {
+  background: var(--accent-dark); transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255,38,0,0.4), 0 2px 6px rgba(0,0,0,0.15);
+}
+.cta-btn:active { transform: translateY(0); }
+.cta-btn--full { width: 100%; max-width: 520px; }
+
+/* ── Responsive ── */
+@media(max-width:640px){
+  .hero__notif { font-size: 11px; padding: 8px 14px; }
+}
+</style>
+</head>
+<body>
+
+<main>
+<!-- ════════════════════════ HERO ════════════════════════ -->
+<section class="hero" id="hero-section">
+  <div class="hero__grid"></div>
+  <div class="hero__orb hero__orb--1"></div>
+  <div class="hero__orb hero__orb--2"></div>
+  <canvas class="funnel-canvas" id="vortexCanvas"></canvas>
+  <div class="vortex-glow"></div>
+
+  <!-- Glass Morphism Notification Badges -->
+  <div class="hero__notif" style="top:13%;left:15%;animation:gentleFloat 5s ease-in-out infinite;">
+    <span class="hero__notif-dot hero__notif-dot--green"></span>Nouveau prospect
+  </div>
+  <div class="hero__notif" style="top:17%;right:15%;animation:gentleFloat 5.5s ease-in-out 1s infinite;">
+    <span class="hero__notif-dot hero__notif-dot--red"></span>+47 leads/mois
+  </div>
+  <div class="hero__notif" style="top:45%;left:16%;animation:gentleFloat 5.2s ease-in-out 0.5s infinite;">
+    <span class="hero__notif-dot hero__notif-dot--red"></span>ROI x3.2
+  </div>
+  <div class="hero__notif" style="bottom:20%;right:18%;animation:gentleFloat 5.8s ease-in-out 1.5s infinite;">
+    <span class="hero__notif-dot hero__notif-dot--blue"></span>Budget optimis&eacute;
+  </div>
+  <div class="hero__notif" style="bottom:28%;left:17%;animation:gentleFloat 5.4s ease-in-out 2s infinite;">
+    <span class="hero__notif-dot hero__notif-dot--green"></span>Campagne active
+  </div>
+
+  <div class="container hero__inner">
+    <div class="reveal" style="text-align:center;margin-bottom:32px;">
+      <img src="../assets/LEADX-wordmark-light.svg" alt="LEADX" style="height:36px;width:auto;margin:0 auto;">
+    </div>
+
+    <div class="hero__badge reveal">
+      <span class="hero__badge-dot"></span>
+      <span style="color:#FF2600;font-weight:800;">27</span> <span style="color:#fff;">campagnes META actives</span>
+    </div>
+
+    <h1 class="reveal">La m&eacute;thode META Ads qui g&eacute;n&egrave;re des <span class="accent">leads B2B qualifi&eacute;s</span> chaque semaine &mdash; sans exploser ton budget</h1>
+
+    <p class="hero__sub reveal">D&eacute;couvre en 12 minutes comment nos clients B2B obtiennent des rendez-vous qualifi&eacute;s en continu gr&acirc;ce &agrave; un syst&egrave;me META Ads cl&eacute; en main.</p>
+
+    <div class="reveal" id="main-cta" style="text-align:center">
+      <button class="cta-btn cta-btn--full">VOIR LA M&Eacute;THODE GRATUITEMENT &rarr;</button>
+    </div>
+
+    <div class="hero__trust reveal">
+      <div class="hero__trust-label">+27 entreprises nous font confiance</div>
+      <div class="hero__marquee-wrap">
+        <div class="hero__marquee">
+          <span class="hero__marquee-item">TechVision</span>
+          <span class="hero__marquee-item">GrowthLab</span>
+          <span class="hero__marquee-item">DataPulse</span>
+          <span class="hero__marquee-item">ScaleUp Pro</span>
+          <span class="hero__marquee-item">NexGen B2B</span>
+          <span class="hero__marquee-item">CloudForce</span>
+          <span class="hero__marquee-item">AdSphere</span>
+          <span class="hero__marquee-item">B2B Connect</span>
+          <span class="hero__marquee-item">LeadFactory</span>
+          <span class="hero__marquee-item">SalesIQ</span>
+          <!-- Duplicate for seamless loop -->
+          <span class="hero__marquee-item">TechVision</span>
+          <span class="hero__marquee-item">GrowthLab</span>
+          <span class="hero__marquee-item">DataPulse</span>
+          <span class="hero__marquee-item">ScaleUp Pro</span>
+          <span class="hero__marquee-item">NexGen B2B</span>
+          <span class="hero__marquee-item">CloudForce</span>
+          <span class="hero__marquee-item">AdSphere</span>
+          <span class="hero__marquee-item">B2B Connect</span>
+          <span class="hero__marquee-item">LeadFactory</span>
+          <span class="hero__marquee-item">SalesIQ</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="section-divider"></div>
+</main>
+
+<script>
+(function(){
+  'use strict';
+
+  // ── Reveal on scroll (staggered) ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  revealEls.forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.07) + 's';
+    revealObs.observe(el);
+  });
+
+  // ── SPIRAL VORTEX ANIMATION ──
+  const heroEl = document.getElementById('hero-section');
+  const canvas = document.getElementById('vortexCanvas');
+  if (!heroEl || !canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  let W, H;
+  const isMobile = window.innerWidth <= 640;
+
+  // Vortex center
+  function getCX() { return W / 2; }
+  function getCY() { return H * 0.88; }
+
+  function resize() {
+    W = heroEl.offsetWidth;
+    H = heroEl.offsetHeight;
+    canvas.width = W * devicePixelRatio;
+    canvas.height = H * devicePixelRatio;
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
+  }
+
+  // ── Spiral math ──
+  // Archimedean spiral: r = a + b*theta
+  // 3 arms starting from top-left, top-center, top-right
+  const armCount = 3;
+  const spiralTurns = 3.5; // how many full rotations
+  const maxTheta = spiralTurns * Math.PI * 2;
+  const spiralPoints = 200; // resolution per arm
+
+  // Starting positions (angle offsets for each arm)
+  const armOffsets = [0, (Math.PI * 2) / 3, (2 * Math.PI * 2) / 3];
+
+  // Get spiral point: starts far from center, spirals inward
+  // theta goes from 0 (outermost) to maxTheta (center)
+  function getSpiralPoint(armIndex, t) {
+    // t: 0..1 where 0=start (outer), 1=center
+    const cx = getCX();
+    const cy = getCY();
+    const maxRadius = Math.min(W, H) * 0.48;
+    const theta = t * maxTheta;
+    const r = maxRadius * (1 - t); // shrinks toward center
+    const angle = theta + armOffsets[armIndex];
+    return {
+      x: cx + Math.cos(angle) * r,
+      y: cy - Math.sin(angle) * r * 0.6 // squash vertically for perspective
+    };
+  }
+
+  // ── Draw static spirals ──
+  function drawSpirals() {
+    ctx.clearRect(0, 0, W, H);
+    const cx = getCX();
+    const cy = getCY();
+
+    // Concentric ring outlines around vortex center
+    for (let i = 1; i <= 8; i++) {
+      const r = i * 30;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.strokeStyle = 'rgba(255,38,0,' + (0.04 - i * 0.004) + ')';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    // Subtle red gradient fill from outer edges toward center
+    const outerGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.min(W, H) * 0.5);
+    outerGrad.addColorStop(0, 'rgba(255,38,0,0.06)');
+    outerGrad.addColorStop(0.4, 'rgba(255,38,0,0.02)');
+    outerGrad.addColorStop(1, 'transparent');
+    ctx.fillStyle = outerGrad;
+    ctx.fillRect(0, 0, W, H);
+
+    // Draw spiral arms
+    ctx.save();
+    ctx.shadowColor = 'rgba(255,38,0,0.35)';
+    ctx.shadowBlur = 12;
+    ctx.strokeStyle = 'rgba(255,38,0,0.2)';
+    ctx.lineWidth = 1.5;
+
+    for (let arm = 0; arm < armCount; arm++) {
+      ctx.beginPath();
+      for (let i = 0; i <= spiralPoints; i++) {
+        const t = i / spiralPoints;
+        const pt = getSpiralPoint(arm, t);
+        if (i === 0) ctx.moveTo(pt.x, pt.y);
+        else ctx.lineTo(pt.x, pt.y);
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+
+  // ── Flow pills on spiral paths ──
+  const pillLabels = ['Prospect', 'Rendez-vous', 'Signature', 'Paiement', 'Recommandations', 'Prospect'];
+  const pillsPerArm = 6;
+  const pillDuration = 8000; // ms to travel full spiral
+  const pillCycle = 12000;
+  const pills = [];
+
+  for (let arm = 0; arm < armCount; arm++) {
+    const count = isMobile ? 3 : pillsPerArm;
+    for (let i = 0; i < count; i++) {
+      const el = document.createElement('div');
+      el.className = 'flow-pill';
+      el.textContent = pillLabels[i % pillLabels.length];
+      heroEl.appendChild(el);
+      pills.push({
+        el,
+        arm,
+        delay: (arm * 1200) + (i * (pillDuration / pillsPerArm))
+      });
+    }
+  }
+
+  function updatePills(now) {
+    pills.forEach(p => {
+      const elapsed = ((now - p.delay) % pillCycle + pillCycle) % pillCycle;
+      if (elapsed > pillDuration) { p.el.style.opacity = 0; return; }
+      let t = elapsed / pillDuration;
+      // Gravitational acceleration: speed up as approaching center
+      t = Math.pow(t, 0.7); // easing: starts slower, ends faster
+      const pt = getSpiralPoint(p.arm, t);
+      let alpha = 1;
+      if (t < 0.08) alpha = t / 0.08;
+      else if (t > 0.85) alpha = (1 - t) / 0.15;
+      p.el.style.opacity = alpha * 0.9;
+      p.el.style.left = pt.x + 'px';
+      p.el.style.top = pt.y + 'px';
+    });
+  }
+
+  // ── Pop-out cards from vortex center (glass morphism) ──
+  const popTexts = [
+    { text: '+1 200\u20AC de CA', color: '#22c55e' },
+    { text: 'Client sign\u00E9', color: '#FF2600' },
+    { text: 'RDV confirm\u00E9', color: '#3b82f6' },
+    { text: 'Lead qualifi\u00E9', color: '#FF2600' },
+    { text: 'Paiement re\u00E7u', color: '#22c55e' }
+  ];
+  const popDelay = 3200;
+  const popDuration = 2800;
+  const popCycle = popTexts.length * popDelay;
+  const popCards = [];
+
+  popTexts.forEach(item => {
+    const el = document.createElement('div');
+    el.className = 'popout-card';
+    const dot = document.createElement('span');
+    dot.className = 'popout-card-dot';
+    dot.style.background = item.color;
+    dot.style.boxShadow = '0 0 6px ' + item.color;
+    el.appendChild(dot);
+    const span = document.createElement('span');
+    span.textContent = item.text;
+    el.appendChild(span);
+    heroEl.appendChild(el);
+    popCards.push(el);
+  });
+
+  function easeOutBack(t) {
+    const c1 = 1.70158, c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+  }
+
+  function updatePopouts(now) {
+    const baseY = getCY() + 16;
+    popCards.forEach((el, i) => {
+      const elapsed = ((now - i * popDelay) % popCycle + popCycle) % popCycle;
+      if (elapsed > popDuration) { el.style.opacity = 0; return; }
+      const t = elapsed / popDuration;
+      let scale, alpha, dy;
+      if (t < 0.15) { const p = t / 0.15; scale = easeOutBack(p); alpha = p; dy = 0; }
+      else if (t < 0.72) { scale = 1; alpha = 1; dy = 0; }
+      else { const p = (t - 0.72) / 0.28; scale = 1 - p * 0.1; alpha = 1 - p; dy = p * 28; }
+      el.style.opacity = alpha;
+      el.style.top = (baseY + dy) + 'px';
+      el.style.transform = 'translateX(-50%) scale(' + scale + ')';
+    });
+  }
+
+  // ── Orbital dots around the vortex center ──
+  const orbitalDots = [];
+  const orbitalCount = 8;
+  for (let i = 0; i < orbitalCount; i++) {
+    orbitalDots.push({
+      radius: 40 + i * 28,
+      speed: 0.0003 + (i % 3) * 0.00015, // different speeds
+      angle: (i / orbitalCount) * Math.PI * 2,
+      size: 2
+    });
+  }
+
+  function drawOrbitalDots(now) {
+    const cx = getCX();
+    const cy = getCY();
+    orbitalDots.forEach(dot => {
+      const angle = dot.angle + now * dot.speed;
+      const x = cx + Math.cos(angle) * dot.radius;
+      const y = cy + Math.sin(angle) * dot.radius * 0.6;
+      ctx.beginPath();
+      ctx.arc(x, y, dot.size, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255,38,0,0.3)';
+      ctx.fill();
+    });
+  }
+
+  // ── Center pulsing glow on canvas ──
+  function drawCenterGlow(now) {
+    const cx = getCX();
+    const cy = getCY();
+    const pulse = 1 + 0.15 * Math.sin(now * 0.003);
+    const r = 60 * pulse;
+    const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+    grad.addColorStop(0, 'rgba(255,38,0,0.25)');
+    grad.addColorStop(0.5, 'rgba(255,38,0,0.08)');
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, r, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  // ── Animation loop ──
+  let startTime = null;
+  function frame(ts) {
+    if (!startTime) startTime = ts;
+    const now = ts - startTime;
+
+    // Redraw canvas
+    drawSpirals();
+    drawCenterGlow(now);
+    drawOrbitalDots(now);
+
+    // Update DOM elements
+    updatePills(now);
+    updatePopouts(now);
+
+    requestAnimationFrame(frame);
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+  requestAnimationFrame(frame);
+
+})();
+</script>
+
+</body>
+</html>

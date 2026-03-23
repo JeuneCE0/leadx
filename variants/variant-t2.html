@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LEADX — Variant T2: Angular Diagonal Cut</title>
+<meta name="theme-color" content="#000000">
+<style>
+/* ══════════════════════════════════════
+   DESIGN SYSTEM — VARIANT T2
+   "Angular Diagonal Cut"
+   ══════════════════════════════════════ */
+:root {
+  --accent: #FF2600;
+  --accent-dark: #C11D00;
+  --accent-light: #FF4D2E;
+  --accent-glow: rgba(255, 38, 0, 0.35);
+  --accent-subtle: rgba(255, 38, 0, 0.08);
+  --bg-light: #FFFFFF;
+  --bg-dark: #000000;
+  --text-dark: #000000;
+  --text-dark-secondary: #555555;
+  --text-light: #FFFFFF;
+  --text-light-secondary: #999999;
+  --font-main: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ease: cubic-bezier(.525, 0, 0, 1);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--font-main); font-weight: 400; color: #fff; background: var(--bg-light); overflow-x: hidden; line-height: 1.6; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+::selection { background: var(--accent); color: #fff; }
+
+/* ── Utility ── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+/* ══════════════════════════════════════
+   HERO — DARK, DIAGONAL CUT
+   ══════════════════════════════════════ */
+.hero {
+  position: relative;
+  z-index: 2;
+  background: var(--bg-dark);
+  color: var(--text-light);
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+}
+
+.hero__inner {
+  width: 100%;
+  padding: 80px 0 120px;
+}
+
+.hero__label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 24px;
+}
+
+.hero__label::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+}
+
+.hero__title {
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+  max-width: 700px;
+}
+
+.hero__title span {
+  color: var(--accent);
+}
+
+.hero__subtitle {
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  color: var(--text-light-secondary);
+  max-width: 520px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+/* ══════════════════════════════════════
+   DIAGONAL RED LINE — ACCENT SEPARATOR
+   ══════════════════════════════════════ */
+.diagonal-line {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  height: 0;
+  margin-top: -1px; /* overlap to avoid subpixel gap */
+}
+
+.diagonal-line svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* Position the SVG so the line sits exactly on the diagonal cut edge */
+  transform: translateY(-100%);
+}
+
+/* Alternative approach: pseudo-element diagonal line */
+.diagonal-accent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.diagonal-accent::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -2%;
+  width: 104%;
+  height: 2px;
+  background: var(--accent);
+  /* Angle matches clip-path: from bottom-left (100%) to bottom-right (85%) */
+  /* The diagonal covers 15% of the hero height */
+  transform-origin: left center;
+  /* Calculate angle: atan(15vh / 100vw) — approximated via the polygon positioning */
+}
+
+/* Using a more reliable approach: overlay SVG line matching the clip-path edge */
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 15%; /* matches the 100%-85% = 15% diagonal area */
+  background: linear-gradient(
+    to top right,
+    transparent calc(50% - 1px),
+    var(--accent) calc(50% - 1px),
+    var(--accent) calc(50% + 1px),
+    transparent calc(50% + 1px)
+  );
+  pointer-events: none;
+  z-index: 4;
+  filter: drop-shadow(0 0 6px rgba(255, 38, 0, 0.4));
+}
+
+/* ══════════════════════════════════════
+   WHITE SECTION
+   ══════════════════════════════════════ */
+.section-white {
+  position: relative;
+  z-index: 1;
+  background: var(--bg-light);
+  color: var(--text-dark);
+  /* Negative margin to slide up behind the hero diagonal cut */
+  margin-top: -10vh;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+/* ── Counters ── */
+.counters {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-bottom: 56px;
+}
+
+.counter {
+  text-align: center;
+}
+
+.counter__number {
+  font-size: clamp(2.2rem, 4vw, 3.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--text-dark);
+  line-height: 1.1;
+}
+
+.counter__number span {
+  color: var(--accent);
+}
+
+.counter__label {
+  font-size: 14px;
+  color: var(--text-dark-secondary);
+  margin-top: 6px;
+  font-weight: 400;
+}
+
+/* ── Bento Cards ── */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.bento-card {
+  background: #F7F7F7;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px;
+  padding: 36px 32px;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
+}
+
+.bento-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.06);
+}
+
+.bento-card__icon {
+  width: 44px;
+  height: 44px;
+  background: var(--accent-subtle);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: var(--accent);
+  font-size: 20px;
+}
+
+.bento-card__title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--text-dark);
+  letter-spacing: -0.01em;
+}
+
+.bento-card__text {
+  font-size: 14px;
+  color: var(--text-dark-secondary);
+  line-height: 1.6;
+}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════ */
+@media (max-width: 768px) {
+  .hero {
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%);
+    min-height: 50vh;
+  }
+
+  .hero::after {
+    height: 10%; /* matches 100%-90% */
+  }
+
+  .hero__inner {
+    padding: 60px 0 100px;
+  }
+
+  .section-white {
+    margin-top: -6vh;
+    padding-top: 60px;
+    padding-bottom: 60px;
+  }
+
+  .counters {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+
+  .bento-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero__inner {
+    padding: 48px 0 80px;
+  }
+
+  .counters {
+    gap: 12px;
+  }
+
+  .counter__label {
+    font-size: 12px;
+  }
+
+  .bento-card {
+    padding: 28px 24px;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════
+     HERO — DARK
+     ═══════════════════════════════════ -->
+<section class="hero">
+  <div class="container hero__inner">
+    <div class="hero__label">Leads B2B Qualifies</div>
+    <h1 class="hero__title">Genere <span>+30 leads</span> qualifies par semaine avec META Ads</h1>
+    <p class="hero__subtitle">La methode qui permet aux entreprises B2B de scaler leur acquisition sans exploser leur budget publicitaire.</p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     WHITE SECTION — COUNTERS + BENTO
+     ═══════════════════════════════════ -->
+<section class="section-white">
+  <div class="container">
+
+    <!-- Counters -->
+    <div class="counters">
+      <div class="counter">
+        <div class="counter__number">+<span>30</span></div>
+        <div class="counter__label">Leads / semaine</div>
+      </div>
+      <div class="counter">
+        <div class="counter__number"><span>3</span>x</div>
+        <div class="counter__label">ROAS moyen</div>
+      </div>
+      <div class="counter">
+        <div class="counter__number">-<span>40</span>%</div>
+        <div class="counter__label">Cout par lead</div>
+      </div>
+    </div>
+
+    <!-- Bento Cards -->
+    <div class="bento-grid">
+      <div class="bento-card">
+        <div class="bento-card__icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <div class="bento-card__title">Ciblage Precision</div>
+        <p class="bento-card__text">Des audiences B2B ultra-qualifiees construites sur mesure pour ton secteur et tes personas.</p>
+      </div>
+      <div class="bento-card">
+        <div class="bento-card__icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+            <line x1="3" y1="9" x2="21" y2="9"/>
+            <line x1="9" y1="21" x2="9" y2="9"/>
+          </svg>
+        </div>
+        <div class="bento-card__title">Creatives Haute Conversion</div>
+        <p class="bento-card__text">Des formats publicitaires testes et optimises qui captent l'attention de tes decision-makers.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>

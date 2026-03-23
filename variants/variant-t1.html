@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Variant T1 — Clean Fade Blend</title>
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: #ffffff;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      min-height: 60vh;
+      background: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .hero-content {
+      padding: 60px 24px 0;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .hero-content p {
+      font-size: clamp(1rem, 1.6vw, 1.25rem);
+      font-weight: 400;
+      opacity: 0.55;
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ─── TRANSITION: 300px gradient fade ─── */
+    .transition-fade {
+      height: 300px;
+      background: linear-gradient(to bottom, #000000, #ffffff);
+      /* purely visual — no content */
+    }
+
+    /* ─── WHITE SECTION ─── */
+    .white-section {
+      position: relative;
+      background: #ffffff;
+      padding: 0 24px 80px;
+    }
+
+    /* subtle continuation gradient on the white side */
+    .white-section::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.02), transparent);
+      pointer-events: none;
+    }
+
+    /* ─── COUNTERS ─── */
+    .counters {
+      display: flex;
+      justify-content: center;
+      gap: clamp(32px, 6vw, 80px);
+      padding: 60px 0 56px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .counter {
+      text-align: center;
+    }
+
+    .counter-value {
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: #000000;
+      line-height: 1;
+    }
+
+    .counter-label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: rgba(0, 0, 0, 0.45);
+      margin-top: 8px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+    }
+
+    /* ─── BENTO CARDS ─── */
+    .bento-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .bento-card {
+      background: #f5f5f5;
+      border-radius: 16px;
+      padding: 36px 32px;
+      min-height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .bento-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #000000;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+
+    .bento-card p {
+      font-size: 0.9rem;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.5);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 600px) {
+      .bento-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .counters {
+        gap: 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HERO (dark) -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>LEADX Hero Section</h1>
+      <p>Qualifiez vos prospects avec l'intelligence artificielle et convertissez plus rapidement.</p>
+    </div>
+  </section>
+
+  <!-- TRANSITION: pure gradient, no shape, no wave -->
+  <div class="transition-fade" aria-hidden="true"></div>
+
+  <!-- WHITE SECTION -->
+  <section class="white-section">
+
+    <div class="counters">
+      <div class="counter">
+        <div class="counter-value">3.2k</div>
+        <div class="counter-label">Leads qualifiés</div>
+      </div>
+      <div class="counter">
+        <div class="counter-value">94%</div>
+        <div class="counter-label">Précision IA</div>
+      </div>
+      <div class="counter">
+        <div class="counter-value">2.4x</div>
+        <div class="counter-label">Conversion</div>
+      </div>
+    </div>
+
+    <div class="bento-grid">
+      <div class="bento-card">
+        <h3>Scoring intelligent</h3>
+        <p>Chaque prospect est analysé et noté automatiquement selon son potentiel de conversion.</p>
+      </div>
+      <div class="bento-card">
+        <h3>Qualification temps réel</h3>
+        <p>Les données comportementales alimentent un moteur de décision qui priorise vos actions.</p>
+      </div>
+    </div>
+
+  </section>
+
+</body>
+</html>

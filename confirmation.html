@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>LEADX — Confirmation de ton appel</title>
 <meta name="description" content="Ton appel stratégique LEADX est confirmé. Voici comment te préparer.">
@@ -334,6 +335,15 @@ body::before {
 </head>
 <body>
 
+<header role="banner" style="position:absolute;top:0;left:0;z-index:10;padding:20px 24px;">
+  <nav aria-label="Navigation principale">
+    <a href="index.html" style="display:inline-flex;min-height:44px;align-items:center;">
+      <img src="assets/LEADX-wordmark-light.svg" alt="LEADX - Accueil" style="height:32px;width:auto;" loading="lazy">
+    </a>
+  </nav>
+</header>
+
+<main>
 <!-- ════════════════════════ HERO CONFIRMATION ════════════════════════ -->
 <section class="hero-confirm">
   <div class="container">
@@ -408,9 +418,11 @@ body::before {
   </div>
 </section>
 
+</main>
+
 <!-- ════════════════════════ FOOTER ════════════════════════ -->
-<footer class="footer">
-  <div class="footer__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="footer__logo-img" style="height:24px;width:auto;"></div>
+<footer class="footer" role="contentinfo">
+  <div class="footer__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" class="footer__logo-img" style="height:24px;width:auto;" loading="lazy"></div>
   <nav class="footer__links" aria-label="Liens légaux">
     <a href="politique-de-confidentialite.html">Politique de confidentialit&eacute;</a>
     <a href="cgv.html">CGV</a>

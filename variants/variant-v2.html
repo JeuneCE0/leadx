@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>LEADX — Variant V2 Storytelling</title>
+<meta name="description" content="Découvre la méthode META Ads qui permet aux entreprises B2B de générer +30 leads qualifiés par semaine.">
+<meta name="theme-color" content="#000000">
+<style>
+/* ══════════════════════════════════════
+   DESIGN SYSTEM — VARIANT V2
+   ══════════════════════════════════════ */
+:root {
+  --accent: #FF2600;
+  --accent-dark: #C11D00;
+  --accent-light: #FF4D2E;
+  --accent-glow: rgba(255, 38, 0, 0.35);
+  --accent-subtle: rgba(255, 38, 0, 0.08);
+  --bg-light: #FFFFFF;
+  --bg-dark: #000000;
+  --bg-dark-card: #0A0A0A;
+  --text-dark: #000000;
+  --text-dark-secondary: #555555;
+  --text-light: #FFFFFF;
+  --text-light-secondary: #999999;
+  --text-muted: #777777;
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-dark: rgba(255, 255, 255, 0.10);
+  --border-accent: rgba(255, 38, 0, 0.25);
+  --font-main: "Neue Haas Grotesk Display Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --ease: cubic-bezier(.525, 0, 0, 1);
+}
+
+/* ── Reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+body { font-family: var(--font-main); font-weight: 400; color: #000; background: #fff; overflow-x: hidden; line-height: 1.6; }
+body.modal-open { overflow: hidden; }
+img { max-width: 100%; display: block; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; border: none; font-family: inherit; }
+::selection { background: var(--accent); color: #fff; }
+
+/* ── Noise Overlay ── */
+body::before {
+  content: ''; position: fixed; inset: 0; z-index: 9998; pointer-events: none;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  will-change: transform; transform: translateZ(0);
+}
+
+/* ── Scroll Progress ── */
+#scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; z-index: 9999;
+  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  width: 0%; transition: width 0.1s linear;
+  will-change: width; transform: translateZ(0);
+}
+@media(max-width:640px){ #scroll-progress { display:none; } }
+
+/* ── Utility ── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+.reveal { opacity: 0; transform: translateY(24px); filter: blur(3px); transition: opacity 0.5s var(--ease), transform 0.5s var(--ease), filter 0.5s var(--ease); will-change: transform, opacity; backface-visibility: hidden; }
+.reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+
+/* ── CTA Button ── */
+.cta-btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--accent); color: #fff;
+  font-family: var(--font-main); font-weight: 700;
+  font-size: clamp(14px, 2vw, 17px); letter-spacing: 0.04em;
+  padding: 18px 40px; border-radius: 12px;
+  transition: all 0.3s cubic-bezier(.25,.46,.45,.94);
+  position: relative; overflow: hidden;
+  box-shadow: 0 4px 20px rgba(255,38,0,0.3), 0 1px 3px rgba(0,0,0,0.1);
+}
+.cta-btn:hover {
+  background: var(--accent-dark); transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(255,38,0,0.4), 0 2px 6px rgba(0,0,0,0.15);
+}
+.cta-btn:active { transform: translateY(0); }
+.cta-btn--inverse { background: #fff; color: var(--accent); box-shadow: 0 4px 20px rgba(255,255,255,0.2); }
+.cta-btn--inverse:hover { background: #f5f5f5; }
+.cta-btn--dark { background: var(--accent); color: #fff; }
+.cta-btn--dark:hover { background: var(--accent-dark); }
+
+/* ══════════════════════════════════════
+   1. HERO PLACEHOLDER (DARK, 60vh)
+   ══════════════════════════════════════ */
+.hero {
+  position: relative; min-height: 60vh; background: #000;
+  display: flex; align-items: center; justify-content: center; text-align: center; color: #fff;
+}
+.hero-content { padding: 60px 24px 0; }
+.hero-content h1 {
+  font-size: clamp(2.4rem, 5vw, 4rem); font-weight: 700;
+  letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 20px;
+}
+.hero-content p {
+  font-size: clamp(1rem, 1.6vw, 1.25rem); font-weight: 400;
+  opacity: 0.55; max-width: 480px; margin: 0 auto; line-height: 1.6;
+}
+
+/* ══════════════════════════════════════
+   2. RED BAND — MUTED STATS
+   ══════════════════════════════════════ */
+.red-band {
+  background: var(--accent); padding: 28px 24px; position: relative; overflow: hidden;
+}
+.red-band::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+.red-band__inner {
+  display: flex; justify-content: center; gap: clamp(32px, 6vw, 80px);
+  max-width: 900px; margin: 0 auto; position: relative; z-index: 1; flex-wrap: wrap;
+}
+.red-band__stat { text-align: center; }
+.red-band__value {
+  font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 800;
+  color: #fff; line-height: 1; letter-spacing: -0.02em;
+}
+.red-band__label {
+  font-size: 0.75rem; font-weight: 600; color: rgba(255,255,255,0.7);
+  margin-top: 4px; letter-spacing: 0.05em; text-transform: uppercase;
+}
+
+/* ══════════════════════════════════════
+   3. PROBLEM SECTION — WHITE + DOT GRID
+   ══════════════════════════════════════ */
+.problem-section {
+  background: #fff; padding: 100px 24px; position: relative;
+}
+.problem-section::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+.problem-section .container { position: relative; z-index: 1; }
+
+.problem-section__title {
+  font-family: var(--font-main); font-weight: 800;
+  font-size: clamp(24px, 4vw, 40px); text-align: center; margin-bottom: 56px;
+  color: var(--text-dark); line-height: 1.2; max-width: 700px; margin-left: auto; margin-right: auto;
+}
+
+.pain-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 20px; max-width: 960px; margin: 0 auto 48px;
+}
+
+.pain-card {
+  background: var(--bg-dark-card); border-radius: 16px; padding: 32px 28px;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s ease;
+}
+.pain-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+.pain-card__accent {
+  position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--accent);
+}
+.pain-card__icon {
+  font-size: 28px; margin-bottom: 16px; display: block;
+}
+.pain-card__text {
+  font-family: var(--font-main); font-weight: 600; font-size: 15px;
+  color: var(--text-light); line-height: 1.5;
+}
+
+.problem-section__bottom {
+  text-align: center; font-size: clamp(14px, 2vw, 17px);
+  color: var(--text-dark-secondary); max-width: 600px; margin: 0 auto;
+  line-height: 1.7;
+}
+.problem-section__bottom strong { color: var(--text-dark); font-weight: 700; }
+
+@media (max-width: 768px) {
+  .pain-grid { grid-template-columns: 1fr; max-width: 400px; }
+}
+
+/* ══════════════════════════════════════
+   4. SOLUTION — ASYMMETRIC BENTO
+   ══════════════════════════════════════ */
+.solution-section {
+  background: #f5f5f5; padding: 100px 24px; position: relative;
+}
+.solution-section__title {
+  font-family: var(--font-main); font-weight: 800;
+  font-size: clamp(24px, 4vw, 40px); text-align: center; margin-bottom: 56px;
+  color: var(--text-dark); line-height: 1.2;
+}
+
+.bento-asym {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 20px; max-width: 960px; margin: 0 auto;
+}
+
+.bento-asym__card {
+  background: #FAFAFA; border-radius: 20px; padding: 36px 32px;
+  border: 1px solid rgba(0,0,0,0.06);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative; overflow: hidden;
+}
+.bento-asym__card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+  border-color: rgba(255,38,0,0.15);
+}
+.bento-asym__card::before {
+  content: ''; position: absolute; top: 0; left: 24px; right: 24px; height: 2px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+  opacity: 0; transition: opacity 0.3s ease;
+}
+.bento-asym__card:hover::before { opacity: 1; }
+
+/* Row 1: big (2/3) + tall (1/3) */
+.bento-asym__card--big {
+  grid-column: 1 / 2; grid-row: 1 / 2;
+  display: flex; flex-direction: column; justify-content: center;
+  min-height: 260px;
+}
+.bento-asym__card--tall {
+  grid-column: 2 / 3; grid-row: 1 / 3;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  text-align: center; background: var(--bg-dark-card); border-color: transparent;
+}
+.bento-asym__card--tall:hover { border-color: var(--accent); }
+
+/* Row 2: 2 equal */
+.bento-asym__card--eq1 { grid-column: 1 / 2; grid-row: 2 / 3; }
+
+/* Row 3: full width — we need a trick since tall spans row 1-2 */
+.bento-asym__card--eq2 { grid-column: 1 / 2; grid-row: 3 / 4; }
+.bento-asym__card--full { grid-column: 1 / -1; grid-row: 4 / 5; background: var(--bg-dark-card); border-color: transparent; }
+.bento-asym__card--full:hover { border-color: var(--accent); }
+
+/* Re-layout: we actually need: row1 = big + tall(span2), row2 = eq1 + tall(cont), row3 = full */
+/* Corrected grid */
+.bento-asym {
+  grid-template-rows: auto auto auto;
+}
+.bento-asym__card--tall {
+  grid-column: 2 / 3; grid-row: 1 / 3;
+}
+.bento-asym__card--eq1 { grid-column: 1 / 2; grid-row: 2 / 3; }
+.bento-asym__card--eq2 {
+  grid-column: 2 / 3; grid-row: 3 / 4;
+}
+.bento-asym__card--full {
+  grid-column: 1 / -1; grid-row: 4 / 5;
+}
+
+/* Actually let's do a clean 5-card layout */
+.bento-asym {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px; max-width: 960px; margin: 0 auto;
+}
+.bento-asym__card--big { grid-column: 1 / 2; }
+.bento-asym__card--tall { grid-column: 2 / 3; grid-row: 1 / 3; }
+.bento-asym__card--eq1 { grid-column: 1 / 2; }
+.bento-asym__card--eq2 { grid-column: 2 / 3; }
+.bento-asym__card--full { grid-column: 1 / -1; }
+
+.bento-asym__card h3 {
+  font-family: var(--font-main); font-weight: 700;
+  font-size: clamp(18px, 2.5vw, 22px); color: var(--text-dark);
+  margin-bottom: 10px; letter-spacing: -0.02em;
+}
+.bento-asym__card p {
+  font-size: 15px; color: var(--text-dark-secondary); line-height: 1.7;
+}
+.bento-asym__card--tall h3,
+.bento-asym__card--full h3 { color: var(--text-light); }
+.bento-asym__card--tall p,
+.bento-asym__card--full p { color: var(--text-light-secondary); }
+
+/* Counter in tall card */
+.bento-counter {
+  font-size: clamp(48px, 8vw, 72px); font-weight: 800; color: var(--accent);
+  line-height: 1; margin-bottom: 12px; letter-spacing: -0.04em;
+}
+.bento-counter-label {
+  font-size: 16px; font-weight: 600; color: var(--text-light-secondary);
+}
+
+@media (max-width: 768px) {
+  .bento-asym {
+    grid-template-columns: 1fr;
+  }
+  .bento-asym__card--big,
+  .bento-asym__card--tall,
+  .bento-asym__card--eq1,
+  .bento-asym__card--eq2,
+  .bento-asym__card--full {
+    grid-column: 1 / -1; grid-row: auto;
+  }
+}
+
+/* ══════════════════════════════════════
+   5. TESTIMONIALS
+   ══════════════════════════════════════ */
+.testimonial-section {
+  background: #fff; padding: 100px 24px; position: relative;
+}
+.testimonial-section__title {
+  font-family: var(--font-main); font-weight: 800;
+  font-size: clamp(24px, 4vw, 40px); text-align: center; margin-bottom: 56px;
+  color: var(--text-dark); line-height: 1.2;
+}
+
+.testimonial-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 24px; max-width: 1000px; margin: 0 auto;
+}
+
+.testimonial-card {
+  background: rgba(255,255,255,0.7); backdrop-filter: blur(12px);
+  border: 1px solid rgba(0,0,0,0.06); border-radius: 20px;
+  padding: 36px 28px; position: relative;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+  transition: transform 0.3s var(--ease), box-shadow 0.3s ease;
+}
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.08);
+}
+
+.testimonial-card__quote-mark {
+  font-size: 48px; line-height: 1; color: var(--accent); opacity: 0.3;
+  font-weight: 800; margin-bottom: 8px;
+}
+.testimonial-card__text {
+  font-size: 15px; color: var(--text-dark); line-height: 1.7;
+  font-style: italic; margin-bottom: 24px;
+}
+.testimonial-card__author {
+  display: flex; flex-direction: column; gap: 2px;
+}
+.testimonial-card__name {
+  font-weight: 700; font-size: 15px; color: var(--text-dark);
+}
+.testimonial-card__role {
+  font-size: 13px; color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+  .testimonial-grid { grid-template-columns: 1fr; max-width: 480px; }
+}
+
+/* ══════════════════════════════════════
+   6. MID CTA
+   ══════════════════════════════════════ */
+.mid-cta {
+  background: #fff; padding: 0 24px 80px; text-align: center;
+}
+.mid-cta h2 {
+  font-family: var(--font-main); font-weight: 800;
+  font-size: clamp(22px, 3.5vw, 32px); color: var(--text-dark);
+  margin-bottom: 24px; line-height: 1.2;
+}
+
+/* ══════════════════════════════════════
+   7. FAQ ON WHITE
+   ══════════════════════════════════════ */
+.faq-section {
+  background: #fff; padding: 80px 24px 100px;
+}
+.faq-section__title {
+  font-family: var(--font-main); font-weight: 700;
+  font-size: clamp(22px, 4vw, 32px); text-align: center; margin-bottom: 40px;
+  color: var(--text-dark);
+}
+
+.faq-list { max-width: 720px; margin: 0 auto; }
+
+.faq-item {
+  background: #fff; border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 14px; margin-bottom: 12px; overflow: hidden;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+.faq-item:hover { border-color: rgba(255,38,0,0.2); box-shadow: 0 4px 16px rgba(0,0,0,0.04); }
+
+.faq-item__q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; background: none; color: var(--text-dark);
+  font-family: var(--font-main); font-weight: 700; font-size: 15px;
+  text-align: left; gap: 16px; transition: color 0.2s ease;
+}
+
+.faq-item__arrow {
+  width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(0,0,0,0.04); transition: all 0.3s ease;
+}
+.faq-item.open .faq-item__arrow { background: var(--accent); transform: rotate(180deg); }
+.faq-item__arrow svg { width: 14px; height: 14px; stroke: #333; fill: none; stroke-width: 2; }
+.faq-item.open .faq-item__arrow svg { stroke: #fff; }
+
+.faq-item__a {
+  max-height: 0; opacity: 0; overflow: hidden;
+  transition: max-height 0.4s var(--ease), opacity 0.3s ease, padding 0.3s ease;
+  padding: 0 24px;
+}
+.faq-item.open .faq-item__a { max-height: 300px; opacity: 1; padding: 0 24px 20px; }
+.faq-item__a p { font-size: 14px; color: var(--text-dark-secondary); line-height: 1.7; }
+
+/* ══════════════════════════════════════
+   8. BIG CTA (RED)
+   ══════════════════════════════════════ */
+.white-to-red {
+  height: 120px; position: relative;
+  background: linear-gradient(to bottom, #ffffff 0%, rgba(255,38,0,0.03) 30%, rgba(255,38,0,0.15) 60%, #FF2600 100%);
+}
+
+.big-cta {
+  background: var(--accent); position: relative; overflow: hidden;
+  padding: 100px 24px; text-align: center;
+}
+.big-cta::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background-image: linear-gradient(rgba(255,255,255,0.07) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255,255,255,0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.big-cta::after {
+  content: ''; position: absolute; top: -50%; left: 50%; transform: translateX(-50%);
+  width: 600px; height: 400px; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+}
+.big-cta h2 {
+  font-family: var(--font-main); font-weight: 800;
+  font-size: clamp(22px, 4vw, 36px); color: #fff;
+  max-width: 700px; margin: 0 auto 16px; position: relative; z-index: 1; line-height: 1.2;
+}
+.big-cta p {
+  color: rgba(255,255,255,0.85); font-size: clamp(14px, 2vw, 17px);
+  max-width: 580px; margin: 0 auto 32px; position: relative; z-index: 1; line-height: 1.6;
+}
+.big-cta .cta-btn { position: relative; z-index: 1; }
+
+/* ══════════════════════════════════════
+   9. FOOTER
+   ══════════════════════════════════════ */
+.red-to-dark {
+  height: 80px;
+  background: linear-gradient(to bottom, #FF2600 0%, #991700 40%, #1a0500 70%, #000000 100%);
+}
+
+.footer { background: #000; padding: 48px 24px 32px; text-align: center; }
+.footer__logo { margin-bottom: 20px; }
+.footer__logo-img { height: 24px; width: auto; margin: 0 auto; }
+.footer__links { display: flex; gap: 24px; justify-content: center; margin-bottom: 20px; flex-wrap: wrap; }
+.footer__links a { font-size: 13px; color: rgba(255,255,255,0.5); transition: color 0.2s; }
+.footer__links a:hover { color: var(--accent); }
+.footer__copy { font-size: 12px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+.footer__disclaimer { font-size: 11px; color: rgba(255,255,255,0.4); max-width: 600px; margin: 0 auto; line-height: 1.5; opacity: 0.7; }
+
+/* ══════════════════════════════════════
+   MODAL
+   ══════════════════════════════════════ */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: all 0.3s ease;
+}
+.modal-overlay.open { opacity: 1; visibility: visible; }
+.modal {
+  width: 90%; max-width: 480px; border-radius: 20px; overflow: hidden;
+  transform: translateY(20px) scale(0.97); transition: transform 0.35s cubic-bezier(.25,.46,.45,.94);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+}
+.modal-overlay.open .modal { transform: translateY(0) scale(1); }
+
+@media(max-width:640px){
+  .modal-overlay { align-items: flex-end; }
+  .modal { width: 100%; max-width: none; border-radius: 20px 20px 0 0; transform: translateY(100%); }
+  .modal-overlay.open .modal { transform: translateY(0); }
+}
+
+.modal__header {
+  background: var(--bg-dark); padding: 28px 28px 24px; position: relative;
+}
+.modal__header-proof {
+  display: flex; align-items: center; gap: 8px; margin-bottom: 14px; font-size: 12px; color: var(--text-light-secondary);
+}
+.modal__header-proof-avatars { display: flex; }
+.modal__header-proof-avatars img { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--bg-dark); margin-left: -6px; object-fit: cover; }
+.modal__header-proof-avatars img:first-child { margin-left: 0; }
+.modal__header h3 {
+  font-family: var(--font-main); font-weight: 700; font-size: 20px;
+  color: var(--text-light); margin-bottom: 6px;
+}
+.modal__header p { font-size: 14px; color: var(--text-light-secondary); }
+.modal__header-arrow {
+  position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
+  width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent;
+  border-top: 10px solid var(--bg-dark);
+}
+.modal__close {
+  position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.1);
+  width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 18px; transition: background 0.2s;
+}
+.modal__close:hover { background: rgba(255,255,255,0.2); }
+
+.modal__body { background: #fff; padding: 32px 28px 28px; }
+.modal__form { display: flex; flex-direction: column; gap: 16px; }
+
+.form-group { position: relative; }
+.form-group input {
+  width: 100%; padding: 16px 16px 8px; border: 1.5px solid rgba(0,0,0,0.12);
+  border-radius: 10px; font-size: 15px; font-family: var(--font-main);
+  background: #fff; transition: border-color 0.2s; outline: none; color: #000;
+}
+.form-group input:focus { border-color: var(--accent); }
+.form-group label {
+  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+  font-size: 14px; color: var(--text-muted); pointer-events: none;
+  transition: all 0.2s ease;
+}
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: 8px; transform: translateY(0); font-size: 11px; color: var(--accent);
+}
+
+.modal__submit {
+  width: 100%; padding: 16px; background: var(--accent); color: #fff;
+  font-family: var(--font-main); font-weight: 700; font-size: 15px;
+  border-radius: 10px; letter-spacing: 0.03em; transition: background 0.2s;
+}
+.modal__submit:hover { background: var(--accent-dark); }
+.modal__micro { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+.modal__reassurance { text-align: center; font-size: 12px; color: var(--text-muted); margin-top: 8px; }
+
+/* ══════════════════════════════════════
+   LOADER
+   ══════════════════════════════════════ */
+.loader-overlay {
+  position: fixed; inset: 0; z-index: 10002; background: var(--bg-dark);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  opacity: 0; visibility: hidden; transition: all 0.3s;
+}
+.loader-overlay.open { opacity: 1; visibility: visible; }
+.loader-spinner { width: 40px; height: 40px; border: 3px solid rgba(255,38,0,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 24px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.loader-bar { width: 200px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
+.loader-bar__fill { height: 100%; background: var(--accent); border-radius: 4px; width: 0%; transition: width 0.5s ease; }
+.loader-text { font-size: 15px; color: var(--text-light-secondary); transition: opacity 0.3s; }
+
+/* ══════════════════════════════════════
+   STICKY MOBILE CTA
+   ══════════════════════════════════════ */
+.sticky-cta {
+  display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 9995;
+  padding: 12px 16px; padding-bottom: calc(12px + env(safe-area-inset-bottom));
+  background: rgba(0,0,0,0.95); backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border-accent);
+  transform: translateY(100%); transition: transform 0.3s ease;
+}
+.sticky-cta.visible { transform: translateY(0); }
+.sticky-cta__btn {
+  display: block; width: 100%; padding: 14px; background: var(--accent); color: #fff;
+  font-family: var(--font-main); font-weight: 700; font-size: 15px;
+  border-radius: 10px; text-align: center; letter-spacing: 0.03em;
+}
+.sticky-cta__sub { text-align: center; font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+@media(max-width:640px){ .sticky-cta { display: block; } }
+
+/* ── Confetti ── */
+.confetti-piece {
+  position: fixed; z-index: 10001; pointer-events: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ── Scroll Progress ── -->
+<div id="scroll-progress"></div>
+
+<!-- ════════════════════════════════════════════════
+     1. HERO PLACEHOLDER (DARK, 60vh)
+     ════════════════════════════════════════════════ -->
+<section class="hero" id="hero-section">
+  <div class="hero-content">
+    <h1>LEADX Hero Placeholder</h1>
+    <p>Section hero — contenu remplacé dans la version finale.</p>
+  </div>
+</section>
+
+<main>
+
+<!-- ════════════════════════════════════════════════
+     2. RED BAND — MUTED STATS
+     ════════════════════════════════════════════════ -->
+<section class="red-band">
+  <div class="red-band__inner">
+    <div class="red-band__stat reveal">
+      <div class="red-band__value" data-target="47" data-suffix="+">0</div>
+      <div class="red-band__label">Entreprises B2B</div>
+    </div>
+    <div class="red-band__stat reveal">
+      <div class="red-band__value" data-target="3200" data-suffix="+">0</div>
+      <div class="red-band__label">Leads générés</div>
+    </div>
+    <div class="red-band__stat reveal">
+      <div class="red-band__value" data-target="94" data-suffix="%">0</div>
+      <div class="red-band__label">Taux qualification</div>
+    </div>
+    <div class="red-band__stat reveal">
+      <div class="red-band__value" data-target="2" data-suffix=".4x">0</div>
+      <div class="red-band__label">ROI moyen</div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     3. LE PROBLEME — WHITE + DOT GRID
+     ════════════════════════════════════════════════ -->
+<section class="problem-section">
+  <div class="container">
+    <h2 class="problem-section__title reveal">Tu investis dans META Ads, mais les résultats ne suivent pas.</h2>
+
+    <div class="pain-grid">
+      <div class="pain-card reveal">
+        <div class="pain-card__accent"></div>
+        <span class="pain-card__icon">📵</span>
+        <div class="pain-card__text">Des leads qui ne décrochent jamais</div>
+      </div>
+      <div class="pain-card reveal">
+        <div class="pain-card__accent"></div>
+        <span class="pain-card__icon">📈</span>
+        <div class="pain-card__text">Un coût par lead qui explose</div>
+      </div>
+      <div class="pain-card reveal">
+        <div class="pain-card__accent"></div>
+        <span class="pain-card__icon">🎯</span>
+        <div class="pain-card__text">Des campagnes qui tournent sans stratégie claire</div>
+      </div>
+    </div>
+
+    <p class="problem-section__bottom reveal">Si tu te reconnais, c'est normal. <strong>90% des agences font la même erreur en B2B.</strong></p>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     4. LA SOLUTION LEADX — ASYMMETRIC BENTO
+     ════════════════════════════════════════════════ -->
+<section class="solution-section">
+  <div class="container">
+    <h2 class="solution-section__title reveal">Notre méthode change la donne.</h2>
+
+    <div class="bento-asym">
+
+      <!-- Big card (2/3 width) -->
+      <div class="bento-asym__card bento-asym__card--big reveal">
+        <h3>Ciblage chirurgical</h3>
+        <p>On ne cible pas des audiences larges. On identifie les décideurs B2B (DG, DAF, CEO) avec des audiences ultra-qualifiées.</p>
+      </div>
+
+      <!-- Tall card (1/3 width, spans 2 rows) -->
+      <div class="bento-asym__card bento-asym__card--tall reveal">
+        <div class="bento-counter" data-target="47" data-prefix="+" id="bento-counter-value">0</div>
+        <div class="bento-counter-label">entreprises accompagnées</div>
+      </div>
+
+      <!-- Equal card 1 -->
+      <div class="bento-asym__card bento-asym__card--eq1 reveal">
+        <h3>Créas qui convertissent</h3>
+        <p>Des visuels testés sur +47 comptes B2B, optimisés pour le clic et la qualification.</p>
+      </div>
+
+      <!-- Equal card 2 -->
+      <div class="bento-asym__card bento-asym__card--eq2 reveal">
+        <h3>Optimisation continue</h3>
+        <p>Chaque semaine, on coupe ce qui ne marche pas et on scale ce qui performe.</p>
+      </div>
+
+      <!-- Full-width card -->
+      <div class="bento-asym__card bento-asym__card--full reveal">
+        <h3>Résultat : des leads qualifiés livrés dans ton CRM, des RDV bookés, du CA généré.</h3>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     5. TESTIMONIALS
+     ════════════════════════════════════════════════ -->
+<section class="testimonial-section">
+  <div class="container">
+    <h2 class="testimonial-section__title reveal">Ce que disent nos clients</h2>
+
+    <div class="testimonial-grid">
+      <div class="testimonial-card reveal">
+        <div class="testimonial-card__quote-mark">"</div>
+        <p class="testimonial-card__text">On est passé de 0 à 30 leads B2B par semaine en 3 mois. Le ROI est insane.</p>
+        <div class="testimonial-card__author">
+          <span class="testimonial-card__name">Thomas D.</span>
+          <span class="testimonial-card__role">CEO SaaS</span>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <div class="testimonial-card__quote-mark">"</div>
+        <p class="testimonial-card__text">LEADX a divisé notre coût par lead par 3. On ne reviendrait en arrière pour rien au monde.</p>
+        <div class="testimonial-card__author">
+          <span class="testimonial-card__name">Julie M.</span>
+          <span class="testimonial-card__role">Directrice Agence</span>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal">
+        <div class="testimonial-card__quote-mark">"</div>
+        <p class="testimonial-card__text">En 60 jours, on avait un système d'acquisition complet qui tourne tout seul.</p>
+        <div class="testimonial-card__author">
+          <span class="testimonial-card__name">Nicolas P.</span>
+          <span class="testimonial-card__role">Fondateur Consulting</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     6. MID CTA
+     ════════════════════════════════════════════════ -->
+<section class="mid-cta">
+  <h2 class="reveal">Prêt à écrire ta propre success story ?</h2>
+  <div class="reveal">
+    <button class="cta-btn cta-btn--dark open-modal" id="main-cta">DÉCOUVRIR LA MÉTHODE →</button>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     7. FAQ
+     ════════════════════════════════════════════════ -->
+<section class="faq-section">
+  <h2 class="faq-section__title reveal">Questions fréquentes</h2>
+  <div class="faq-list">
+
+    <div class="faq-item reveal">
+      <button class="faq-item__q">
+        Est-ce que META Ads fonctionne vraiment en B2B ?
+        <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </button>
+      <div class="faq-item__a"><p>Oui. Contrairement à ce que pensent la plupart des agences, META est un levier B2B sous-exploité. Nos clients génèrent des leads décideurs (dirigeants, DG, DAF) à un coût 2 à 5x inférieur à LinkedIn Ads. On te montre exactement comment dans la vidéo.</p></div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-item__q">
+        Combien coûte un accompagnement LEADX ?
+        <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </button>
+      <div class="faq-item__a"><p>Nos formules démarrent à 497€/mois selon le volume et la complexité de tes campagnes. On en parle en détail lors de l'appel stratégique après la vidéo.</p></div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-item__q">
+        Je n'ai jamais fait de pub META, c'est un problème ?
+        <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </button>
+      <div class="faq-item__a"><p>Pas du tout. On gère tout de A à Z : la stratégie, les créas, le lancement et l'optimisation. Toi, tu reçois les leads dans ton CRM.</p></div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-item__q">
+        En combien de temps je vois des résultats ?
+        <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+      </button>
+      <div class="faq-item__a"><p>Les premiers leads arrivent généralement dans les 7 à 14 jours après le lancement des campagnes. L'optimisation complète du système prend 30 à 60 jours.</p></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════════
+     8. TRANSITION WHITE → RED
+     ════════════════════════════════════════════════ -->
+<div class="white-to-red"></div>
+
+<!-- ════════════════════════════════════════════════
+     8. BIG CTA (RED)
+     ════════════════════════════════════════════════ -->
+<section class="big-cta">
+  <h2 class="reveal">Arrête de perdre du budget sur des leads qui ne convertissent pas.</h2>
+  <p class="reveal">Regarde la méthode LEADX — 12 minutes pour comprendre comment on génère des RDV B2B qualifiés avec META.</p>
+  <div class="reveal" style="text-align:center">
+    <button class="cta-btn cta-btn--inverse open-modal">VOIR LA MÉTHODE MAINTENANT →</button>
+  </div>
+</section>
+
+</main>
+
+<!-- ════════════════════════════════════════════════
+     9. TRANSITION RED → DARK
+     ════════════════════════════════════════════════ -->
+<div class="red-to-dark"></div>
+
+<!-- ════════════════════════════════════════════════
+     9. FOOTER
+     ════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer__logo"><img src="../assets/LEADX-wordmark-light.svg" alt="LEADX" class="footer__logo-img" style="height:24px;width:auto;"></div>
+  <nav class="footer__links" aria-label="Liens légaux">
+    <a href="../politique-de-confidentialite.html">Politique de confidentialité</a>
+    <a href="../cgv.html">CGV</a>
+    <a href="../mentions-legales.html">Mentions légales</a>
+  </nav>
+  <div class="footer__copy">&copy; 2025 LEADX PARTNERS LTD — Company Number 16372013 — Tous droits réservés.</div>
+  <div class="footer__disclaimer">This site is not a part of the Facebook&trade; website or Facebook&trade; Inc. Additionally, this site is NOT endorsed by Facebook&trade; in any way. FACEBOOK&trade; is a trademark of FACEBOOK&trade;, Inc.</div>
+</footer>
+
+<!-- ════════════════════════════════════════════════
+     MODAL OPTIN
+     ════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal__header">
+      <button class="modal__close" id="modal-close" aria-label="Fermer">&times;</button>
+      <div class="modal__header-proof">
+        <div class="modal__header-proof-avatars">
+          <img src="https://i.pravatar.cc/48?img=15" alt="" loading="lazy" width="24" height="24">
+          <img src="https://i.pravatar.cc/48?img=25" alt="" loading="lazy" width="24" height="24">
+          <img src="https://i.pravatar.cc/48?img=35" alt="" loading="lazy" width="24" height="24">
+        </div>
+        47 entreprises nous font confiance
+      </div>
+      <h3 id="modal-title">Accède à la méthode LEADX</h3>
+      <p>Découvre comment générer des leads B2B qualifiés avec META Ads</p>
+      <div class="modal__header-arrow"></div>
+    </div>
+    <div class="modal__body">
+      <div class="modal__form" id="optin-form">
+        <div class="form-group">
+          <input type="text" id="f-prenom" placeholder=" " required>
+          <label for="f-prenom">Prénom</label>
+        </div>
+        <div class="form-group">
+          <input type="text" id="f-nom" placeholder=" " required>
+          <label for="f-nom">Nom</label>
+        </div>
+        <div class="form-group">
+          <input type="email" id="f-email" placeholder=" " required>
+          <label for="f-email">Email</label>
+        </div>
+        <div class="form-group">
+          <input type="tel" id="f-tel" placeholder=" ">
+          <label for="f-tel">Téléphone</label>
+        </div>
+        <button class="modal__submit" id="submit-btn">ACCÉDER À LA MÉTHODE →</button>
+        <div class="modal__micro">Tu recevras ton accès en moins de 30 secondes</div>
+        <div class="modal__reassurance">Tes données sont protégées - Pas de spam</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     LOADER
+     ════════════════════════════════════════════════ -->
+<div class="loader-overlay" id="loader-overlay">
+  <div class="loader-spinner"></div>
+  <div class="loader-bar"><div class="loader-bar__fill" id="loader-fill"></div></div>
+  <div class="loader-text" id="loader-text">Inscription en cours...</div>
+</div>
+
+<!-- ════════════════════════════════════════════════
+     STICKY MOBILE CTA
+     ════════════════════════════════════════════════ -->
+<div class="sticky-cta" id="sticky-cta">
+  <button class="sticky-cta__btn open-modal">VOIR LA MÉTHODE →</button>
+  <div class="sticky-cta__sub">Gratuit - 12 min</div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════
+     JAVASCRIPT
+     ══════════════════════════════════════════════════════ -->
+<script>
+(function(){
+  'use strict';
+
+  // ── Scroll progress ──
+  const scrollProgressEl = document.getElementById('scroll-progress');
+  window.addEventListener('scroll', () => {
+    requestAnimationFrame(() => {
+      const h = document.documentElement.scrollHeight - window.innerHeight;
+      if (h > 0) scrollProgressEl.style.width = (window.scrollY / h * 100) + '%';
+    });
+  }, { passive: true });
+
+  // ── Reveal on scroll (staggered) ──
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  revealEls.forEach((el) => {
+    const parent = el.closest('section, .big-cta, .red-band');
+    const siblings = parent ? parent.querySelectorAll('.reveal') : [el];
+    const idx = Array.from(siblings).indexOf(el);
+    el.style.transitionDelay = (idx * 0.08) + 's';
+    revealObs.observe(el);
+  });
+
+  // ── FAQ ──
+  document.querySelectorAll('.faq-item__q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+
+  // ── Counter animation (red band) ──
+  const counterEls = document.querySelectorAll('.red-band__value[data-target]');
+  const counterObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        animateCounter(e.target);
+        counterObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.5 });
+  counterEls.forEach(el => counterObs.observe(el));
+
+  // ── Counter animation (bento tall card) ──
+  const bentoCounterEl = document.getElementById('bento-counter-value');
+  if (bentoCounterEl) {
+    const bentoCounterObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          animateBentoCounter(e.target);
+          bentoCounterObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    bentoCounterObs.observe(bentoCounterEl);
+  }
+
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target);
+    const prefix = el.dataset.prefix || '';
+    const suffix = el.dataset.suffix || '';
+    const duration = 1200;
+    const start = performance.now();
+    function step(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 4);
+      const val = Math.floor(eased * target);
+      el.textContent = prefix + val.toLocaleString('fr-FR') + suffix;
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function animateBentoCounter(el) {
+    const target = parseInt(el.dataset.target);
+    const prefix = el.dataset.prefix || '';
+    const duration = 1600;
+    const start = performance.now();
+    function step(now) {
+      const t = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - t, 4);
+      const val = Math.floor(eased * target);
+      el.textContent = prefix + val;
+      if (t < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  // ── Modal ──
+  const modalOverlay = document.getElementById('modal-overlay');
+  const modalClose = document.getElementById('modal-close');
+
+  function openModal() {
+    modalOverlay.classList.add('open');
+    document.body.classList.add('modal-open');
+  }
+  function closeModal() {
+    modalOverlay.classList.remove('open');
+    document.body.classList.remove('modal-open');
+  }
+
+  document.querySelectorAll('.open-modal').forEach(btn => {
+    btn.addEventListener('click', () => { openModal(); });
+  });
+  modalClose.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Tab' && modalOverlay.classList.contains('open')) {
+      const focusable = modalOverlay.querySelectorAll('input, button, [tabindex]:not([tabindex="-1"])');
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+      } else {
+        if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    }
+  });
+
+  // ── Form: clear error on input ──
+  ['f-prenom', 'f-nom', 'f-email', 'f-tel'].forEach(id => {
+    const inp = document.getElementById(id);
+    if (inp) inp.addEventListener('input', function() { this.style.borderColor = ''; });
+  });
+
+  // ── Form submit ──
+  const submitBtn = document.getElementById('submit-btn');
+  submitBtn.addEventListener('click', async () => {
+    const prenom = document.getElementById('f-prenom').value.trim();
+    const nom = document.getElementById('f-nom').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!prenom || !nom || !email || !emailRegex.test(email)) {
+      [document.getElementById('f-prenom'), document.getElementById('f-nom'), document.getElementById('f-email')].forEach(inp => {
+        if (!inp.value.trim()) inp.style.borderColor = '#dc2626';
+      });
+      if (email && !emailRegex.test(email)) document.getElementById('f-email').style.borderColor = '#dc2626';
+      return;
+    }
+
+    closeModal();
+    showLoader();
+  });
+
+  // ── Loader ──
+  function showLoader() {
+    const overlay = document.getElementById('loader-overlay');
+    const fill = document.getElementById('loader-fill');
+    const text = document.getElementById('loader-text');
+    overlay.classList.add('open');
+
+    const steps = [
+      { pct: 30, msg: 'Inscription en cours...', delay: 0 },
+      { pct: 60, msg: 'Préparation de ta masterclass...', delay: 800 },
+      { pct: 85, msg: 'Préparation de ta masterclass...', delay: 1600 },
+      { pct: 100, msg: 'C\'est bon, on t\'envoie l\'accès !', delay: 2200 },
+    ];
+
+    steps.forEach(s => {
+      setTimeout(() => {
+        fill.style.width = s.pct + '%';
+        text.textContent = s.msg;
+      }, s.delay);
+    });
+
+    setTimeout(() => {
+      window.location.href = '../masterclass.html';
+    }, 2800);
+  }
+
+  // ── Sticky Mobile CTA ──
+  const mainCta = document.getElementById('main-cta');
+  const stickyCta = document.getElementById('sticky-cta');
+  if (mainCta && stickyCta) {
+    const stickyObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        stickyCta.classList.toggle('visible', !e.isIntersecting);
+      });
+    }, { threshold: 0 });
+    stickyObs.observe(mainCta);
+  }
+
+  // ── Confetti on CTA click ──
+  document.querySelectorAll('.cta-btn, .sticky-cta__btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      const rect = btn.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      spawnConfetti(cx, cy);
+    });
+  });
+
+  let confettiThrottle = false;
+  function spawnConfetti(x, y) {
+    if (confettiThrottle) return;
+    confettiThrottle = true;
+    setTimeout(() => confettiThrottle = false, 1000);
+    const colors = ['#FF2600', '#C11D00', '#000000', '#FFFFFF'];
+    for (let i = 0; i < 24; i++) {
+      const el = document.createElement('div');
+      el.className = 'confetti-piece';
+      el.style.left = x + 'px';
+      el.style.top = y + 'px';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.width = (Math.random() * 6 + 4) + 'px';
+      el.style.height = (Math.random() * 6 + 4) + 'px';
+      el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      document.body.appendChild(el);
+
+      const angle = (Math.random() * 360) * Math.PI / 180;
+      const vel = Math.random() * 200 + 100;
+      const vx = Math.cos(angle) * vel;
+      const vy = Math.sin(angle) * vel - 150;
+      const rot = Math.random() * 720;
+
+      el.animate([
+        { transform: 'translate(0,0) rotate(0deg)', opacity: 1 },
+        { transform: 'translate(' + vx + 'px, ' + (vy + 300) + 'px) rotate(' + rot + 'deg)', opacity: 0 }
+      ], { duration: 1000 + Math.random() * 500, easing: 'cubic-bezier(.25,.46,.45,.94)', fill: 'forwards' });
+
+      setTimeout(() => el.remove(), 1600);
+    }
+  }
+
+})();
+</script>
+
+</body>
+</html>
