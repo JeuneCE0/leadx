@@ -78,10 +78,9 @@ body::before {
    ANIMATIONS
    ══════════════════════════════════════ */
 .reveal {
-  opacity: 0; transform: translateY(30px); filter: blur(4px);
-  transition: opacity 0.7s cubic-bezier(.525,0,0,1), transform 0.7s cubic-bezier(.525,0,0,1), filter 0.7s cubic-bezier(.525,0,0,1);
+  opacity: 1; transform: none; filter: none;
 }
-.reveal.visible { opacity: 1; transform: translateY(0); filter: blur(0); }
+.reveal.visible { opacity: 1; transform: none; filter: none; }
 
 @keyframes pulse-play {
   0%, 100% { box-shadow: 0 0 0 0 rgba(255, 38, 0, 0.6); }
@@ -366,14 +365,73 @@ body::before {
 .footer__disclaimer { font-size: 11px; color: var(--text-muted); max-width: 600px; margin: 0 auto; line-height: 1.5; opacity: 0.7; }
 
 /* ══════════════════════════════════════
+   BOOKING EMBED (GHL)
+   ══════════════════════════════════════ */
+.booking-embed { width: 100%; }
+.booking-embed iframe { width: 100%; display: block; border: none; }
+
+/* ══════════════════════════════════════
    RESPONSIVE
    ══════════════════════════════════════ */
+
+/* Tablet (≤ 960px) — narrower calendar, tighter CTA padding */
+@media (max-width: 960px) {
+  .cta-section { padding-left: 20px; padding-right: 20px; }
+  .booking-embed { max-width: 720px !important; margin-top: 24px !important; }
+}
+
+/* Small tablet / large mobile (≤ 768px) */
+@media (max-width: 768px) {
+  .booking-embed iframe { min-height: 720px; }
+}
+
+/* Mobile (≤ 640px) */
 @media (max-width: 640px) {
+  .header { padding-left: 16px; padding-right: 16px; }
+  .header__logo-img { height: 28px; }
+
+  .vsl { padding: 0 12px; }
+  .vsl__wrapper { border-radius: 12px; }
+  .vsl__play-btn {
+    width: 72px; height: 72px;
+    min-width: 64px; min-height: 64px;
+  }
+  .vsl__play-btn svg { width: 28px; height: 28px; }
+
+  .cta-section { padding-left: 16px; padding-right: 16px; }
+  .cta-section__title { line-height: 1.2; margin-bottom: 10px; }
+  .cta-section__subtitle { line-height: 1.55; margin-bottom: 20px; }
+
+  .booking-embed {
+    max-width: 100% !important;
+    margin-top: 20px !important;
+    border-radius: 12px !important;
+  }
+  .booking-embed iframe { min-height: 680px; }
+
+  .proof { padding-left: 16px; padding-right: 16px; }
   .proof__grid { gap: 8px; }
   .proof__stat { padding: 14px 8px; border-radius: 10px; }
+
+  .footer { padding-left: 16px; padding-right: 16px; }
+  .footer__links { gap: 16px; }
+  .footer__links a { font-size: 12px; }
 }
+
+/* Small mobile (≤ 480px) */
+@media (max-width: 480px) {
+  .booking-embed iframe { min-height: 640px; }
+  .proof__stat-value { font-size: 20px; }
+  .proof__stat-label { font-size: 11px; }
+}
+
+/* Extra small (≤ 375px) — stack proof stats */
 @media (max-width: 375px) {
   .proof__grid { grid-template-columns: 1fr; gap: 8px; }
+  .proof__stat { padding: 12px 10px; display: flex; align-items: baseline; justify-content: center; gap: 10px; }
+  .proof__stat-value { font-size: 18px; }
+  .proof__stat-label { margin-top: 0; }
+  .booking-embed iframe { min-height: 620px; }
 }
 </style>
 </head>
@@ -496,7 +554,7 @@ body::before {
   'use strict';
 
   /* ── CONFIG ── */
-  var CTA_REVEAL_SECONDS = 180; // seconds before CTA appears
+  var CTA_REVEAL_SECONDS = 0; // reveal calendar immediately
   var VSL_SRC = 'about:blank';  // ⚠️ À REMPLIR — URL de la VSL
 
   /* ── DOM refs ── */
