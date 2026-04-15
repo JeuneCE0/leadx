@@ -118,14 +118,28 @@ body::before {
   min-height: 100vh; display: flex; align-items: center; justify-content: center;
   padding: 60px 0;
 }
+@media(max-width:900px){
+  /* Hero CTAs — stack full-width on small tablets and below */
+  #main-cta { flex-direction: column; align-items: stretch; gap: 12px; }
+  #main-cta .cta-btn { width: 100%; max-width: 520px; margin: 0 auto; }
+  .final-card > div[style*="display:flex"] { flex-direction: column !important; align-items: stretch; gap: 12px !important; }
+  .final-card > div[style*="display:flex"] .cta-btn { width: 100%; max-width: 480px; margin: 0 auto; }
+}
 @media(max-width:640px){
   .hero { min-height: auto; padding: 80px 0 40px; }
   .hero__inner { padding: 0 20px; }
   .hero h1 { font-size: clamp(24px, 6vw, 36px); letter-spacing: -0.01em; margin-bottom: 16px; }
-  .hero__badge { font-size: 12px; padding: 6px 14px; margin-bottom: 20px; }
-  .hero__sub { margin-bottom: 24px; line-height: 1.6; }
+  .hero__badge {
+    font-size: 12px; padding: 6px 14px; margin-bottom: 20px;
+    max-width: 100%; white-space: normal; text-align: center; line-height: 1.35;
+  }
+  .hero__sub { margin-bottom: 24px; line-height: 1.6; font-size: 15px; }
   .hero__notif { display: none; }
-  .cta-btn { padding: 16px 24px; font-size: 14px; }
+  .cta-btn {
+    padding: 14px 20px; font-size: 14px; min-height: 52px;
+    width: 100%; max-width: 100%;
+  }
+  .cta-btn svg { flex-shrink: 0; }
   .cta-btn--full { max-width: 100%; }
   .hero__trust { margin-top: 28px; }
   .hero__trust-label { font-size: 11px; }
@@ -133,11 +147,48 @@ body::before {
   .funnel-glow { width: 160px; height: 120px; }
   .hero__orb--1 { width: 300px; height: 300px; }
   .hero__orb--2 { width: 250px; height: 250px; }
+
+  /* Hero video — full width with side padding and 16/9 preserved */
+  .hero__video { margin: 24px auto 28px !important; border-radius: 12px; }
+
+  /* Main CTA group — stack full-width with comfortable spacing */
+  #main-cta { flex-direction: column; align-items: stretch; gap: 12px; margin-top: 8px; }
+  #main-cta .cta-btn { width: 100%; max-width: 100%; }
+
+  /* Steps section tighter on mobile */
+  .steps-section { padding: 64px 0; }
+  .step-card { padding: 20px 20px; gap: 10px; }
+  .step-card__num { font-size: 22px; }
+  .step-card__title { font-size: 15px; }
+
+  /* Stat card +4M€ — scale down floor value */
+  .guarantee-section { padding: 60px 0; }
+  .guarantee-card { padding: 32px 20px; }
+  .guarantee-card__title[style] { font-size: clamp(30px, 10vw, 56px) !important; line-height: 1.05; letter-spacing: -0.02em; }
+  .guarantee-card__desc { font-size: 14px; }
+
+  /* Testimonials */
+  .testimonials-section { padding: 64px 0; }
+  .testimonial-card { padding: 22px 20px; gap: 18px; }
+  .result-card__metrics { gap: 10px; }
+  .result-card__before .result-card__value,
+  .result-card__after .result-card__value { font-size: 14px; }
+  .testimonial-card__author { flex-wrap: wrap; gap: 8px; }
+
+  /* Final CTA card */
+  .final-section { padding: 60px 0 80px; }
+  .final-card { padding: 32px 22px; }
+  .final-card h3 { font-size: clamp(20px, 5.2vw, 26px); }
+  .final-card p { font-size: 14px; }
+  .final-card > div[style*="display:flex"] { flex-direction: column !important; align-items: stretch; gap: 12px !important; }
+  .final-card > div[style*="display:flex"] .cta-btn { width: 100%; max-width: 100%; margin: 0; }
 }
 @media(max-width:375px){
   .hero__inner { padding: 0 16px; }
   .hero h1 { font-size: 22px; }
   .hero__badge { font-size: 11px; padding: 5px 12px; gap: 6px; }
+  .cta-btn { font-size: 13px; letter-spacing: 0.02em; padding: 14px 16px; }
+  .guarantee-card__title[style] { font-size: clamp(26px, 9.5vw, 44px) !important; }
 }
 
 /* Grid bg */

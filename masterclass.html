@@ -426,7 +426,7 @@ body::before {
 </section>
 
 <!-- ═══════════════════════════════════
-     CTA SECTION
+     BOOKING CALENDAR (GHL)
      ═══════════════════════════════════ -->
 <section class="cta-section" id="cta-section">
   <h1 class="cta-section__title">Cette m&eacute;thode t&rsquo;int&eacute;resse&nbsp;?</h1>
@@ -434,8 +434,11 @@ body::before {
     R&eacute;serve ton appel strat&eacute;gique gratuit avec notre &eacute;quipe.
     On analyse ton march&eacute; et on te montre exactement comment g&eacute;n&eacute;rer des leads B2B avec META.
   </p>
-  <a href="booking.html" class="cta-section__btn">R&Eacute;SERVER MON APPEL STRAT&Eacute;GIQUE &rarr;</a>
-  <p class="cta-section__reassurance">Gratuit &middot; 30 min &middot; Sans engagement</p>
+  <div class="booking-embed" style="max-width:900px;margin:32px auto 0;border-radius:16px;overflow:hidden;background:#0a0a0a;">
+    <iframe src="https://api.leadconnectorhq.com/widget/booking/tGNGhXDjtFX9Fee4nMGD" style="width:100%;border:none;overflow:hidden;min-height:780px;display:block;" scrolling="no" id="hjefRqxorRuPkcPAZEx4_masterclass" loading="lazy"></iframe>
+    <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
+  </div>
+  <p class="cta-section__reassurance" style="margin-top:20px;">Gratuit &middot; 30 min &middot; Sans engagement</p>
 </section>
 
 <!-- ═══════════════════════════════════
@@ -484,13 +487,6 @@ body::before {
   <p class="footer__disclaimer">This site is not a part of the Facebook&trade; website or Facebook&trade; Inc. Additionally, this site is NOT endorsed by Facebook&trade; in any way. FACEBOOK&trade; is a trademark of FACEBOOK&trade;, Inc.</p>
 </footer>
 
-<!-- ═══════════════════════════════════
-     STICKY CTA (Mobile)
-     ═══════════════════════════════════ -->
-<div class="cta-sticky" id="cta-sticky">
-  <a href="booking.html" class="cta-sticky__btn">R&Eacute;SERVER MON APPEL &rarr;</a>
-  <p class="cta-sticky__sub">Gratuit &middot; 30 min &middot; Sans engagement</p>
-</div>
 
 <!-- ═══════════════════════════════════
      SCRIPTS
@@ -553,11 +549,10 @@ body::before {
     if (ctaRevealed) return;
     ctaRevealed = true;
     ctaSection.classList.add('revealed');
-    // Mobile sticky
-    ctaSticky.classList.add('active');
-    setTimeout(function () {
-      ctaSticky.classList.add('visible');
-    }, 50);
+    if (ctaSticky) {
+      ctaSticky.classList.add('active');
+      setTimeout(function () { ctaSticky.classList.add('visible'); }, 50);
+    }
   }
 
   // Timer-based reveal
