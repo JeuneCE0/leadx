@@ -311,8 +311,17 @@ body::before {
 .section-title { font-family: var(--font-main); font-weight: 700; font-size: clamp(22px, 4vw, 36px); text-align: center; margin-bottom: 12px; color: #fff; position: relative; z-index: 1; }
 .section-title--spaced { margin-bottom: 48px; }
 .section-subtitle { font-size: 16px; color: rgba(255,255,255,0.5); text-align: center; margin-bottom: 48px; }
-.testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-@media(max-width:900px){ .testimonial-grid { grid-template-columns: 1fr; } }
+.testimonial-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.testimonial-grid > .testimonial-card { grid-column: span 2; }
+/* When 5 cards: center the last row of 2 */
+.testimonial-grid > .testimonial-card:nth-last-child(2):nth-child(4) { grid-column: 2 / span 2; }
+.testimonial-grid > .testimonial-card:nth-last-child(1):nth-child(5) { grid-column: span 2; }
+@media(max-width:900px){
+  .testimonial-grid { grid-template-columns: 1fr; }
+  .testimonial-grid > .testimonial-card,
+  .testimonial-grid > .testimonial-card:nth-last-child(2):nth-child(4),
+  .testimonial-grid > .testimonial-card:nth-last-child(1):nth-child(5) { grid-column: auto; }
+}
 .testimonial-card { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 28px 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
 .testimonial-card__quote-mark { font-size: 36px; color: #FF2600; line-height: 1; margin-bottom: 8px; }
 .testimonial-card__text { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.7; }
@@ -813,6 +822,56 @@ body::before {
           <span class="case-card__stars-label">Avis Trustpilot</span>
         </div>
         <div class="case-card__quote">« Mon CA a été multiplié par 5 depuis le lancement. Ce qui m'a le plus bluffé : la qualité du ciblage — 50% de taux de réservation d'appel. Une expertise rare en acquisition de leads. » — Faizal Nakhuda</div>
+      </div>
+
+      <div class="testimonial-card case-card reveal">
+        <div class="case-card__header">
+          <div class="case-card__name">Rodolphe <span class="case-card__brand">— RM Couverture</span></div>
+          <div class="case-card__sector">Rénovation toiture • La Réunion</div>
+        </div>
+        <div class="case-card__hero">+57 000€ de CA additionnel généré en 30 jours.</div>
+        <div class="case-card__metrics">
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">144</div>
+            <div class="case-card__metric-label">leads générés</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">10</div>
+            <div class="case-card__metric-label">clients fermés</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">18,77€</div>
+            <div class="case-card__metric-label">par prospect</div>
+          </div>
+        </div>
+        <div class="case-card__trustpilot">
+          <span class="case-card__stars" aria-label="5 étoiles Trustpilot">★★★★★</span>
+          <span class="case-card__stars-label">Avis Trustpilot</span>
+        </div>
+        <div class="case-card__quote">« Plus que satisfait — j'ai plus de clients que je n'aurais pu imaginer. La meilleure expérience que j'ai eu concernant la publicité. Je recommande les yeux fermés. » — Rodolphe Mayer</div>
+      </div>
+
+      <div class="testimonial-card case-card reveal">
+        <div class="case-card__header">
+          <div class="case-card__name">Karel <span class="case-card__brand">— Tropic Clim Services</span></div>
+          <div class="case-card__sector">Nettoyage de climatiseurs</div>
+        </div>
+        <div class="case-card__hero">Agenda rempli — 2 leads sur 4 convertis en clients.</div>
+        <div class="case-card__metrics">
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">115</div>
+            <div class="case-card__metric-label">leads en 26j</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">1,84€</div>
+            <div class="case-card__metric-label">par lead</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">211€</div>
+            <div class="case-card__metric-label">investis</div>
+          </div>
+        </div>
+        <div class="case-card__quote">« Avant LEADX : 3 leads/semaine en bouche-à-oreille. Aujourd'hui agenda rempli, 50% de conversion sur les leads contactés. »</div>
       </div>
     </div>
   </div>
