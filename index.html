@@ -219,6 +219,16 @@ body::before {
   max-width: 620px; margin: 0 auto 32px; line-height: 1.7;
 }
 
+.hero__eyebrow { font-size: clamp(14px, 1.8vw, 17px); color: rgba(255,255,255,0.6); margin-bottom: 12px; }
+.hero__eyebrow em { font-style: italic; font-weight: 500; }
+.hero__lead { font-size: clamp(16px, 2.2vw, 20px); color: rgba(255,255,255,0.75); max-width: 720px; margin: 0 auto 24px; line-height: 1.5; }
+
+.hero__video { max-width: 760px; margin: 32px auto; aspect-ratio: 16 / 9; background: #0a0a0a; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+.hero__video > * { width: 100%; }
+.hero__video-placeholder { color: rgba(255,255,255,0.35); font-size: 14px; letter-spacing: 0.05em; text-transform: uppercase; width: auto; }
+
+.hero__ctas { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
 /* CTA Button */
 .cta-btn {
   display: inline-flex; align-items: center; justify-content: center;
@@ -241,6 +251,8 @@ body::before {
 .cta-btn--inverse:hover { background: #f5f5f5; }
 .cta-btn--dark { background: var(--accent); color: #fff; }
 .cta-btn--dark:hover { background: var(--accent-dark); }
+.cta-btn--outline { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.25); box-shadow: none; }
+.cta-btn--outline:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.5); box-shadow: none; }
 
 /* Company Marquee */
 .hero__trust { text-align: center; margin-top: 40px; }
@@ -267,9 +279,9 @@ body::before {
 .s-bleed { height: 120px; pointer-events: none; position: relative; z-index: 1; }
 .s-bleed--down { background: linear-gradient(to bottom, var(--from), var(--to)); }
 
-.problem-section { background: #060606; padding: 100px 0 100px; position: relative; overflow: hidden; }
+.problem-section { background: #060606; padding: 100px 0 56px; position: relative; overflow: hidden; }
 .problem-section::before { content: ''; position: absolute; top: -100px; right: -100px; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.06) 0%, transparent 65%); pointer-events: none; }
-.problem-section::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 200px; background: linear-gradient(to bottom, transparent, #040404); pointer-events: none; }
+.problem-section::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 80px; background: linear-gradient(to bottom, transparent, #040404); pointer-events: none; }
 .problem-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
 @media(max-width:640px){ .problem-grid { grid-template-columns: 1fr; } }
 .problem-card { background: #141414; border: 1px solid rgba(255,255,255,0.06); border-radius: 16px; padding: 28px 24px; position: relative; overflow: hidden; }
@@ -281,7 +293,7 @@ body::before {
 /* ══════════════════════════════════════
    STEPS SECTION
    ══════════════════════════════════════ */
-.steps-section { background: #040404; padding: 100px 0; position: relative; overflow: hidden; }
+.steps-section { background: #040404; padding: 56px 0 100px; position: relative; overflow: hidden; }
 .steps-section::before { content:''; position:absolute; inset:0; pointer-events:none;
   background-image: linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
   background-size: 48px 48px;
@@ -311,8 +323,17 @@ body::before {
 .section-title { font-family: var(--font-main); font-weight: 700; font-size: clamp(22px, 4vw, 36px); text-align: center; margin-bottom: 12px; color: #fff; position: relative; z-index: 1; }
 .section-title--spaced { margin-bottom: 48px; }
 .section-subtitle { font-size: 16px; color: rgba(255,255,255,0.5); text-align: center; margin-bottom: 48px; }
-.testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-@media(max-width:900px){ .testimonial-grid { grid-template-columns: 1fr; } }
+.testimonial-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+.testimonial-grid > .testimonial-card { grid-column: span 2; }
+/* When 5 cards: center the last row of 2 */
+.testimonial-grid > .testimonial-card:nth-last-child(2):nth-child(4) { grid-column: 2 / span 2; }
+.testimonial-grid > .testimonial-card:nth-last-child(1):nth-child(5) { grid-column: span 2; }
+@media(max-width:900px){
+  .testimonial-grid { grid-template-columns: 1fr; }
+  .testimonial-grid > .testimonial-card,
+  .testimonial-grid > .testimonial-card:nth-last-child(2):nth-child(4),
+  .testimonial-grid > .testimonial-card:nth-last-child(1):nth-child(5) { grid-column: auto; }
+}
 .testimonial-card { background: rgba(255,255,255,0.04); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 28px 24px; display: flex; flex-direction: column; justify-content: space-between; gap: 24px; }
 .testimonial-card__quote-mark { font-size: 36px; color: #FF2600; line-height: 1; margin-bottom: 8px; }
 .testimonial-card__text { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.7; }
@@ -330,6 +351,24 @@ body::before {
 .result-card__after .result-card__value { font-size: 15px; font-weight: 700; color: #fff; }
 .result-card__arrow { font-size: 20px; color: #FF2600; flex-shrink: 0; font-weight: 700; }
 
+/* Case study cards (90 days results) */
+.case-card { display: flex; flex-direction: column; gap: 18px; }
+.case-card__header { display: flex; flex-direction: column; gap: 4px; }
+.case-card__name { font-family: var(--font-main); font-weight: 800; font-size: 20px; color: #fff; line-height: 1.2; letter-spacing: -0.01em; }
+.case-card__brand { color: #FF2600; }
+.case-card__sector { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.04em; }
+.case-card__hero { font-size: 14px; font-weight: 700; color: #fff; line-height: 1.4; padding: 12px 14px; background: rgba(255,38,0,0.08); border-left: 2px solid #FF2600; border-radius: 6px; }
+.case-card__metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.case-card__metric { background: rgba(255,38,0,0.04); border: 1px solid rgba(255,38,0,0.2); border-radius: 10px; padding: 12px 8px; text-align: center; }
+.case-card__metric-value { font-family: var(--font-main); font-weight: 800; font-size: 20px; color: #FF2600; line-height: 1.1; margin-bottom: 4px; letter-spacing: -0.01em; }
+.case-card__metric-label { font-size: 10px; color: rgba(255,255,255,0.75); font-weight: 600; line-height: 1.3; text-transform: uppercase; letter-spacing: 0.03em; }
+.case-card__quote { font-size: 13px; color: rgba(255,255,255,0.78); line-height: 1.6; font-style: italic; padding-left: 12px; border-left: 2px solid rgba(255,255,255,0.15); }
+@media(max-width:640px){
+  .case-card__metric-value { font-size: 18px; }
+  .case-card__metric { padding: 10px 6px; }
+}
+.cards-cta { text-align: center; margin-top: 48px; }
+
 /* ══════════════════════════════════════
    META / WHY SECTION
    ══════════════════════════════════════ */
@@ -344,11 +383,6 @@ body::before {
 .meta-card h3 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
 .meta-card p { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.6; }
 @media(max-width:640px){ .meta-card { flex-direction: column; } }
-
-/* ══════════════════════════════════════
-   MID CTA
-   ══════════════════════════════════════ */
-.mid-cta { text-align: center; padding: 60px 0; background: transparent; position: relative; }
 
 /* ══════════════════════════════════════
    FAQ SECTION (DARK)
@@ -370,29 +404,18 @@ body::before {
 .faq-item.open .faq-item__arrow { background: var(--accent); transform: rotate(180deg); }
 .faq-item.open .faq-item__arrow svg { stroke: #fff; }
 .faq-item__a { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease), padding 0.4s var(--ease); padding: 0 24px; }
-.faq-item.open .faq-item__a { max-height: 300px; padding: 0 24px 22px; }
+.faq-item.open .faq-item__a { max-height: 800px; padding: 0 24px 22px; }
 .faq-item__a p { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.7; }
 
 /* ══════════════════════════════════════
    FINAL CTA CARD
    ══════════════════════════════════════ */
-.final-section { background: linear-gradient(180deg, #040404 0%, #080808 40%, #0A0A0A 100%); padding: 80px 0 100px; position: relative; overflow: hidden; }
-.final-section::before { content: ''; position: absolute; top: -50px; left: 50%; transform: translateX(-50%); width: 500px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.07) 0%, transparent 55%); pointer-events: none; }
-.final-card { background: #141414; border: 1px solid rgba(255,38,0,0.15); border-radius: 20px; padding: 48px 40px; text-align: center; max-width: 700px; margin: 0 auto; }
-.final-card h3 { font-weight: 700; font-size: clamp(20px, 3.5vw, 28px); margin-bottom: 12px; color: #fff; }
-.final-card p { color: rgba(255,255,255,0.55); margin-bottom: 28px; max-width: 520px; margin-left: auto; margin-right: auto; font-size: 15px; }
 
 /* ── Guarantee Section ── */
-.guarantee-section { background: linear-gradient(180deg, #080808, #0A0A0A); padding: 80px 0; position: relative; overflow: hidden; }
-.guarantee-section::before { content: ''; position: absolute; top: -50px; left: 50%; transform: translateX(-50%); width: 600px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(255,38,0,0.06) 0%, transparent 55%); pointer-events: none; }
-.guarantee-card { background: #141414; border: 2px solid rgba(255,38,0,0.2); border-radius: 20px; padding: 48px 40px; text-align: center; max-width: 700px; margin: 0 auto; position: relative; }
-.guarantee-card::before { content: ''; position: absolute; inset: -2px; border-radius: 22px; background: linear-gradient(135deg, rgba(255,38,0,0.15), transparent 60%); z-index: -1; pointer-events: none; }
-.guarantee-card__badge { display: inline-block; padding: 6px 16px; border-radius: 100px; background: rgba(255,38,0,0.1); border: 1px solid rgba(255,38,0,0.2); color: #FF2600; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 20px; }
-.guarantee-card__title { font-weight: 800; font-size: clamp(22px, 3.5vw, 32px); color: #fff; margin-bottom: 16px; }
-.guarantee-card__desc { font-size: 15px; color: rgba(255,255,255,0.6); line-height: 1.7; max-width: 560px; margin: 0 auto 24px; }
-.guarantee-card__points { display: flex; flex-direction: column; gap: 10px; max-width: 400px; margin: 0 auto; }
-.guarantee-card__point { font-size: 14px; color: rgba(255,255,255,0.85); text-align: left; }
-@media(max-width:640px){ .guarantee-card { padding: 32px 20px; } }
+/* Senja embed wrapper */
+.senja-section { background: linear-gradient(180deg, #050505 0%, #080808 100%); padding: 80px 0 40px; position: relative; overflow: hidden; }
+.senja-section .container { max-width: 1100px; }
+.senja-section .section-title { margin-bottom: 32px; }
 
 /* ══════════════════════════════════════
    BIG CTA SECTION (RED)
@@ -492,9 +515,10 @@ body::before {
 
 .form-group { position: relative; }
 .form-group input {
-  width: 100%; padding: 16px 16px 8px; border: 1.5px solid rgba(255,255,255,0.1);
+  width: 100%; padding: 22px 16px 8px; border: 1.5px solid rgba(255,255,255,0.1);
   border-radius: 10px; font-size: 15px; font-family: var(--font-main);
   background: #0A0A0A; transition: border-color 0.2s; outline: none; color: #fff;
+  line-height: 1.3;
 }
 .form-group input:focus { border-color: var(--accent); }
 .form-group label {
@@ -504,7 +528,7 @@ body::before {
 }
 .form-group input:focus + label,
 .form-group input:not(:placeholder-shown) + label {
-  top: 8px; transform: translateY(0); font-size: 11px; color: var(--accent);
+  top: 6px; transform: translateY(0); font-size: 10px; color: var(--accent); letter-spacing: 0.04em;
 }
 
 .modal__submit {
@@ -596,17 +620,20 @@ body::before {
       <img src="assets/LEADX-wordmark-light.svg" alt="LEADX - Acquisition B2B pour prestataires de service" style="height:36px;width:auto;margin:0 auto;">
     </div>
 
-    <div class="hero__badge reveal">
-      <span class="hero__badge-dot"></span>
-      <span style="color:#FF2600;font-weight:800;">12</span> <span style="color:#fff;">systèmes d'acquisition actifs</span>
+    <div class="hero__eyebrow reveal"><em>Pour les entreprises de services à +5k/mois</em></div>
+
+    <p class="hero__lead reveal">Arrête de chercher des clients, mets en place les publicités qui les font venir à toi..</p>
+
+    <h1 class="reveal">Découvre le système d'acquisition Meta qui a généré <span class="accent">plus de 4 millions</span> pour nos clients</h1>
+
+    <div class="hero__video reveal" id="vturb-embed">
+      <!-- TODO: coller le snippet VTurb ici (remplacer ce placeholder) -->
+      <span class="hero__video-placeholder">Vidéo VTurb (placeholder)</span>
     </div>
 
-    <h1 class="reveal">Le système META Ads qui génère <span class="accent">+<span id="hero-counter">0</span> prospects qualifiés par mois</span> pour les boîtes de prestation de service</h1>
-
-    <p class="hero__sub reveal">Découvre le système META Ads qui remplit ton agenda de rendez-vous qualifiés — sans prospecter, sans dépendre du bouche-à-oreille.</p>
-
-    <div class="reveal" id="main-cta" style="text-align:center">
-      <button class="cta-btn cta-btn--full open-modal">VOIR LA MÉTHODE GRATUITEMENT →</button>
+    <div class="reveal hero__ctas" id="main-cta">
+      <button class="cta-btn cta-btn--full open-modal">DÉCOUVRIR LE SYSTÈME →</button>
+      <a href="#" class="cta-btn cta-btn--full cta-btn--outline" id="cta-dayyaan">DISCUTEZ AVEC DAYYAAN</a>
     </div>
 
     <div class="hero__trust reveal">
@@ -642,75 +669,29 @@ body::before {
 <!-- ════════════════════════ SUBTLE RED LINE ════════════════════════ -->
 <div style="height:1px;max-width:60%;margin:0 auto;background:linear-gradient(90deg,transparent,rgba(255,38,0,0.2) 30%,rgba(255,38,0,0.2) 70%,transparent);"></div>
 
-<!-- ════════════════════════ SECTION 1: ON SAIT CE QUE TU VIS (W2) ════════════════════════ -->
+<!-- ════════════════════════ SECTION 1: CE QUE TU VAS DÉCOUVRIR ════════════════════════ -->
 <section class="problem-section">
   <div class="container">
-    <h2 class="section-title section-title--spaced reveal">On sait ce que tu vis.</h2>
+    <h2 class="section-title section-title--spaced reveal">Ce que tu vas découvrir :</h2>
     <div class="problem-grid">
       <div class="problem-card reveal">
-        <span class="problem-card__icon">&#10060;</span>
-        <div class="problem-card__text">Tu dépends du bouche-à-oreille et de ton réseau — et quand ça s'arrête, le pipe se vide</div>
+        <span class="problem-card__icon" style="color:#FF2600;">●</span>
+        <div class="problem-card__text">Pourquoi 90% des publicités n'apportent pas de résultats stables</div>
       </div>
       <div class="problem-card reveal">
-        <span class="problem-card__icon">&#10060;</span>
-        <div class="problem-card__text">Tu as testé LinkedIn Ads ou Google Ads, tu as claqué 2000€+ pour des leads qui ne décrochent même pas</div>
+        <span class="problem-card__icon" style="color:#FF2600;">●</span>
+        <div class="problem-card__text">L'erreur que font la majorité des entreprises de services avec leurs ads</div>
       </div>
       <div class="problem-card reveal">
-        <span class="problem-card__icon">&#10060;</span>
-        <div class="problem-card__text">Tu n'as pas de système d'acquisition prévisible — chaque mois tu te demandes d'où viendront les prochains clients</div>
-      </div>
-    </div>
-    <p class="problem-closing reveal"><em>Le problème n'est pas META. C'est que personne ne t'a montré comment l'utiliser en B2B.</em></p>
-  </div>
-</section>
-
-
-<!-- ════════════════════════ SECTION 2: VOICI COMMENT ON RETOURNE LA SITUATION (W2) ════════════════════════ -->
-<section class="steps-section">
-  <div class="container">
-    <h2 class="section-title section-title--spaced reveal">Voici comment on retourne la situation.</h2>
-    <div class="steps-list">
-      <div class="step-card reveal">
-        <div class="step-card__num">01</div>
-        <div>
-          <div class="step-card__title">On audite ton activité de A à Z</div>
-          <div class="step-card__desc">Cycle de vente, panier moyen, ICP (Ideal Client Profile), canaux actuels. On part de ton business, pas d'un template générique.</div>
-        </div>
-      </div>
-      <div class="step-card reveal">
-        <div class="step-card__num">02</div>
-        <div>
-          <div class="step-card__title">On cible les décideurs qui signent</div>
-          <div class="step-card__desc">DG, DAF, DRH, Directeurs Achats — on construit des audiences META chirurgicales qui touchent les profils qui ont le budget et le pouvoir de décider.</div>
-        </div>
-      </div>
-      <div class="step-card reveal">
-        <div class="step-card__num">03</div>
-        <div>
-          <div class="step-card__title">On itère chaque semaine avec la data</div>
-          <div class="step-card__desc">Chaque semaine, on analyse les métriques, on coupe ce qui coûte, on pousse ce qui convertit. Ton budget travaille de plus en plus dur.</div>
-        </div>
-      </div>
-      <div class="step-card reveal">
-        <div class="step-card__num">04</div>
-        <div>
-          <div class="step-card__title">Tu reçois des prospects qualifiés dans ton CRM</div>
-          <div class="step-card__desc">Des prospects qui ont un besoin identifié, un budget, et le pouvoir de décider — livrés dans ton CRM ou par email, prêts à être appelés.</div>
-        </div>
-      </div>
-      <div class="step-card reveal">
-        <div class="step-card__num">05</div>
-        <div>
-          <div class="step-card__title">On scale de 50 à 200 prospects/mois</div>
-          <div class="step-card__desc">Une fois le système rodé, on augmente progressivement. Plus de budget = plus de prospects qualifiés, sans diluer la qualité. On l'a fait pour des dizaines de prestataires B2B.</div>
-        </div>
+        <span class="problem-card__icon" style="color:#FF2600;">●</span>
+        <div class="problem-card__text">Comment structurer un système d'acquisition Meta qui fonctionne vraiment</div>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- ════════════════════════ SECTION 3: TESTIMONIALS (W3) ════════════════════════ -->
+<!-- ════════════════════════ SECTION 2: TESTIMONIALS (W3) ════════════════════════ -->
 <section class="testimonials-section">
   <div class="container">
     <div class="section-label reveal">Résultats clients vérifiables</div>
@@ -718,96 +699,162 @@ body::before {
     <p class="section-subtitle reveal"></p>
 
     <div class="testimonial-grid">
-      <div class="testimonial-card reveal">
-        <div class="result-card__sector">Cabinet de consulting RH — Île-de-France</div>
-        <div class="result-card__metrics">
-          <div class="result-card__before">
-            <div class="result-card__label">AVANT</div>
-            <div class="result-card__value">3 leads/mois</div>
+      <div class="testimonial-card case-card reveal">
+        <div class="case-card__header">
+          <div class="case-card__name">Marion <span class="case-card__brand">— MODERMA</span></div>
+          <div class="case-card__sector">Cabinet esthétique</div>
+        </div>
+        <div class="case-card__hero">80% du CA généré via le système, tous les mois.</div>
+        <div class="case-card__metrics">
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">70</div>
+            <div class="case-card__metric-label">RDV bookés</div>
           </div>
-          <div class="result-card__arrow">→</div>
-          <div class="result-card__after">
-            <div class="result-card__label">APRÈS</div>
-            <div class="result-card__value">38 leads/mois</div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">8,58€</div>
+            <div class="case-card__metric-label">par RDV</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">600€</div>
+            <div class="case-card__metric-label">investis</div>
           </div>
         </div>
-        <div class="testimonial-card__badge">CPL ÷3</div>
+        <div class="case-card__quote">« Avant LEADX, dépendance totale au bouche-à-oreille. Aujourd'hui, 80% du CA généré via le système. »</div>
       </div>
 
-      <div class="testimonial-card reveal">
-        <div class="result-card__sector">Agence digitale — Lyon</div>
-        <div class="result-card__metrics">
-          <div class="result-card__before">
-            <div class="result-card__label">AVANT</div>
-            <div class="result-card__value">0 système d'acquisition</div>
+      <div class="testimonial-card case-card reveal">
+        <div class="case-card__header">
+          <div class="case-card__name">Florent <span class="case-card__brand">— Solubat Construction</span></div>
+          <div class="case-card__sector">Constructeur de villas</div>
+        </div>
+        <div class="case-card__hero">1,3M€ signés sur la campagne — ROI ×2 630.</div>
+        <div class="case-card__metrics">
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">1,3M€</div>
+            <div class="case-card__metric-label">signés</div>
           </div>
-          <div class="result-card__arrow">→</div>
-          <div class="result-card__after">
-            <div class="result-card__label">APRÈS</div>
-            <div class="result-card__value">12 RDV qualifiés/sem.</div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">112</div>
+            <div class="case-card__metric-label">leads générés</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">4,41€</div>
+            <div class="case-card__metric-label">par lead</div>
           </div>
         </div>
-        <div class="testimonial-card__badge">4 clients signés en 90j</div>
+        <div class="case-card__quote">« Objectif plus que validé : 50 prospects demandés, 100 obtenus. 1,3M€ de CA signé en génie civil. Très satisfait du partenariat. »</div>
       </div>
 
-      <div class="testimonial-card reveal">
-        <div class="result-card__sector">Cabinet de recrutement — Paris</div>
-        <div class="result-card__metrics">
-          <div class="result-card__before">
-            <div class="result-card__label">AVANT</div>
-            <div class="result-card__value">100% bouche-à-oreille</div>
+      <div class="testimonial-card case-card reveal">
+        <div class="case-card__header">
+          <div class="case-card__name">Faizal <span class="case-card__brand">— RunShort</span></div>
+          <div class="case-card__sector">Agence de vidéo verticale</div>
+        </div>
+        <div class="case-card__hero">CA multiplié par 5 sur les 2 premiers mois de campagne.</div>
+        <div class="case-card__metrics">
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">×5</div>
+            <div class="case-card__metric-label">sur le CA</div>
           </div>
-          <div class="result-card__arrow">→</div>
-          <div class="result-card__after">
-            <div class="result-card__label">APRÈS</div>
-            <div class="result-card__value">52 prospects/mois</div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">50%</div>
+            <div class="case-card__metric-label">RDV téléphoniques</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">8,71€</div>
+            <div class="case-card__metric-label">par lead qualifié</div>
           </div>
         </div>
-        <div class="testimonial-card__badge">ROI x3.8</div>
+        <div class="case-card__quote">« Mon CA a été multiplié par 5 depuis le lancement. Ce qui m'a le plus bluffé : la qualité du ciblage — 50% de taux de réservation d'appel. Une expertise rare en acquisition de leads. » — Faizal Nakhuda</div>
       </div>
+
+      <div class="testimonial-card case-card reveal">
+        <div class="case-card__header">
+          <div class="case-card__name">Rodolphe <span class="case-card__brand">— RM Couverture</span></div>
+          <div class="case-card__sector">Rénovation toiture • La Réunion</div>
+        </div>
+        <div class="case-card__hero">+57 000€ de CA additionnel généré en 30 jours.</div>
+        <div class="case-card__metrics">
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">144</div>
+            <div class="case-card__metric-label">leads générés</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">10</div>
+            <div class="case-card__metric-label">clients fermés</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">18,77€</div>
+            <div class="case-card__metric-label">par prospect</div>
+          </div>
+        </div>
+        <div class="case-card__quote">« Plus que satisfait — j'ai plus de clients que je n'aurais pu imaginer. La meilleure expérience que j'ai eu concernant la publicité. Je recommande les yeux fermés. » — Rodolphe Mayer</div>
+      </div>
+
+      <div class="testimonial-card case-card reveal">
+        <div class="case-card__header">
+          <div class="case-card__name">Karel <span class="case-card__brand">— Tropic Clim Services</span></div>
+          <div class="case-card__sector">Nettoyage de climatiseurs</div>
+        </div>
+        <div class="case-card__hero">Agenda rempli — 2 leads sur 4 convertis en clients.</div>
+        <div class="case-card__metrics">
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">115</div>
+            <div class="case-card__metric-label">leads en 26j</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">1,84€</div>
+            <div class="case-card__metric-label">par lead</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">211€</div>
+            <div class="case-card__metric-label">investis</div>
+          </div>
+        </div>
+        <div class="case-card__quote">« Avant LEADX : 3 leads/semaine en bouche-à-oreille. Aujourd'hui agenda rempli, 50% de conversion sur les leads contactés. »</div>
+      </div>
+
+      <div class="testimonial-card case-card reveal">
+        <div class="case-card__header">
+          <div class="case-card__name">Dylan <span class="case-card__brand">— Clinico</span></div>
+          <div class="case-card__sector">Cabinet esthétique cryolipolyse • Belgique</div>
+        </div>
+        <div class="case-card__hero">19 clients signés sur 55 leads en 3 semaines.</div>
+        <div class="case-card__metrics">
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">4 500€</div>
+            <div class="case-card__metric-label">CA généré</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">19</div>
+            <div class="case-card__metric-label">clients signés</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">8,73€</div>
+            <div class="case-card__metric-label">par prospect</div>
+          </div>
+        </div>
+        <div class="case-card__quote">« LEADX est allée au-delà de mes attentes : 19 clients signés sur 55 leads en 3 semaines. Merci Dayyaan pour ton professionnalisme — je ne peux que recommander. » — Dylan Florenty</div>
+      </div>
+    </div>
+
+    <div class="cards-cta reveal">
+      <button class="cta-btn open-modal">VOIR LA MÉTHODE EN 12 MINUTES →</button>
     </div>
   </div>
 </section>
 
 
-<!-- ════════════════════════ SECTION 4: POURQUOI META ADS (W3) ════════════════════════ -->
-<section class="meta-section">
+<!-- ════════════════════════ SENJA REVIEWS ════════════════════════ -->
+<section class="senja-section">
   <div class="container">
-    <h2 class="section-title section-title--spaced reveal">Pourquoi META Ads pour les prestataires de service</h2>
-    <div class="meta-cards">
-      <div class="meta-card reveal">
-        <div class="meta-card__dot"></div>
-        <div>
-          <div class="meta-card__client-quote"></div>
-          <h3>Coût par lead 2 à 5x inférieur à LinkedIn Ads</h3>
-          <p>Les décideurs B2B que tu cibles sont aussi sur Facebook et Instagram — à titre perso. On les touche là où ta concurrence ne va pas, à une fraction du coût de LinkedIn.</p>
-        </div>
-      </div>
-      <div class="meta-card reveal">
-        <div class="meta-card__dot"></div>
-        <div>
-          <div class="meta-card__client-quote"></div>
-          <h3>Accès direct aux décideurs : DG, DAF, DRH, Directeurs Achats</h3>
-          <p>On construit des audiences sur-mesure qui ciblent les profils qui signent des contrats de prestation, pas les curieux qui scrollent.</p>
-        </div>
-      </div>
-      <div class="meta-card reveal">
-        <div class="meta-card__dot"></div>
-        <div>
-          <div class="meta-card__client-quote"></div>
-          <h3>Scalable de 50 à 200+ prospects/mois</h3>
-          <p>Une fois le système en place, on augmente le volume progressivement. Plus de budget = plus de prospects qualifiés, sans perte de qualité.</p>
-        </div>
-      </div>
+    <h2 class="section-title section-title--spaced reveal">Ce qu'ils en disent</h2>
+    <div class="reveal">
+      <script src="https://widget.senja.io/widget/ba38f57e-f96e-4bd4-aaed-e790683e71d3/platform.js" type="text/javascript" async></script>
+      <div class="senja-embed" data-id="ba38f57e-f96e-4bd4-aaed-e790683e71d3" data-mode="shadow" data-lazyload="false" style="display: block; width: 100%;"></div>
     </div>
   </div>
 </section>
-
-<!-- ════════════════════════ SECTION 5: MID CTA ════════════════════════ -->
-<div class="mid-cta reveal">
-  <button class="cta-btn open-modal">VOIR LA MÉTHODE EN 12 MINUTES →</button>
-</div>
-
 
 <!-- ════════════════════════ SECTION 6: FAQ (W2 PUNCHY) ════════════════════════ -->
 <section class="faq-section">
@@ -816,72 +863,51 @@ body::before {
     <div class="faq-list">
       <div class="faq-item reveal">
         <button class="faq-item__q" aria-expanded="false">
-          META Ads, &ccedil;a marche vraiment pour le B2B ?
+          Pour quel type d'entreprise ce système fonctionne ?
           <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
-        <div class="faq-item__a"><p>Nos clients prestataires de service paient leurs prospects 2 à 5x moins cher que sur LinkedIn. Et ces prospects sont qualifiés : besoin identifié, budget, pouvoir de décision. On te montre comment dans la méthode.</p></div>
+        <div class="faq-item__a"><p>Pour toute entreprise de services physique / en ligne dont l'offre permet un retour sur investissement clair sur l'acquisition publicitaire — artisan, coach, agence, courtier, esthétique, BTP, événementiel...<br><br>Si vous avez déjà des clients et que vous savez délivrer, on peut construire un système autour de votre offre.</p></div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-item__q" aria-expanded="false">
-          J&rsquo;ai d&eacute;j&agrave; essay&eacute; META et &ccedil;a n&rsquo;a pas march&eacute;.
+          J'ai déjà testé META Ads et ça n'a pas fonctionné.
           <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
-        <div class="faq-item__a"><p>Sans la bonne méthode, META en B2B ne fonctionne pas. C'est normal. On a développé un système spécifique pour les prestataires de service — testé et optimisé sur des dizaines de comptes.</p></div>
+        <div class="faq-item__a"><p>Dans 9 cas sur 10, le problème n'est pas META. C'est soit un lancement en autonomie sans maîtrise des angles, soit une agence 360 qui envoie des leads non qualifiés, soit un freelance qui lance des campagnes sans système.<br><br>Chez LEADX, on ne lance pas des campagnes. On construit un système d'acquisition prévisible.</p></div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-item__q" aria-expanded="false">
-          En combien de temps je vois des r&eacute;sultats ?
+          En combien de temps je vois des résultats ?
           <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
-        <div class="faq-item__a"><p>Premiers prospects en 7-14 jours. Système optimisé en 30-60 jours. On ne fait pas de promesses magiques, mais notre track record parle.</p></div>
+        <div class="faq-item__a"><p>Les premiers leads tombent généralement entre 24 et 72h après le lancement.<br><br>Le premier mois sert à calibrer le système. Dès le deuxième mois, les performances deviennent stables et prévisibles.</p></div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-item__q" aria-expanded="false">
-          C'est quoi exactement les "50 prospects qualifiés" que vous garantissez ?
+          Je dois prévoir quel budget publicitaire ?
           <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
-        <div class="faq-item__a"><p>Un prospect qualifié, c'est une personne qui a rempli un formulaire, qui correspond à ton ICP (Ideal Client Profile), et qui a un besoin actif de prestation de service. Pas un curieux, pas un étudiant, pas un concurrent — un vrai décideur avec un projet.</p></div>
+        <div class="faq-item__a"><p>Le budget dépend de votre secteur, de votre offre et de votre zone géographique. Nos clients investissent entre 15€ et 250€ par jour selon leur ambition.<br><br>Le budget exact sera défini avec vous lors de la mise en place de la stratégie.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-item__q" aria-expanded="false">
+          Comment se passe l'accompagnement ?
+          <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-item__a"><p>On audite votre situation, puis on construit votre système sur-mesure : stratégie, angles, structure de campagne, tracking Pixel + API de conversion.<br><br>On prend en charge toute la production créative — scripts, copywriting, visuels et vidéos publicitaires avec le montage.<br><br>On met aussi en place votre CRM, votre emailing et vos séquences de relance pour qu'aucun lead ne se perde.<br><br>Ensuite on lance, on calibre, on optimise en continu — avec un accès direct à l'équipe et à votre dashboard en temps réel.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-item__q" aria-expanded="false">
+          C'est combien votre accompagnement ?
+          <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-item__a"><p>Le tarif dépend de votre secteur, de votre offre, de votre zone géographique et du niveau d'accompagnement nécessaire.<br><br>On en discute directement pour vous proposer la formule la plus adaptée — ou vous dire clairement si la collaboration ne fait pas sens.</p></div>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- ════════════════════════ SECTION 7: FINAL CTA CARD ════════════════════════ -->
-<section class="final-section">
-  <div class="container">
-    <div class="final-card reveal">
-      <h3>Regarde comment on génère +50 prospects qualifiés/mois pour des boîtes de presta comme la tienne</h3>
-      <p>12 minutes. Gratuit. Sans engagement. La méthode complète, étape par étape.</p>
-      <button class="cta-btn open-modal">ACC&Eacute;DER &Agrave; LA M&Eacute;THODE &rarr;</button>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════ GUARANTEE ════════════════════════ -->
-<section class="guarantee-section">
-  <div class="container">
-    <div class="guarantee-card reveal">
-      <div class="guarantee-card__badge">NOTRE GARANTIE</div>
-      <h3 class="guarantee-card__title">+50 prospects qualifiés par mois</h3>
-      <p class="guarantee-card__desc">On ne promet pas des "leads". On garantit des prospects qualifiés : des décideurs qui correspondent à ton ICP, qui ont un besoin actif de prestation de service, et qui sont prêts à discuter. Si on n'atteint pas cet objectif, on continue de bosser gratuitement jusqu'à l'atteindre.</p>
-      <div class="guarantee-card__points">
-        <div class="guarantee-card__point">✅ Prospects vérifiés et qualifiés</div>
-        <div class="guarantee-card__point">✅ Livrés dans ton CRM chaque semaine</div>
-        <div class="guarantee-card__point">✅ Garantie résultat ou on bosse gratuitement</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ════════════════════════ BIG CTA (RED) ════════════════════════ -->
-<section class="big-cta">
-  <h2 class="reveal">Chaque mois sans système d'acquisition, c'est du CA que tu laisses sur la table.</h2>
-  <p class="reveal">Regarde la méthode LEADX — 12 minutes pour comprendre comment des dizaines de prestataires de service génèrent des prospects qualifiés en continu avec META.</p>
-  <div class="reveal" style="text-align:center">
-    <button class="cta-btn cta-btn--inverse open-modal">VOIR LA MÉTHODE MAINTENANT →</button>
-  </div>
-</section>
 </main>
 
 <!-- ════════════════════════ FOOTER ════════════════════════ -->
@@ -889,11 +915,10 @@ body::before {
   <div class="footer__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX - Acquisition B2B pour prestataires de service" class="footer__logo-img" style="height:24px;width:auto;" loading="lazy"></div>
   <nav class="footer__links" aria-label="Liens légaux">
     <a href="politique-de-confidentialite.html">Politique de confidentialité</a>
-    <a href="cgv.html">CGV</a>
     <a href="mentions-legales.html">Mentions légales</a>
   </nav>
-  <div class="footer__copy">&copy; 2025 LEADX PARTNERS LTD — Company Number 16372013 — Tous droits réservés.</div>
-  <div class="footer__disclaimer">This site is not a part of the Facebook&trade; website or Facebook&trade; Inc. Additionally, this site is NOT endorsed by Facebook&trade; in any way. FACEBOOK&trade; is a trademark of FACEBOOK&trade;, Inc.</div>
+  <div class="footer__copy">&copy; 2026 LEADX PARTNERS LTD — Tous droits réservés.</div>
+  <div class="footer__disclaimer">Ce site ne fait pas partie du site web de Facebook ou de Facebook Inc. En outre, ce site n'est PAS approuvé par Facebook de quelque manière que ce soit. FACEBOOK est une marque déposée de FACEBOOK, Inc.</div>
 </footer>
 
 <!-- ════════════════════════ MODAL OPTIN ════════════════════════ -->
@@ -977,7 +1002,7 @@ body::before {
 
   revealEls.forEach((el, i) => {
     // Stagger within each parent section
-    const parent = el.closest('section, .big-cta, .mid-cta');
+    const parent = el.closest('section, .big-cta');
     const siblings = parent ? parent.querySelectorAll('.reveal') : [el];
     const idx = Array.from(siblings).indexOf(el);
     el.style.transitionDelay = (idx * 0.08) + 's';
