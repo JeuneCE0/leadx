@@ -219,6 +219,16 @@ body::before {
   max-width: 620px; margin: 0 auto 32px; line-height: 1.7;
 }
 
+.hero__eyebrow { font-size: clamp(14px, 1.8vw, 17px); color: rgba(255,255,255,0.6); margin-bottom: 12px; }
+.hero__eyebrow em { font-style: italic; font-weight: 500; }
+.hero__lead { font-size: clamp(16px, 2.2vw, 20px); color: rgba(255,255,255,0.75); max-width: 720px; margin: 0 auto 24px; line-height: 1.5; }
+
+.hero__video { max-width: 760px; margin: 32px auto; aspect-ratio: 16 / 9; background: #0a0a0a; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
+.hero__video > * { width: 100%; }
+.hero__video-placeholder { color: rgba(255,255,255,0.35); font-size: 14px; letter-spacing: 0.05em; text-transform: uppercase; width: auto; }
+
+.hero__ctas { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+
 /* CTA Button */
 .cta-btn {
   display: inline-flex; align-items: center; justify-content: center;
@@ -241,6 +251,8 @@ body::before {
 .cta-btn--inverse:hover { background: #f5f5f5; }
 .cta-btn--dark { background: var(--accent); color: #fff; }
 .cta-btn--dark:hover { background: var(--accent-dark); }
+.cta-btn--outline { background: transparent; color: #fff; border: 1.5px solid rgba(255,255,255,0.25); box-shadow: none; }
+.cta-btn--outline:hover { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.5); box-shadow: none; }
 
 /* Company Marquee */
 .hero__trust { text-align: center; margin-top: 40px; }
@@ -392,7 +404,7 @@ body::before {
 .faq-item.open .faq-item__arrow { background: var(--accent); transform: rotate(180deg); }
 .faq-item.open .faq-item__arrow svg { stroke: #fff; }
 .faq-item__a { max-height: 0; overflow: hidden; transition: max-height 0.4s var(--ease), padding 0.4s var(--ease); padding: 0 24px; }
-.faq-item.open .faq-item__a { max-height: 300px; padding: 0 24px 22px; }
+.faq-item.open .faq-item__a { max-height: 800px; padding: 0 24px 22px; }
 .faq-item__a p { font-size: 0.88rem; color: rgba(255,255,255,0.6); line-height: 1.7; }
 
 /* ══════════════════════════════════════
@@ -608,17 +620,20 @@ body::before {
       <img src="assets/LEADX-wordmark-light.svg" alt="LEADX - Acquisition B2B pour prestataires de service" style="height:36px;width:auto;margin:0 auto;">
     </div>
 
-    <div class="hero__badge reveal">
-      <span class="hero__badge-dot"></span>
-      <span style="color:#fff;">Pour les entreprises de services à +5k/mois</span>
+    <div class="hero__eyebrow reveal"><em>Pour les entreprises de services à +5k/mois</em></div>
+
+    <p class="hero__lead reveal">Arrête de chercher des clients, mets en place les publicités qui les font venir à toi..</p>
+
+    <h1 class="reveal">Découvre le système d'acquisition Meta qui a généré <span class="accent">plus de 4 millions</span> pour nos clients</h1>
+
+    <div class="hero__video reveal" id="vturb-embed">
+      <!-- TODO: coller le snippet VTurb ici (remplacer ce placeholder) -->
+      <span class="hero__video-placeholder">Vidéo VTurb (placeholder)</span>
     </div>
 
-    <h1 class="reveal">Le système META Ads qui génère <span class="accent">+<span id="hero-counter">0</span> prospects qualifiés par mois</span> pour les boîtes de prestation de service</h1>
-
-    <p class="hero__sub reveal">Découvre le système META Ads qui remplit ton agenda de rendez-vous qualifiés — sans prospecter, sans dépendre du bouche-à-oreille.</p>
-
-    <div class="reveal" id="main-cta" style="text-align:center">
-      <button class="cta-btn cta-btn--full open-modal">VOIR LA MÉTHODE GRATUITEMENT →</button>
+    <div class="reveal hero__ctas" id="main-cta">
+      <button class="cta-btn cta-btn--full open-modal">DÉCOUVRIR LE SYSTÈME →</button>
+      <a href="#" class="cta-btn cta-btn--full cta-btn--outline" id="cta-dayyaan">DISCUTEZ AVEC DAYYAAN</a>
     </div>
 
     <div class="hero__trust reveal">
@@ -654,75 +669,29 @@ body::before {
 <!-- ════════════════════════ SUBTLE RED LINE ════════════════════════ -->
 <div style="height:1px;max-width:60%;margin:0 auto;background:linear-gradient(90deg,transparent,rgba(255,38,0,0.2) 30%,rgba(255,38,0,0.2) 70%,transparent);"></div>
 
-<!-- ════════════════════════ SECTION 1: ON SAIT CE QUE TU VIS (W2) ════════════════════════ -->
+<!-- ════════════════════════ SECTION 1: CE QUE TU VAS DÉCOUVRIR ════════════════════════ -->
 <section class="problem-section">
   <div class="container">
-    <h2 class="section-title section-title--spaced reveal">On sait ce que tu vis.</h2>
+    <h2 class="section-title section-title--spaced reveal">Ce que tu vas découvrir :</h2>
     <div class="problem-grid">
       <div class="problem-card reveal">
-        <span class="problem-card__icon">&#10060;</span>
-        <div class="problem-card__text">Tu dépends du bouche-à-oreille et de ton réseau — et quand ça s'arrête, le pipe se vide</div>
+        <span class="problem-card__icon" style="color:#FF2600;">●</span>
+        <div class="problem-card__text">Pourquoi 90% des publicités n'apportent pas de résultats stables</div>
       </div>
       <div class="problem-card reveal">
-        <span class="problem-card__icon">&#10060;</span>
-        <div class="problem-card__text">Tu as testé LinkedIn Ads ou Google Ads, tu as claqué 2000€+ pour des leads qui ne décrochent même pas</div>
+        <span class="problem-card__icon" style="color:#FF2600;">●</span>
+        <div class="problem-card__text">L'erreur que font la majorité des entreprises de services avec leurs ads</div>
       </div>
       <div class="problem-card reveal">
-        <span class="problem-card__icon">&#10060;</span>
-        <div class="problem-card__text">Tu n'as pas de système d'acquisition prévisible — chaque mois tu te demandes d'où viendront les prochains clients</div>
-      </div>
-    </div>
-    <p class="problem-closing reveal"><em>Le problème n'est pas META. C'est que personne ne t'a montré comment l'utiliser en B2B.</em></p>
-  </div>
-</section>
-
-
-<!-- ════════════════════════ SECTION 2: VOICI COMMENT ON RETOURNE LA SITUATION (W2) ════════════════════════ -->
-<section class="steps-section">
-  <div class="container">
-    <h2 class="section-title section-title--spaced reveal">Voici comment on retourne la situation.</h2>
-    <div class="steps-list">
-      <div class="step-card reveal">
-        <div class="step-card__num">01</div>
-        <div>
-          <div class="step-card__title">On audite ton activité de A à Z</div>
-          <div class="step-card__desc">Cycle de vente, panier moyen, ICP (Ideal Client Profile), canaux actuels. On part de ton business, pas d'un template générique.</div>
-        </div>
-      </div>
-      <div class="step-card reveal">
-        <div class="step-card__num">02</div>
-        <div>
-          <div class="step-card__title">On cible les décideurs qui signent</div>
-          <div class="step-card__desc">DG, DAF, DRH, Directeurs Achats — on construit des audiences META chirurgicales qui touchent les profils qui ont le budget et le pouvoir de décider.</div>
-        </div>
-      </div>
-      <div class="step-card reveal">
-        <div class="step-card__num">03</div>
-        <div>
-          <div class="step-card__title">On itère chaque semaine avec la data</div>
-          <div class="step-card__desc">Chaque semaine, on analyse les métriques, on coupe ce qui coûte, on pousse ce qui convertit. Ton budget travaille de plus en plus dur.</div>
-        </div>
-      </div>
-      <div class="step-card reveal">
-        <div class="step-card__num">04</div>
-        <div>
-          <div class="step-card__title">Tu reçois des prospects qualifiés dans ton CRM</div>
-          <div class="step-card__desc">Des prospects qui ont un besoin identifié, un budget, et le pouvoir de décider — livrés dans ton CRM ou par email, prêts à être appelés.</div>
-        </div>
-      </div>
-      <div class="step-card reveal">
-        <div class="step-card__num">05</div>
-        <div>
-          <div class="step-card__title">On scale de 50 à 200 prospects/mois</div>
-          <div class="step-card__desc">Une fois le système rodé, on augmente progressivement. Plus de budget = plus de prospects qualifiés, sans diluer la qualité. On l'a fait pour des dizaines de prestataires B2B.</div>
-        </div>
+        <span class="problem-card__icon" style="color:#FF2600;">●</span>
+        <div class="problem-card__text">Comment structurer un système d'acquisition Meta qui fonctionne vraiment</div>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- ════════════════════════ SECTION 3: TESTIMONIALS (W3) ════════════════════════ -->
+<!-- ════════════════════════ SECTION 2: TESTIMONIALS (W3) ════════════════════════ -->
 <section class="testimonials-section">
   <div class="container">
     <div class="section-label reveal">Résultats clients vérifiables</div>
@@ -876,39 +845,6 @@ body::before {
 </section>
 
 
-<!-- ════════════════════════ SECTION 4: POURQUOI META ADS (W3) ════════════════════════ -->
-<section class="meta-section">
-  <div class="container">
-    <h2 class="section-title section-title--spaced reveal">Pourquoi META Ads pour les prestataires de service</h2>
-    <div class="meta-cards">
-      <div class="meta-card reveal">
-        <div class="meta-card__dot"></div>
-        <div>
-          <div class="meta-card__client-quote"></div>
-          <h3>Coût par lead 2 à 5x inférieur à LinkedIn Ads</h3>
-          <p>Les décideurs B2B que tu cibles sont aussi sur Facebook et Instagram — à titre perso. On les touche là où ta concurrence ne va pas, à une fraction du coût de LinkedIn.</p>
-        </div>
-      </div>
-      <div class="meta-card reveal">
-        <div class="meta-card__dot"></div>
-        <div>
-          <div class="meta-card__client-quote"></div>
-          <h3>Accès direct aux décideurs : DG, DAF, DRH, Directeurs Achats</h3>
-          <p>On construit des audiences sur-mesure qui ciblent les profils qui signent des contrats de prestation, pas les curieux qui scrollent.</p>
-        </div>
-      </div>
-      <div class="meta-card reveal">
-        <div class="meta-card__dot"></div>
-        <div>
-          <div class="meta-card__client-quote"></div>
-          <h3>Scalable de 50 à 200+ prospects/mois</h3>
-          <p>Une fois le système en place, on augmente le volume progressivement. Plus de budget = plus de prospects qualifiés, sans perte de qualité.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ════════════════════════ SENJA REVIEWS ════════════════════════ -->
 <section class="senja-section">
   <div class="container">
@@ -927,45 +863,51 @@ body::before {
     <div class="faq-list">
       <div class="faq-item reveal">
         <button class="faq-item__q" aria-expanded="false">
-          META Ads, &ccedil;a marche vraiment pour le B2B ?
+          Pour quel type d'entreprise ce système fonctionne ?
           <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
-        <div class="faq-item__a"><p>Nos clients prestataires de service paient leurs prospects 2 à 5x moins cher que sur LinkedIn. Et ces prospects sont qualifiés : besoin identifié, budget, pouvoir de décision. On te montre comment dans la méthode.</p></div>
+        <div class="faq-item__a"><p>Pour toute entreprise de services physique / en ligne dont l'offre permet un retour sur investissement clair sur l'acquisition publicitaire — artisan, coach, agence, courtier, esthétique, BTP, événementiel...<br><br>Si vous avez déjà des clients et que vous savez délivrer, on peut construire un système autour de votre offre.</p></div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-item__q" aria-expanded="false">
-          J&rsquo;ai d&eacute;j&agrave; essay&eacute; META et &ccedil;a n&rsquo;a pas march&eacute;.
+          J'ai déjà testé META Ads et ça n'a pas fonctionné.
           <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
-        <div class="faq-item__a"><p>Sans la bonne méthode, META en B2B ne fonctionne pas. C'est normal. On a développé un système spécifique pour les prestataires de service — testé et optimisé sur des dizaines de comptes.</p></div>
+        <div class="faq-item__a"><p>Dans 9 cas sur 10, le problème n'est pas META. C'est soit un lancement en autonomie sans maîtrise des angles, soit une agence 360 qui envoie des leads non qualifiés, soit un freelance qui lance des campagnes sans système.<br><br>Chez LEADX, on ne lance pas des campagnes. On construit un système d'acquisition prévisible.</p></div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-item__q" aria-expanded="false">
-          En combien de temps je vois des r&eacute;sultats ?
+          En combien de temps je vois des résultats ?
           <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
-        <div class="faq-item__a"><p>Premiers prospects en 7-14 jours. Système optimisé en 30-60 jours. On ne fait pas de promesses magiques, mais notre track record parle.</p></div>
+        <div class="faq-item__a"><p>Les premiers leads tombent généralement entre 24 et 72h après le lancement.<br><br>Le premier mois sert à calibrer le système. Dès le deuxième mois, les performances deviennent stables et prévisibles.</p></div>
       </div>
       <div class="faq-item reveal">
         <button class="faq-item__q" aria-expanded="false">
-          C'est quoi exactement les "50 prospects qualifiés" que vous garantissez ?
+          Je dois prévoir quel budget publicitaire ?
           <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
         </button>
-        <div class="faq-item__a"><p>Un prospect qualifié, c'est une personne qui a rempli un formulaire, qui correspond à ton ICP (Ideal Client Profile), et qui a un besoin actif de prestation de service. Pas un curieux, pas un étudiant, pas un concurrent — un vrai décideur avec un projet.</p></div>
+        <div class="faq-item__a"><p>Le budget dépend de votre secteur, de votre offre et de votre zone géographique. Nos clients investissent entre 15€ et 250€ par jour selon leur ambition.<br><br>Le budget exact sera défini avec vous lors de la mise en place de la stratégie.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-item__q" aria-expanded="false">
+          Comment se passe l'accompagnement ?
+          <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-item__a"><p>On audite votre situation, puis on construit votre système sur-mesure : stratégie, angles, structure de campagne, tracking Pixel + API de conversion.<br><br>On prend en charge toute la production créative — scripts, copywriting, visuels et vidéos publicitaires avec le montage.<br><br>On met aussi en place votre CRM, votre emailing et vos séquences de relance pour qu'aucun lead ne se perde.<br><br>Ensuite on lance, on calibre, on optimise en continu — avec un accès direct à l'équipe et à votre dashboard en temps réel.</p></div>
+      </div>
+      <div class="faq-item reveal">
+        <button class="faq-item__q" aria-expanded="false">
+          C'est combien votre accompagnement ?
+          <span class="faq-item__arrow"><svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"/></svg></span>
+        </button>
+        <div class="faq-item__a"><p>Le tarif dépend de votre secteur, de votre offre, de votre zone géographique et du niveau d'accompagnement nécessaire.<br><br>On en discute directement pour vous proposer la formule la plus adaptée — ou vous dire clairement si la collaboration ne fait pas sens.</p></div>
       </div>
     </div>
   </div>
 </section>
 
 
-<!-- ════════════════════════ BIG CTA (RED) ════════════════════════ -->
-<section class="big-cta">
-  <h2 class="reveal">Chaque mois sans système d'acquisition, c'est du CA que tu laisses sur la table.</h2>
-  <p class="reveal">Regarde la méthode LEADX — 12 minutes pour comprendre comment des dizaines de prestataires de service génèrent des prospects qualifiés en continu avec META.</p>
-  <div class="reveal" style="text-align:center">
-    <button class="cta-btn cta-btn--inverse open-modal">VOIR LA MÉTHODE MAINTENANT →</button>
-  </div>
-</section>
 </main>
 
 <!-- ════════════════════════ FOOTER ════════════════════════ -->
@@ -973,11 +915,10 @@ body::before {
   <div class="footer__logo"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX - Acquisition B2B pour prestataires de service" class="footer__logo-img" style="height:24px;width:auto;" loading="lazy"></div>
   <nav class="footer__links" aria-label="Liens légaux">
     <a href="politique-de-confidentialite.html">Politique de confidentialité</a>
-    <a href="cgv.html">CGV</a>
     <a href="mentions-legales.html">Mentions légales</a>
   </nav>
-  <div class="footer__copy">&copy; 2025 LEADX PARTNERS LTD — Company Number 16372013 — Tous droits réservés.</div>
-  <div class="footer__disclaimer">This site is not a part of the Facebook&trade; website or Facebook&trade; Inc. Additionally, this site is NOT endorsed by Facebook&trade; in any way. FACEBOOK&trade; is a trademark of FACEBOOK&trade;, Inc.</div>
+  <div class="footer__copy">&copy; 2026 LEADX PARTNERS LTD — Tous droits réservés.</div>
+  <div class="footer__disclaimer">Ce site ne fait pas partie du site web de Facebook ou de Facebook Inc. En outre, ce site n'est PAS approuvé par Facebook de quelque manière que ce soit. FACEBOOK est une marque déposée de FACEBOOK, Inc.</div>
 </footer>
 
 <!-- ════════════════════════ MODAL OPTIN ════════════════════════ -->
