@@ -15,6 +15,18 @@
 <link rel="canonical" href="https://go.lead-x.fr/masterclass">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#000000">
+
+<!-- VTurb speed-up -->
+<script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+<link rel="preload" href="https://scripts.converteai.net/79146eaf-8969-4b1a-a163-c7561f91a860/players/6a09af109db6343a2a43aee2/v4/player.js" as="script">
+<link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+<link rel="preload" href="https://cdn.converteai.net/79146eaf-8969-4b1a-a163-c7561f91a860/6a09ac33c083215f1f178c72/main.m3u8" as="fetch">
+<link rel="dns-prefetch" href="https://cdn.converteai.net">
+<link rel="dns-prefetch" href="https://scripts.converteai.net">
+<link rel="dns-prefetch" href="https://images.converteai.net">
+<link rel="dns-prefetch" href="https://api.vturb.com.br">
+<link rel="dns-prefetch" href="https://license.vturb.com">
+
 <style>
 /* ══════════════════════════════════════
    DESIGN SYSTEM
@@ -82,10 +94,6 @@ body::before {
 }
 .reveal.visible { opacity: 1; transform: none; filter: none; }
 
-@keyframes pulse-play {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 38, 0, 0.6); }
-  50% { box-shadow: 0 0 0 20px rgba(255, 38, 0, 0); }
-}
 @keyframes shimmer {
   0% { background-position: -200% center; }
   100% { background-position: 200% center; }
@@ -125,58 +133,13 @@ body::before {
   margin: 0 auto;
   padding: 0 clamp(12px, 3vw, 24px);
 }
-.vsl__wrapper {
-  position: relative;
-  width: 100%;
-  padding-top: 56.25%; /* 16:9 */
+.vsl vturb-smartplayer {
   border-radius: 16px;
   overflow: hidden;
-  background: #000;
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.06),
     0 8px 40px rgba(0, 0, 0, 0.6),
     0 0 80px rgba(255, 38, 0, 0.08);
-}
-.vsl__video {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  border: none; display: block;
-}
-.vsl__thumbnail {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: var(--bg-dark-2);
-  cursor: pointer;
-  z-index: 2;
-  transition: opacity 0.4s ease;
-}
-.vsl__thumbnail.hidden { opacity: 0; pointer-events: none; }
-.vsl__play-btn {
-  width: clamp(64px, 10vw, 88px);
-  height: clamp(64px, 10vw, 88px);
-  border-radius: 50%;
-  background: var(--accent);
-  display: flex; align-items: center; justify-content: center;
-  animation: pulse-play 2s ease-in-out infinite;
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-.vsl__play-btn:hover { transform: scale(1.08); background: var(--accent-light); }
-.vsl__play-btn svg { width: 32px; height: 32px; margin-left: 4px; }
-
-/* Custom progress bar */
-.vsl__progress {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 4px; background: rgba(255, 255, 255, 0.15);
-  z-index: 3; cursor: pointer;
-  opacity: 0; transition: opacity 0.3s ease;
-}
-.vsl__wrapper:hover .vsl__progress,
-.vsl__wrapper.playing .vsl__progress { opacity: 1; }
-.vsl__progress-bar {
-  height: 100%; width: 0%;
-  background: var(--accent);
-  border-radius: 0 2px 2px 0;
-  transition: width 0.1s linear;
 }
 
 /* ══════════════════════════════════════
@@ -391,12 +354,7 @@ body::before {
   .header__logo-img { height: 28px; }
 
   .vsl { padding: 0 12px; }
-  .vsl__wrapper { border-radius: 12px; }
-  .vsl__play-btn {
-    width: 72px; height: 72px;
-    min-width: 64px; min-height: 64px;
-  }
-  .vsl__play-btn svg { width: 28px; height: 28px; }
+  .vsl vturb-smartplayer { border-radius: 12px; }
 
   .cta-section { padding-left: 16px; padding-right: 16px; }
   .cta-section__title { line-height: 1.2; margin-bottom: 10px; }
@@ -454,32 +412,13 @@ body::before {
      VSL PLAYER
      ═══════════════════════════════════ -->
 <section class="vsl reveal">
-  <div class="vsl__wrapper" id="vsl-wrapper">
-    <!-- Video (iframe or video element — swap src when ready) -->
-    <iframe
-      class="vsl__video"
-      id="vsl-video"
-      src="about:blank"
-      title="Masterclass LEADX META Ads B2B"
-      allow="autoplay; fullscreen; picture-in-picture"
-      allowfullscreen
-      loading="lazy"
-    ></iframe>
-
-    <!-- Thumbnail overlay -->
-    <div class="vsl__thumbnail" id="vsl-thumbnail">
-      <div class="vsl__play-btn" aria-label="Lancer la vid&eacute;o">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M8 5.14v13.72a1 1 0 0 0 1.5.86l11.04-6.86a1 1 0 0 0 0-1.72L9.5 4.28a1 1 0 0 0-1.5.86Z" fill="#fff"/>
-        </svg>
-      </div>
-    </div>
-
-    <!-- Custom progress bar -->
-    <div class="vsl__progress" id="vsl-progress">
-      <div class="vsl__progress-bar" id="vsl-progress-bar"></div>
-    </div>
-  </div>
+  <vturb-smartplayer id="vid-6a09af109db6343a2a43aee2" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
+  <script type="text/javascript">
+    var s = document.createElement("script");
+    s.src = "https://scripts.converteai.net/79146eaf-8969-4b1a-a163-c7561f91a860/players/6a09af109db6343a2a43aee2/v4/player.js";
+    s.async = !0;
+    document.head.appendChild(s);
+  </script>
 </section>
 
 <!-- ═══════════════════════════════════
@@ -487,13 +426,19 @@ body::before {
      ═══════════════════════════════════ -->
 <section class="cta-section" id="cta-section">
   <h1 class="cta-section__title">R&eacute;server un appel strat&eacute;gique offert</h1>
+  <div class="urgency reveal" data-urgency="places">
+    <div class="urgency__badge">
+      <span class="urgency__dot"></span>
+      Places limit&eacute;es cette semaine
+    </div>
+  </div>
   <div class="booking-embed" style="max-width:900px;margin:32px auto 0;border-radius:16px;overflow:hidden;background:#0a0a0a;">
     <iframe src="https://api.leadconnectorhq.com/widget/booking/tGNGhXDjtFX9Fee4nMGD" style="width:100%;border:none;overflow:hidden;min-height:780px;display:block;" scrolling="no" id="hjefRqxorRuPkcPAZEx4_masterclass" loading="lazy"></iframe>
     <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
   </div>
   <p class="cta-section__reassurance" style="margin-top:20px;">Gratuit &middot; 45 min &middot; Sans engagement</p>
   <div style="text-align:center;margin-top:24px;">
-    <a href="#" id="cta-whatsapp-dayyaan" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:12px;background:#25D366;color:#fff;font-weight:700;font-size:15px;letter-spacing:0.02em;text-decoration:none;transition:transform .2s ease, box-shadow .2s ease;box-shadow:0 4px 18px rgba(37,211,102,0.25);">
+    <a href="https://wa.me/262693321974" id="cta-whatsapp-dayyaan" target="_blank" rel="noopener" style="display:inline-flex;align-items:center;gap:10px;padding:14px 28px;border-radius:12px;background:#25D366;color:#fff;font-weight:700;font-size:15px;letter-spacing:0.02em;text-decoration:none;transition:transform .2s ease, box-shadow .2s ease;box-shadow:0 4px 18px rgba(37,211,102,0.25);">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413"/></svg>
       Discuter avec Dayyaan
     </a>
@@ -501,16 +446,6 @@ body::before {
   <div class="reveal" style="max-width:900px;margin:48px auto 0;">
     <script src="https://widget.senja.io/widget/ba38f57e-f96e-4bd4-aaed-e790683e71d3/platform.js" type="text/javascript" async></script>
     <div class="senja-embed" data-id="ba38f57e-f96e-4bd4-aaed-e790683e71d3" data-mode="shadow" data-lazyload="false" style="display: block; width: 100%;"></div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════
-     URGENCY
-     ═══════════════════════════════════ -->
-<section class="urgency reveal" data-urgency="places">
-  <div class="urgency__badge">
-    <span class="urgency__dot"></span>
-    Places limit&eacute;es cette semaine
   </div>
 </section>
 
@@ -540,15 +475,9 @@ body::before {
 
   /* ── CONFIG ── */
   var CTA_REVEAL_SECONDS = 0; // reveal calendar immediately
-  var VSL_SRC = 'about:blank';  // ⚠️ À REMPLIR — URL de la VSL
 
   /* ── DOM refs ── */
   var scrollProgress = document.getElementById('scroll-progress');
-  var vslWrapper     = document.getElementById('vsl-wrapper');
-  var vslVideo       = document.getElementById('vsl-video');
-  var vslThumbnail   = document.getElementById('vsl-thumbnail');
-  var vslProgress    = document.getElementById('vsl-progress');
-  var vslProgressBar = document.getElementById('vsl-progress-bar');
   var ctaSection     = document.getElementById('cta-section');
   var ctaSticky      = document.getElementById('cta-sticky');
 
@@ -573,17 +502,6 @@ body::before {
   } else {
     revealEls.forEach(function (el) { el.classList.add('visible'); });
   }
-
-  /* ── VSL Thumbnail Click → Play ── */
-  vslThumbnail.addEventListener('click', function () {
-    // Swap src with autoplay if it's an iframe embed
-    if (VSL_SRC !== 'about:blank') {
-      var separator = VSL_SRC.indexOf('?') > -1 ? '&' : '?';
-      vslVideo.src = VSL_SRC + separator + 'autoplay=1';
-    }
-    vslThumbnail.classList.add('hidden');
-    vslWrapper.classList.add('playing');
-  });
 
   /* ── CTA Reveal: timer OR scroll ── */
   var ctaRevealed = false;
