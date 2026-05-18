@@ -228,9 +228,7 @@ body::before {
 .hero__eyebrow em { font-style: normal; font-weight: 600; }
 .hero__lead { font-size: clamp(14px, 1.8vw, 17px); color: rgba(255,255,255,0.75); max-width: 720px; margin: 0 auto 24px; line-height: 1.5; }
 
-.hero__video { max-width: 760px; margin: 32px auto; aspect-ratio: 16 / 9; background: #0a0a0a; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; display: flex; align-items: center; justify-content: center; position: relative; }
-.hero__video > * { width: 100%; }
-.hero__video-placeholder { color: rgba(255,255,255,0.35); font-size: 14px; letter-spacing: 0.05em; text-transform: uppercase; width: auto; }
+.hero__video { display: block; width: 100%; max-width: 760px; margin: 32px auto; aspect-ratio: 16 / 9; background: #0a0a0a; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; position: relative; }
 
 .hero__ctas { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 
@@ -650,10 +648,14 @@ body::before {
 
     <h1 class="reveal">Découvre le système d'acquisition Meta qui a généré <span class="accent">plus de 4 millions</span> pour nos clients</h1>
 
-    <div class="hero__video reveal" id="vturb-embed">
-      <!-- TODO: coller le snippet VTurb ici (remplacer ce placeholder) -->
-      <span class="hero__video-placeholder">Vidéo VTurb (placeholder)</span>
-    </div>
+    <button type="button" class="hero__video reveal open-modal" id="vturb-embed" aria-label="Lancer la vidéo" style="padding:0;cursor:pointer;">
+      <img src="assets/vsl-thumbnail.webp" alt="LEADX — Le système d'acquisition Meta qui a généré +4 millions pour nos clients" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <span aria-hidden="true" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.35) 100%);">
+        <span style="width:clamp(64px,10vw,88px);height:clamp(64px,10vw,88px);border-radius:50%;background:#FF2600;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(255,38,0,0.45);">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;margin-left:4px;"><path d="M8 5.14v13.72a1 1 0 0 0 1.5.86l11.04-6.86a1 1 0 0 0 0-1.72L9.5 4.28a1 1 0 0 0-1.5.86Z" fill="#fff"/></svg>
+        </span>
+      </span>
+    </button>
 
     <div class="reveal hero__ctas" id="main-cta">
       <button class="cta-btn cta-btn--full open-modal">DÉCOUVRIR LE SYSTÈME →</button>
