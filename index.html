@@ -118,19 +118,23 @@ body::before {
   min-height: 100vh; display: flex; align-items: center; justify-content: center;
   padding: 60px 0;
 }
+@media(max-width:768px){
+  .hero__notif,
+  .funnel-canvas,
+  .funnel-glow,
+  .flow-pill { display: none !important; }
+}
 @media(max-width:640px){
   .hero { min-height: auto; padding: 80px 0 40px; }
   .hero__inner { padding: 0 20px; }
   .hero h1 { font-size: clamp(24px, 6vw, 36px); letter-spacing: -0.01em; margin-bottom: 16px; }
   .hero__badge { font-size: 12px; padding: 6px 14px; margin-bottom: 20px; }
   .hero__sub { margin-bottom: 24px; line-height: 1.6; }
-  .hero__notif { display: none; }
   .cta-btn { padding: 16px 24px; font-size: 14px; }
   .cta-btn--full { max-width: 100%; }
   .hero__trust { margin-top: 28px; }
   .hero__trust-label { font-size: 11px; }
   .hero__marquee-item { padding: 6px 14px; font-size: 11px; }
-  .funnel-glow { width: 160px; height: 120px; }
   .hero__orb--1 { width: 300px; height: 300px; }
   .hero__orb--2 { width: 250px; height: 250px; }
 }
