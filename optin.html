@@ -676,10 +676,14 @@ body::before {
 
     <p class="hero__sub reveal">Découvre le système d'acquisition Meta qui a généré plus de <strong style="color:#fff;">4 millions d'euros</strong> pour nos clients.</p>
 
-    <div class="reveal hero__video" style="max-width:900px;margin:40px auto;aspect-ratio:16/9;background:#0a0a0a;border:1px solid var(--border-dark);border-radius:16px;overflow:hidden;position:relative;">
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--text-light-secondary);font-size:14px;letter-spacing:0.1em;">VIDÉO À INTÉGRER</div>
-      <!-- Remplacer ce bloc par : <iframe src="..." allow="autoplay; fullscreen" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe> -->
-    </div>
+    <button type="button" class="reveal hero__video open-modal" aria-label="Lancer la vidéo" style="display:block;width:100%;max-width:900px;margin:40px auto;aspect-ratio:16/9;background:#0a0a0a;border:1px solid var(--border-dark);border-radius:16px;overflow:hidden;position:relative;padding:0;cursor:pointer;">
+      <img src="assets/vsl-thumbnail.png" alt="LEADX — Le système d'acquisition Meta qui a généré +4 millions pour nos clients" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      <span aria-hidden="true" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.35) 100%);">
+        <span style="width:clamp(64px,10vw,88px);height:clamp(64px,10vw,88px);border-radius:50%;background:#FF2600;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(255,38,0,0.45);animation:pulse 2s ease-in-out infinite;">
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;margin-left:4px;"><path d="M8 5.14v13.72a1 1 0 0 0 1.5.86l11.04-6.86a1 1 0 0 0 0-1.72L9.5 4.28a1 1 0 0 0-1.5.86Z" fill="#fff"/></svg>
+        </span>
+      </span>
+    </button>
 
     <div class="reveal" id="main-cta" style="text-align:center;display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
       <button class="cta-btn open-modal">DÉCOUVRIR LE SYSTÈME →</button>
