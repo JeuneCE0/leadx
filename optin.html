@@ -244,6 +244,9 @@ body::before {
 
 @keyframes gentleFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
 
+/* Hero video — button reset to neutralize UA styles (inline styles handle layout) */
+button.hero__video { -webkit-appearance: none; appearance: none; color: inherit; font: inherit; text-align: left; }
+
 /* Hero inner */
 .hero__inner { max-width: 780px; margin: 0 auto; text-align: center; position: relative; z-index: 4; width: 100%; }
 
