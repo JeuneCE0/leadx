@@ -999,6 +999,9 @@ button.hero__video { -webkit-appearance: none; appearance: none; color: inherit;
     const originalLabel = submitBtn.textContent;
     submitBtn.textContent = 'Envoi en cours…';
 
+    // event_id partagé pixel ↔ CAPI pour la déduplication Meta
+    const eventId = 'lead.' + Date.now() + '.' + Math.random().toString(36).slice(2, 10);
+
     try {
       const r = await fetch('/api/lead', {
         method: 'POST',
@@ -1010,6 +1013,8 @@ button.hero__video { -webkit-appearance: none; appearance: none; color: inherit;
           phone: tel || undefined,
           source: 'optin-landing',
           tags: ['Nouveau Lead'],
+          eventId,
+          eventSourceUrl: window.location.href,
         }),
       });
       if (!r.ok) throw new Error('lead submit failed');
@@ -1020,7 +1025,7 @@ button.hero__video { -webkit-appearance: none; appearance: none; color: inherit;
       submitBtn.textContent = originalLabel;
     }
 
-    if (window.fbq) fbq('track', 'Lead');
+    if (window.fbq) fbq('track', 'Lead', {}, { eventID: eventId });
 
     closeModal();
     showLoader();
