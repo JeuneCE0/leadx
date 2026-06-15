@@ -34,7 +34,10 @@ export default async function handler(req, res) {
   }
 
   try {
-    const ghlRes = await fetch(`${GHL_API}/contacts/`, {
+    // Upsert (not plain create): a returning prospect already exists in GHL, and
+    // POST /contacts/ would 400 without applying the tags. Upsert merges tags onto
+    // the existing contact, so 'whatsapp' lands on the prospect either way.
+    const ghlRes = await fetch(`${GHL_API}/contacts/upsert`, {
       method: 'POST',
       headers: {
         Authorization: `Bearer ${apiKey}`,
@@ -54,8 +57,7 @@ export default async function handler(req, res) {
 
     const data = await ghlRes.json().catch(() => ({}));
 
-    if (!ghlRes.ok && ghlRes.status !== 400) {
-      // GHL returns 400 when the contact already exists — treat as success.
+    if (!ghlRes.ok) {
       console.error('GHL error', ghlRes.status, data);
       return res.status(502).json({ error: 'Upstream error' });
     }
