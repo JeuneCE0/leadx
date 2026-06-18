@@ -1122,6 +1122,7 @@ button.hero__video { cursor: pointer; }
     const prenom = document.getElementById('f-prenom').value.trim();
     const nom = document.getElementById('f-nom').value.trim();
     const email = document.getElementById('f-email').value.trim();
+    const tel = document.getElementById('f-tel').value.trim();
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!prenom || !nom || !email || !emailRegex.test(email)) {
@@ -1130,6 +1131,37 @@ button.hero__video { cursor: pointer; }
       });
       if (email && !emailRegex.test(email)) document.getElementById('f-email').style.borderColor = '#dc2626';
       return;
+    }
+
+    // event_id partagé pixel ↔ CAPI pour la déduplication Meta
+    const eventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'lead-' + Date.now() + '-' + Math.round(Math.random() * 1e9);
+    if (window.fbq) fbq('track', 'Lead', {}, { eventID: eventId });
+
+    submitBtn.disabled = true;
+    const originalLabel = submitBtn.textContent;
+    submitBtn.textContent = 'Envoi en cours…';
+
+    try {
+      const r = await fetch('/api/lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          firstName: prenom,
+          lastName: nom,
+          email,
+          phone: tel || undefined,
+          source: 'lp-landing',
+          tags: ['Nouveau Lead', 'whatsapp'],
+          eventId,
+          eventSourceUrl: location.href,
+        }),
+      });
+      if (!r.ok) throw new Error('lead submit failed');
+    } catch (err) {
+      console.warn('lead submit error, continuing to masterclass', err);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
     }
 
     closeModal();
