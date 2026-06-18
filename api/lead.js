@@ -2,15 +2,21 @@
 // Upserts a contact in GoHighLevel for the LEADX optin/LP forms,
 // then sends a server-side Meta Conversions API (CAPI) Lead event.
 // Env vars (set in Vercel dashboard):
-//   GHL_API_KEY      — Private Integration Token (pit-...)
-//   GHL_LOCATION_ID  — sub-account location id
-//   META_CAPI_TOKEN  — Conversions API access token (server-only)
-//   META_PIXEL_ID    — pixel id (défaut: 3530904023724600)
+//   GHL_API_KEY          — Private Integration Token (pit-...)
+//   GHL_LOCATION_ID      — sub-account location id
+//   GHL_PIPELINE_ID      — pipeline id (défaut: CRM LEADX)
+//   GHL_PIPELINE_STAGE_ID — stage d'entrée (défaut: 🆕 Nouveau Lead)
+//   META_CAPI_TOKEN      — Conversions API access token (server-only)
+//   META_PIXEL_ID        — pixel id (défaut: 3530904023724600)
 
 import crypto from 'node:crypto';
 
 const GHL_API = 'https://services.leadconnectorhq.com';
 const GHL_VERSION = '2021-07-28';
+
+// Pipeline « CRM LEADX » → stage d'entrée « 🆕 Nouveau Lead » (overridables via env).
+const GHL_PIPELINE_ID = process.env.GHL_PIPELINE_ID || 'zzj4Cyt2lmNSXJ14JbKc';
+const GHL_STAGE_ID = process.env.GHL_PIPELINE_STAGE_ID || '99eb31fc-1c10-4d6b-9713-13e023d3991a';
 
 const META_GRAPH_VERSION = 'v21.0';
 const DEFAULT_PIXEL_ID = '3530904023724600';
@@ -82,6 +88,39 @@ async function sendCapiLead({ firstName, lastName, email, phone, eventId, eventS
   }
 }
 
+// Crée l'opportunité dans la pipeline : un contact seul n'apparaît PAS dans la pipeline GHL.
+// Best-effort : ne casse jamais l'optin. GHL renvoie 400 + meta.existingId si le contact a déjà
+// une opportunité (réglage "no duplicate opportunity") → déjà dans la pipeline, on ne le déplace pas.
+async function createGhlOpportunity({ apiKey, locationId, contactId, name }) {
+  if (!contactId) return;
+  try {
+    const r = await fetch(`${GHL_API}/opportunities/`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        Version: GHL_VERSION,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        pipelineId: GHL_PIPELINE_ID,
+        pipelineStageId: GHL_STAGE_ID,
+        locationId,
+        contactId,
+        name: name || 'Nouveau lead LEADX',
+        status: 'open',
+        monetaryValue: 0,
+      }),
+    });
+    if (!r.ok) {
+      const detail = await r.json().catch(() => ({}));
+      if (r.status === 400 && detail?.meta?.existingId) return;
+      console.error('GHL opportunity error', r.status, detail);
+    }
+  } catch (err) {
+    console.error('GHL opportunity exception', err);
+  }
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
@@ -136,6 +175,14 @@ export default async function handler(req, res) {
       console.error('GHL error', ghlRes.status, data);
       return res.status(502).json({ error: 'Upstream error' });
     }
+
+    const contactId = data?.contact?.id || data?.contactId || data?.id;
+    await createGhlOpportunity({
+      apiKey,
+      locationId,
+      contactId,
+      name: `${firstName} ${lastName}`.trim(),
+    });
 
     await sendCapiLead({ firstName, lastName, email, phone, eventId, eventSourceUrl, req });
 
