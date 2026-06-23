@@ -140,6 +140,10 @@ body::before {
   .funnel-canvas,
   .funnel-glow,
   .flow-pill { display: none !important; }
+  /* Mobile : pas d'animations de fond (calme visuel + perf) */
+  .hero__glow { display: none !important; }
+  .hero__orb,
+  .hero__marquee { animation: none !important; }
 }
 @media(max-width:640px){
   .hero { min-height: auto; padding: 80px 0 40px; }
@@ -659,7 +663,7 @@ button.hero__video { cursor: pointer; }
   <!-- Glass morphism notification badges with colored dots -->
   <div class="hero__notif hero__notif--green" style="top:13%;left:12%;animation:gentleFloat 5s ease-in-out infinite;">+1 prospect qualifié</div>
   <div class="hero__notif hero__notif--red" style="top:17%;right:10%;animation:gentleFloat 4.5s ease-in-out 1s infinite;">CPL divisé par 3</div>
-  <div class="hero__notif hero__notif--yellow" style="bottom:20%;right:8%;animation:gentleFloat 4.8s ease-in-out 1.5s infinite;">+50 prospects/mois</div>
+  <div class="hero__notif hero__notif--yellow" style="bottom:20%;right:8%;animation:gentleFloat 4.8s ease-in-out 1.5s infinite;">30 à 50 clients en 30 j</div>
 
   <div class="container hero__inner">
     <div class="reveal" style="text-align:center;margin-bottom:32px;">
@@ -668,7 +672,7 @@ button.hero__video { cursor: pointer; }
 
     <div class="hero__eyebrow reveal"><em>Pour les entreprises de services à +5k/mois</em></div>
 
-    <p class="hero__lead reveal">Arrête de chercher des clients, mets en place les publicités qui les font venir à toi..</p>
+    <p class="hero__lead reveal">Obtiens entre 30 et 50 nouveaux clients potentiels dans les 30 prochains jours.</p>
 
     <h1 class="reveal">Découvre le système d'acquisition Meta qui a généré <span class="accent">plus de 4 millions</span> pour nos clients</h1>
 
@@ -742,158 +746,6 @@ button.hero__video { cursor: pointer; }
 </section>
 
 
-<!-- ════════════════════════ SECTION 2: TESTIMONIALS (W3) ════════════════════════ -->
-<section class="testimonials-section">
-  <div class="container">
-    <div class="section-label reveal">Résultats clients vérifiables</div>
-    <h2 class="section-title reveal">Ce que notre système produit en 90 jours.</h2>
-    <p class="section-subtitle reveal"></p>
-
-    <div class="testimonial-grid">
-      <div class="testimonial-card case-card reveal">
-        <div class="case-card__header">
-          <div class="case-card__name">Marion <span class="case-card__brand">— MODERMA</span></div>
-          <div class="case-card__sector">Cabinet esthétique</div>
-        </div>
-        <div class="case-card__hero">80% du CA généré via le système, tous les mois.</div>
-        <div class="case-card__metrics">
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">70</div>
-            <div class="case-card__metric-label">RDV bookés</div>
-          </div>
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">8,58€</div>
-            <div class="case-card__metric-label">par RDV</div>
-          </div>
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">600€</div>
-            <div class="case-card__metric-label">investis</div>
-          </div>
-        </div>
-        <div class="case-card__quote">« Avant LEADX, dépendance totale au bouche-à-oreille. Aujourd'hui, 80% du CA généré via le système. »</div>
-      </div>
-
-      <div class="testimonial-card case-card reveal">
-        <div class="case-card__header">
-          <div class="case-card__name">Florent <span class="case-card__brand">— Solubat Construction</span></div>
-          <div class="case-card__sector">Constructeur de villas</div>
-        </div>
-        <div class="case-card__hero">1,3M€ signés sur la campagne — ROI ×2 630.</div>
-        <div class="case-card__metrics">
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">1,3M€</div>
-            <div class="case-card__metric-label">signés</div>
-          </div>
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">112</div>
-            <div class="case-card__metric-label">leads générés</div>
-          </div>
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">4,41€</div>
-            <div class="case-card__metric-label">par lead</div>
-          </div>
-        </div>
-        <div class="case-card__quote">« Objectif plus que validé : 50 prospects demandés, 100 obtenus. 1,3M€ de CA signé en génie civil. Très satisfait du partenariat. »</div>
-      </div>
-
-      <div class="testimonial-card case-card reveal">
-        <div class="case-card__header">
-          <div class="case-card__name">Faizal <span class="case-card__brand">— RunShort</span></div>
-          <div class="case-card__sector">Agence de vidéo verticale</div>
-        </div>
-        <div class="case-card__hero">CA multiplié par 5 sur les 2 premiers mois de campagne.</div>
-        <div class="case-card__metrics">
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">×5</div>
-            <div class="case-card__metric-label">sur le CA</div>
-          </div>
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">50%</div>
-            <div class="case-card__metric-label">RDV téléphoniques</div>
-          </div>
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">8,71€</div>
-            <div class="case-card__metric-label">par lead qualifié</div>
-          </div>
-        </div>
-        <div class="case-card__quote">« Mon CA a été multiplié par 5 depuis le lancement. Ce qui m'a le plus bluffé : la qualité du ciblage — 50% de taux de réservation d'appel. Une expertise rare en acquisition de leads. » — Faizal Nakhuda</div>
-      </div>
-
-      <div class="testimonial-card case-card reveal">
-        <div class="case-card__header">
-          <div class="case-card__name">Rodolphe <span class="case-card__brand">— RM Couverture</span></div>
-          <div class="case-card__sector">Rénovation toiture • La Réunion</div>
-        </div>
-        <div class="case-card__hero">+57 000€ de CA additionnel généré en 30 jours.</div>
-        <div class="case-card__metrics">
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">144</div>
-            <div class="case-card__metric-label">leads générés</div>
-          </div>
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">10</div>
-            <div class="case-card__metric-label">clients fermés</div>
-          </div>
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">18,77€</div>
-            <div class="case-card__metric-label">par prospect</div>
-          </div>
-        </div>
-        <div class="case-card__quote">« Plus que satisfait — j'ai plus de clients que je n'aurais pu imaginer. La meilleure expérience que j'ai eu concernant la publicité. Je recommande les yeux fermés. » — Rodolphe Mayer</div>
-      </div>
-
-      <div class="testimonial-card case-card reveal">
-        <div class="case-card__header">
-          <div class="case-card__name">Karel <span class="case-card__brand">— Tropic Clim Services</span></div>
-          <div class="case-card__sector">Nettoyage de climatiseurs</div>
-        </div>
-        <div class="case-card__hero">Agenda rempli — 2 leads sur 4 convertis en clients.</div>
-        <div class="case-card__metrics">
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">115</div>
-            <div class="case-card__metric-label">leads en 26j</div>
-          </div>
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">1,84€</div>
-            <div class="case-card__metric-label">par lead</div>
-          </div>
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">211€</div>
-            <div class="case-card__metric-label">investis</div>
-          </div>
-        </div>
-        <div class="case-card__quote">« Avant LEADX : 3 leads/semaine en bouche-à-oreille. Aujourd'hui agenda rempli, 50% de conversion sur les leads contactés. »</div>
-      </div>
-
-      <div class="testimonial-card case-card reveal">
-        <div class="case-card__header">
-          <div class="case-card__name">Dylan <span class="case-card__brand">— Clinico</span></div>
-          <div class="case-card__sector">Cabinet esthétique cryolipolyse • Belgique</div>
-        </div>
-        <div class="case-card__hero">19 clients signés sur 55 leads en 3 semaines.</div>
-        <div class="case-card__metrics">
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">4 500€</div>
-            <div class="case-card__metric-label">CA généré</div>
-          </div>
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">19</div>
-            <div class="case-card__metric-label">clients signés</div>
-          </div>
-          <div class="case-card__metric">
-            <div class="case-card__metric-value">8,73€</div>
-            <div class="case-card__metric-label">par prospect</div>
-          </div>
-        </div>
-        <div class="case-card__quote">« LEADX est allée au-delà de mes attentes : 19 clients signés sur 55 leads en 3 semaines. Merci Dayyaan pour ton professionnalisme — je ne peux que recommander. » — Dylan Florenty</div>
-      </div>
-    </div>
-
-    <div class="cards-cta reveal">
-      <button class="cta-btn open-modal">DÉCOUVRIR LE SYSTÈME →</button>
-    </div>
-  </div>
-</section>
 
 
 <!-- ════════════════════════ SENJA REVIEWS ════════════════════════ -->

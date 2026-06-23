@@ -147,6 +147,10 @@ body::before {
   .funnel-canvas,
   .funnel-glow,
   .flow-pill { display: none !important; }
+  /* Mobile : pas d'animations de fond (calme visuel + perf) */
+  .hero__glow { display: none !important; }
+  .hero__orb,
+  .hero__marquee { animation: none !important; }
 }
 @media(max-width:640px){
   .hero { min-height: auto; padding: 80px 0 40px; }
@@ -684,7 +688,7 @@ button.hero__video { -webkit-appearance: none; appearance: none; color: inherit;
   <div class="hero__notif hero__notif--green" style="top:13%;left:12%;animation:gentleFloat 5s ease-in-out infinite;">+1 prospect qualifié</div>
   <div class="hero__notif hero__notif--red" style="top:17%;right:10%;animation:gentleFloat 4.5s ease-in-out 1s infinite;">CPL divisé par 3</div>
   <div class="hero__notif hero__notif--blue" style="top:45%;left:8%;animation:gentleFloat 5.2s ease-in-out 0.5s infinite;">Pipe commercial plein</div>
-  <div class="hero__notif hero__notif--yellow" style="bottom:20%;right:8%;animation:gentleFloat 4.8s ease-in-out 1.5s infinite;">+50 prospects/mois</div>
+  <div class="hero__notif hero__notif--yellow" style="bottom:20%;right:8%;animation:gentleFloat 4.8s ease-in-out 1.5s infinite;">30 à 50 clients en 30 j</div>
   <div class="hero__notif hero__notif--green" style="bottom:28%;left:10%;animation:gentleFloat 4.4s ease-in-out 2s infinite;">Acquisition prévisible</div>
 
   <div class="container hero__inner">
@@ -697,7 +701,7 @@ button.hero__video { -webkit-appearance: none; appearance: none; color: inherit;
       <span style="color:#fff;">Pour les entreprises de services à </span><span style="color:#FF2600;font-weight:800;">+10K€/m</span>
     </div>
 
-    <h1 class="reveal">Arrête de chercher des clients, <span class="accent">mets en place les publicités qui les font venir à toi.</span></h1>
+    <h1 class="reveal">Obtiens <span class="accent">entre 30 et 50 nouveaux clients potentiels</span> dans les 30 prochains jours.</h1>
 
     <p class="hero__sub reveal">Découvre le système d'acquisition Meta qui a généré plus de <strong style="color:#fff;">4 millions d'euros</strong> pour nos clients.</p>
 
@@ -894,7 +898,7 @@ button.hero__video { -webkit-appearance: none; appearance: none; color: inherit;
 <!-- ════════════════════════ STICKY MOBILE CTA ════════════════════════ -->
 <div class="sticky-cta" id="sticky-cta">
   <button class="sticky-cta__btn open-modal">VOIR LA MÉTHODE →</button>
-  <div class="sticky-cta__sub">+50 prospects/mois · 12 min · Gratuit</div>
+  <div class="sticky-cta__sub">30 à 50 clients en 30 jours · 12 min · Gratuit</div>
 </div>
 
 
