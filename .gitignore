@@ -3,3 +3,6 @@
 .env.local
 node_modules/
 .vercel
+
+# Sources médias lourdes (on commit les .mp4 optimisés)
+assets/*.gif
