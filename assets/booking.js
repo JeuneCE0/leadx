@@ -366,11 +366,9 @@
   }
 
   // ── Interactions ──
-  // Clics écoutés sur window en phase de capture : la page arrête les clics
-  // avant document pour que VTurb ne relance pas la VSL (voir index.html).
-  window.addEventListener('click', function (event) {
-    var target = event.target.closest && event.target.closest('button');
-    if (!target || target.disabled || !root.contains(target)) return;
+  root.addEventListener('click', function (event) {
+    var target = event.target.closest('button');
+    if (!target || target.disabled) return;
     if (target.dataset.day) {
       state.day = target.dataset.day;
       state.slot = null;
@@ -396,7 +394,7 @@
     } else if (target.dataset.action === 'fallback') {
       fallback();
     }
-  }, true);
+  });
 
   root.addEventListener('change', function (event) {
     // Une question répondue perd aussitôt son signalement.

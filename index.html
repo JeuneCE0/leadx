@@ -36,22 +36,22 @@ src="https://www.facebook.com/tr?id=3530904023724600&ev=PageView&noscript=1"
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- VTurb remet le son et relance la VSL depuis le début au premier geste
-     n'importe où sur la page (option « auto unmute » du lecteur, réglée chez
-     VTurb). Ses écouteurs sont posés sur document en phase de capture : on
-     arrête ces gestes dès window, sauf dans le lecteur lui-même et dans les
-     avis Senja qui en ont besoin. Le calendrier écoute ses clics sur window
-     (assets/booking.js), avant cet arrêt. -->
+<!-- VTurb (option « auto unmute » du lecteur, réglée chez VTurb) relance la
+     VSL avec le son, depuis le début, dès qu'un geste n'importe où sur la page
+     (un créneau, une question) lui permet de jouer une vidéo de test
+     sonore (cdn.converteai.net/1.mp4). Ce test échoue ici : la VSL ne prend le
+     son que si le visiteur clique dessus. -->
 <script>
 (function () {
-  ['click', 'keydown', 'mouseup', 'pointerup', 'touchend'].forEach(function (type) {
-    window.addEventListener(type, function (event) {
-      var target = event.target;
-      if (!target || !target.closest) return;
-      if (target.closest('vturb-smartplayer, .reviews')) return;
-      event.stopPropagation();
-    }, { capture: true });
-  });
+  var nativePlay = HTMLMediaElement.prototype.play;
+  var PROBE = /^https:\/\/cdn\.converteai\.net\/[^/]+\.mp4(\?|$)/;
+  HTMLMediaElement.prototype.play = function () {
+    if (PROBE.test(this.currentSrc || this.src || '')) {
+      // Surtout pas « NotSupportedError » : VTurb le prend pour un succès.
+      return Promise.reject(new DOMException('Lecture sonore automatique refusée par la page.', 'NotAllowedError'));
+    }
+    return nativePlay.apply(this, arguments);
+  };
 })();
 </script>
 <!-- VTurb : lecteur préchargé -->
