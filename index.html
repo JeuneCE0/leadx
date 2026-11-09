@@ -36,6 +36,24 @@ src="https://www.facebook.com/tr?id=3530904023724600&ev=PageView&noscript=1"
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
 
+<!-- VTurb remet le son et relance la VSL depuis le début au premier geste
+     n'importe où sur la page (option « auto unmute » du lecteur, réglée chez
+     VTurb). Ses écouteurs sont posés sur document en phase de capture : on
+     arrête ces gestes dès window, sauf dans le lecteur lui-même et dans les
+     avis Senja qui en ont besoin. Le calendrier écoute ses clics sur window
+     (assets/booking.js), avant cet arrêt. -->
+<script>
+(function () {
+  ['click', 'keydown', 'mouseup', 'pointerup', 'touchend'].forEach(function (type) {
+    window.addEventListener(type, function (event) {
+      var target = event.target;
+      if (!target || !target.closest) return;
+      if (target.closest('vturb-smartplayer, .reviews')) return;
+      event.stopPropagation();
+    }, { capture: true });
+  });
+})();
+</script>
 <!-- VTurb : lecteur préchargé -->
 <script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
 <link rel="preload" href="https://scripts.converteai.net/79146eaf-8969-4b1a-a163-c7561f91a860/players/6a09af109db6343a2a43aee2/v4/player.js" as="script">
