@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     try {
       const r = await fetch(url, { ...init, headers: { ...headers, ...(init.headers || {}) } });
       const text = await r.text();
-      out[name] = { status: r.status, body: text.slice(0, 1500) };
+      out[name] = { status: r.status, body: name === 'calendar' ? text : text.slice(0, 600) };
     } catch (e) { out[name] = { error: String(e) }; }
   };
   const now = Date.now();
@@ -20,6 +20,5 @@ export default async function handler(req, res) {
   await call('createAppointmentInvalide', `${GHL}/calendars/events/appointments`, {
     method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ calendarId: CAL }),
   });
-  await call('customFields', `${GHL}/locations/${process.env.GHL_LOCATION_ID}/customFields`, { headers: { Version: '2021-07-28' } });
   res.status(200).json(out);
 }
