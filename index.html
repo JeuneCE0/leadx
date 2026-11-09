@@ -27,9 +27,19 @@ src="https://www.facebook.com/tr?id=3530904023724600&ev=PageView&noscript=1"
 <meta property="og:description" content="Le système d'acquisition Meta qui a généré plus de 4 millions pour nos clients — pour les entreprises de services à +5k/mois.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="⚠️ URL OG IMAGE À REMPLIR">
-<meta property="og:url" content="https://go.lead-x.fr/">
+<meta property="og:url" content="https://lead-x.fr/">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="canonical" href="https://go.lead-x.fr/">
+<link rel="canonical" href="https://lead-x.fr/">
+<!-- VTurb speed-up -->
+<script>!function(i,n){i._plt=i._plt||(n&&n.timeOrigin?n.timeOrigin+n.now():Date.now())}(window,performance);</script>
+<link rel="preload" href="https://scripts.converteai.net/79146eaf-8969-4b1a-a163-c7561f91a860/players/6a09af109db6343a2a43aee2/v4/player.js" as="script">
+<link rel="preload" href="https://scripts.converteai.net/lib/js/smartplayer-wc/v4/smartplayer.js" as="script">
+<link rel="preload" href="https://cdn.converteai.net/79146eaf-8969-4b1a-a163-c7561f91a860/6a09ac33c083215f1f178c72/main.m3u8" as="fetch">
+<link rel="dns-prefetch" href="https://cdn.converteai.net">
+<link rel="dns-prefetch" href="https://scripts.converteai.net">
+<link rel="dns-prefetch" href="https://images.converteai.net">
+<link rel="dns-prefetch" href="https://api.vturb.com.br">
+<link rel="dns-prefetch" href="https://license.vturb.com">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#000000">
 <link rel="preconnect" href="https://i.pravatar.cc" crossorigin>
@@ -71,7 +81,6 @@ src="https://www.facebook.com/tr?id=3530904023724600&ev=PageView&noscript=1"
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: hidden; }
 body { font-family: var(--font-main); font-weight: 400; color: #fff; background: #000; overflow-x: hidden; line-height: 1.6; }
-body.modal-open { overflow: hidden; }
 img { max-width: 100%; display: block; }
 a { text-decoration: none; color: inherit; }
 button { cursor: pointer; border: none; font-family: inherit; }
@@ -247,7 +256,13 @@ body::before {
 .hero__lead { font-size: clamp(14px, 1.8vw, 17px); color: rgba(255,255,255,0.75); max-width: 720px; margin: 0 auto 24px; line-height: 1.5; }
 
 .hero__video { display: block; width: 100%; max-width: 760px; margin: 32px auto; aspect-ratio: 16 / 9; background: #0a0a0a; border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; overflow: hidden; position: relative; padding: 0; color: inherit; -webkit-appearance: none; appearance: none; font: inherit; }
-button.hero__video { cursor: pointer; }
+/* Le vrai lecteur VSL remplace l'aperçu : il fixe lui-même sa hauteur. */
+.hero__video--player { aspect-ratio: auto; background: transparent; border: 0; overflow: visible; }
+.hero__video--player vturb-smartplayer {
+  display: block; width: 100%; border-radius: 14px; overflow: hidden;
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.06), 0 8px 40px rgba(0,0,0,0.6), 0 0 80px rgba(255,38,0,0.08);
+}
+.hero__reassurance { margin-top: 10px; font-size: 13px; color: var(--text-muted); text-align: center; }
 
 .hero__ctas { display: flex; flex-direction: column; align-items: center; gap: 12px; }
 
@@ -482,100 +497,33 @@ button.hero__video { cursor: pointer; }
 .footer__disclaimer { font-size: 11px; color: rgba(255,255,255,0.4); max-width: 600px; margin: 0 auto; line-height: 1.5; opacity: 0.7; }
 
 /* ══════════════════════════════════════
-   MODAL
+   RÉSERVATION (calendrier GHL)
    ══════════════════════════════════════ */
-.modal-overlay {
-  position: fixed; inset: 0; z-index: 10000; background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center;
-  opacity: 0; visibility: hidden; transition: all 0.3s ease;
+.booking-section { background: #000; padding: 72px 0 56px; scroll-margin-top: 16px; }
+.booking-section .section-title { margin-bottom: 12px; }
+.booking-section__urgency { display: flex; justify-content: center; margin-bottom: 8px; }
+.booking-section__badge {
+  display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px;
+  background: var(--accent-subtle); border: 1px solid var(--border-accent); border-radius: 100px;
+  font-size: clamp(12px, 2vw, 14px); color: var(--accent-light); font-weight: 500;
 }
-.modal-overlay.open { opacity: 1; visibility: visible; }
-.modal {
-  width: 90%; max-width: 480px; border-radius: 20px; overflow: hidden;
-  transform: translateY(20px) scale(0.97); transition: transform 0.35s cubic-bezier(.25,.46,.45,.94);
-  box-shadow: 0 30px 80px rgba(0,0,0,0.4);
+.booking-section__dot { width: 8px; height: 8px; background: var(--accent); border-radius: 50%; animation: livePulse 2s ease-in-out infinite; }
+.booking-embed { max-width: 900px; margin: 28px auto 0; border-radius: 16px; overflow: hidden; background: #0a0a0a; }
+.booking-embed iframe { width: 100%; display: block; border: none; overflow: hidden; min-height: 780px; }
+.booking-section__reassurance { margin-top: 20px; font-size: clamp(12px, 2vw, 14px); color: var(--text-muted); text-align: center; letter-spacing: 0.02em; }
+@media (max-width: 768px) { .booking-embed iframe { min-height: 720px; } }
+@media (max-width: 640px) {
+  .booking-section { padding: 48px 0 40px; }
+  .booking-embed { margin-top: 20px; border-radius: 12px; }
+  .booking-embed iframe { min-height: 680px; }
 }
-.modal-overlay.open .modal { transform: translateY(0) scale(1); }
-
-@media(max-width:640px){
-  .modal-overlay { align-items: flex-end; }
-  .modal { width: 100%; max-width: none; border-radius: 20px 20px 0 0; transform: translateY(100%); }
-  .modal-overlay.open .modal { transform: translateY(0); }
-}
-
-.modal__header {
-  background: #0A0A0A; padding: 32px 28px 28px; position: relative; text-align: center;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.modal__header-logo { margin-bottom: 16px; }
-.modal__header-logo img { height: 24px; width: auto; margin: 0 auto; }
-.modal__header-proof {
-  display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 14px; font-size: 12px; color: var(--text-light-secondary);
-}
-.modal__header-proof-avatars { display: flex; }
-.modal__header-proof-avatars img { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--bg-dark); margin-left: -6px; object-fit: cover; }
-.modal__header-proof-avatars img:first-child { margin-left: 0; }
-.modal__header h3 {
-  font-family: var(--font-main); font-weight: 700; font-size: 20px;
-  color: var(--text-light); margin-bottom: 6px; text-align: center;
-}
-.modal__header p { font-size: 14px; color: var(--text-light-secondary); text-align: center; }
-.modal__header-arrow {
-  position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%);
-  width: 0; height: 0; border-left: 12px solid transparent; border-right: 12px solid transparent;
-  border-top: 10px solid var(--bg-dark);
-}
-.modal__close {
-  position: absolute; top: 16px; right: 16px; background: rgba(255,255,255,0.1);
-  width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center;
-  color: #fff; font-size: 18px; transition: background 0.2s;
-}
-.modal__close:hover { background: rgba(255,255,255,0.2); }
-
-.modal__body { background: #141414; padding: 32px 28px 28px; }
-.modal__form { display: flex; flex-direction: column; gap: 16px; }
-
-.form-group { position: relative; }
-.form-group input {
-  width: 100%; padding: 22px 16px 8px; border: 1.5px solid rgba(255,255,255,0.1);
-  border-radius: 10px; font-size: 16px; font-family: var(--font-main);
-  background: #0A0A0A; transition: border-color 0.2s; outline: none; color: #fff;
-  line-height: 1.3;
-}
-.form-group input:focus { border-color: var(--accent); }
-.form-group label {
-  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
-  font-size: 14px; color: rgba(255,255,255,0.4); pointer-events: none;
-  transition: all 0.2s ease;
-}
-.form-group input:focus + label,
-.form-group input:not(:placeholder-shown) + label {
-  top: 6px; transform: translateY(0); font-size: 10px; color: var(--accent); letter-spacing: 0.04em;
-}
-
-.modal__submit {
-  width: 100%; padding: 16px; background: var(--accent); color: #fff;
-  font-family: var(--font-main); font-weight: 700; font-size: 15px;
-  border-radius: 10px; letter-spacing: 0.03em;
-  transition: background 0.2s;
-}
-.modal__submit:hover { background: var(--accent-dark); }
-.modal__reassurance { text-align: center; font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 12px; }
+@media (max-width: 480px) { .booking-embed iframe { min-height: 640px; } }
 
 /* ══════════════════════════════════════
-   LOADER
+   RÉSULTATS CLIENTS
    ══════════════════════════════════════ */
-.loader-overlay {
-  position: fixed; inset: 0; z-index: 10002; background: var(--bg-dark);
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  opacity: 0; visibility: hidden; transition: all 0.3s;
-}
-.loader-overlay.open { opacity: 1; visibility: visible; }
-.loader-spinner { width: 40px; height: 40px; border: 3px solid rgba(255,38,0,0.2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 24px; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.loader-bar { width: 200px; height: 4px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin-bottom: 20px; }
-.loader-bar__fill { height: 100%; background: var(--accent); border-radius: 4px; width: 0%; transition: width 0.5s ease; }
-.loader-text { font-size: 15px; color: var(--text-light-secondary); transition: opacity 0.3s; }
+.cases-section { background: #060606; padding: 72px 0; }
+@media (max-width: 640px) { .cases-section { padding: 56px 0; } }
 
 /* ══════════════════════════════════════
    STICKY MOBILE CTA
@@ -589,7 +537,7 @@ button.hero__video { cursor: pointer; }
 }
 .sticky-cta.visible { transform: translateY(0); }
 .sticky-cta__btn {
-  width: 100%; padding: 14px; background: var(--accent); color: #fff;
+  display: block; width: 100%; padding: 14px; background: var(--accent); color: #fff;
   font-family: var(--font-main); font-weight: 700; font-size: 14px;
   border-radius: 10px; text-align: center;
 }
@@ -628,9 +576,6 @@ button.hero__video { cursor: pointer; }
   .case-card__name { font-size: 18px; }
   .footer { padding: 36px 20px 28px; }
   .footer__links { gap: 16px; }
-  .modal__body { padding: 24px 20px 22px; }
-  .modal__header { padding: 28px 20px 24px; }
-  .modal__submit { font-size: 16px; padding: 18px; min-height: 52px; }
 }
 @media(max-width:375px){
   .container { padding: 0 16px; }
@@ -665,19 +610,21 @@ button.hero__video { cursor: pointer; }
 
     <h1 class="reveal">Obtenez <span class="accent">15 à 50 clients potentiels</span> dans les 30 prochains jours — <span class="accent">GARANTI</span></h1>
 
-    <p class="hero__lead reveal">Découvre dans cette vidéo offerte le système d'acquisition Meta qui a généré plus de <strong style="color:#fff;">4M€</strong> pour nos clients.</p>
+    <p class="hero__lead reveal">Découvre dans cette vidéo le système d'acquisition Meta qui a généré plus de <strong style="color:#fff;">4M€</strong> pour nos clients.</p>
 
-    <button type="button" class="hero__video reveal open-modal" id="vturb-embed" aria-label="Lancer la vidéo" style="padding:0;cursor:pointer;">
-      <video src="assets/vsl-preview.mp4" autoplay muted loop playsinline poster="assets/vsl-thumbnail.webp" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>
-      <span aria-hidden="true" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.35) 100%);">
-        <span style="width:clamp(64px,10vw,88px);height:clamp(64px,10vw,88px);border-radius:50%;background:#FF2600;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 32px rgba(255,38,0,0.45);">
-          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;margin-left:4px;"><path d="M8 5.14v13.72a1 1 0 0 0 1.5.86l11.04-6.86a1 1 0 0 0 0-1.72L9.5 4.28a1 1 0 0 0-1.5.86Z" fill="#fff"/></svg>
-        </span>
-      </span>
-    </button>
+    <div class="hero__video hero__video--player reveal">
+      <vturb-smartplayer id="vid-6a09af109db6343a2a43aee2" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
+      <script type="text/javascript">
+        var s = document.createElement("script");
+        s.src = "https://scripts.converteai.net/79146eaf-8969-4b1a-a163-c7561f91a860/players/6a09af109db6343a2a43aee2/v4/player.js";
+        s.async = !0;
+        document.head.appendChild(s);
+      </script>
+    </div>
 
     <div class="reveal hero__ctas" id="main-cta">
-      <button class="cta-btn cta-btn--full open-modal">DÉCOUVRIR LE SYSTÈME →</button>
+      <a href="#reserver" class="cta-btn cta-btn--full">RÉSERVER MON APPEL OFFERT →</a>
+      <p class="hero__reassurance">Gratuit · 45 min · Sans engagement</p>
     </div>
 
     <div class="hero__trust reveal">
@@ -718,6 +665,174 @@ button.hero__video { cursor: pointer; }
 
 
 
+
+<!-- ════════════════════════ RÉSERVATION ════════════════════════ -->
+<section class="booking-section" id="reserver">
+  <div class="container">
+    <h2 class="section-title reveal">Réserve ton appel stratégique offert</h2>
+    <div class="booking-section__urgency reveal">
+      <div class="booking-section__badge">
+        <span class="booking-section__dot"></span>
+        Places limitées cette semaine
+      </div>
+    </div>
+    <div class="booking-embed">
+      <iframe src="https://api.leadconnectorhq.com/widget/booking/tGNGhXDjtFX9Fee4nMGD" style="width:100%;border:none;overflow:hidden;display:block;" scrolling="no" id="hjefRqxorRuPkcPAZEx4_vsl" title="Réserver un appel avec LEADX"></iframe>
+      <script src="https://link.msgsndr.com/js/form_embed.js" type="text/javascript"></script>
+    </div>
+    <p class="booking-section__reassurance">Gratuit · 45 min · Sans engagement</p>
+  </div>
+</section>
+
+<!-- ════════════════════════ RÉSULTATS CLIENTS ════════════════════════ -->
+<section class="cases-section">
+  <div class="container">
+    <div class="section-label reveal">Résultats clients vérifiables</div>
+    <h2 class="section-title section-title--spaced reveal">Ce que notre système produit en 90 jours.</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card case-card reveal">
+        <div class="case-card__header">
+          <div class="case-card__name">Marion <span class="case-card__brand">— MODERMA</span></div>
+          <div class="case-card__sector">Cabinet esthétique</div>
+        </div>
+        <div class="case-card__hero">80% du CA généré via le système, tous les mois.</div>
+        <div class="case-card__metrics">
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">70</div>
+            <div class="case-card__metric-label">RDV bookés</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">8,58€</div>
+            <div class="case-card__metric-label">par RDV</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">600€</div>
+            <div class="case-card__metric-label">investis</div>
+          </div>
+        </div>
+        <div class="case-card__quote">« Avant LEADX, dépendance totale au bouche-à-oreille. Aujourd'hui, 80% du CA généré via le système. »</div>
+      </div>
+
+      <div class="testimonial-card case-card reveal">
+        <div class="case-card__header">
+          <div class="case-card__name">Florent <span class="case-card__brand">— Solubat Construction</span></div>
+          <div class="case-card__sector">Constructeur de villas</div>
+        </div>
+        <div class="case-card__hero">1,3M€ signés sur la campagne — ROI ×2 630.</div>
+        <div class="case-card__metrics">
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">1,3M€</div>
+            <div class="case-card__metric-label">signés</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">112</div>
+            <div class="case-card__metric-label">leads générés</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">4,41€</div>
+            <div class="case-card__metric-label">par lead</div>
+          </div>
+        </div>
+        <div class="case-card__quote">« Objectif plus que validé : 50 prospects demandés, 100 obtenus. 1,3M€ de CA signé en génie civil. Très satisfait du partenariat. »</div>
+      </div>
+
+      <div class="testimonial-card case-card reveal">
+        <div class="case-card__header">
+          <div class="case-card__name">Faizal <span class="case-card__brand">— RunShort</span></div>
+          <div class="case-card__sector">Agence de vidéo verticale</div>
+        </div>
+        <div class="case-card__hero">CA multiplié par 5 sur les 2 premiers mois de campagne.</div>
+        <div class="case-card__metrics">
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">×5</div>
+            <div class="case-card__metric-label">sur le CA</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">50%</div>
+            <div class="case-card__metric-label">RDV téléphoniques</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">8,71€</div>
+            <div class="case-card__metric-label">par lead qualifié</div>
+          </div>
+        </div>
+        <div class="case-card__quote">« Mon CA a été multiplié par 5 depuis le lancement. Ce qui m'a le plus bluffé : la qualité du ciblage — 50% de taux de réservation d'appel. Une expertise rare en acquisition de leads. » — Faizal Nakhuda</div>
+      </div>
+
+      <div class="testimonial-card case-card reveal">
+        <div class="case-card__header">
+          <div class="case-card__name">Rodolphe <span class="case-card__brand">— RM Couverture</span></div>
+          <div class="case-card__sector">Rénovation toiture • La Réunion</div>
+        </div>
+        <div class="case-card__hero">+57 000€ de CA additionnel généré en 30 jours.</div>
+        <div class="case-card__metrics">
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">144</div>
+            <div class="case-card__metric-label">leads générés</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">10</div>
+            <div class="case-card__metric-label">clients fermés</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">18,77€</div>
+            <div class="case-card__metric-label">par prospect</div>
+          </div>
+        </div>
+        <div class="case-card__quote">« Plus que satisfait — j'ai plus de clients que je n'aurais pu imaginer. La meilleure expérience que j'ai eu concernant la publicité. Je recommande les yeux fermés. » — Rodolphe Mayer</div>
+      </div>
+
+      <div class="testimonial-card case-card reveal">
+        <div class="case-card__header">
+          <div class="case-card__name">Karel <span class="case-card__brand">— Tropic Clim Services</span></div>
+          <div class="case-card__sector">Nettoyage de climatiseurs</div>
+        </div>
+        <div class="case-card__hero">Agenda rempli — 2 leads sur 4 convertis en clients.</div>
+        <div class="case-card__metrics">
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">115</div>
+            <div class="case-card__metric-label">leads en 26j</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">1,84€</div>
+            <div class="case-card__metric-label">par lead</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">211€</div>
+            <div class="case-card__metric-label">investis</div>
+          </div>
+        </div>
+        <div class="case-card__quote">« Avant LEADX : 3 leads/semaine en bouche-à-oreille. Aujourd'hui agenda rempli, 50% de conversion sur les leads contactés. »</div>
+      </div>
+
+      <div class="testimonial-card case-card reveal">
+        <div class="case-card__header">
+          <div class="case-card__name">Dylan <span class="case-card__brand">— Clinico</span></div>
+          <div class="case-card__sector">Cabinet esthétique cryolipolyse • Belgique</div>
+        </div>
+        <div class="case-card__hero">19 clients signés sur 55 leads en 3 semaines.</div>
+        <div class="case-card__metrics">
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">4 500€</div>
+            <div class="case-card__metric-label">CA généré</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">19</div>
+            <div class="case-card__metric-label">clients signés</div>
+          </div>
+          <div class="case-card__metric">
+            <div class="case-card__metric-value">8,73€</div>
+            <div class="case-card__metric-label">par prospect</div>
+          </div>
+        </div>
+        <div class="case-card__quote">« LEADX est allée au-delà de mes attentes : 19 clients signés sur 55 leads en 3 semaines. Merci Dayyaan pour ton professionnalisme — je ne peux que recommander. » — Dylan Florenty</div>
+      </div>
+    </div>
+    <div class="cards-cta">
+      <a href="#reserver" class="cta-btn">RÉSERVER MON APPEL OFFERT →</a>
+    </div>
+  </div>
+</section>
 
 <!-- ════════════════════════ SENJA REVIEWS ════════════════════════ -->
 <section class="senja-section">
@@ -795,54 +910,10 @@ button.hero__video { cursor: pointer; }
   <div class="footer__disclaimer">Ce site ne fait pas partie du site web de Facebook ou de Facebook Inc. En outre, ce site n'est PAS approuvé par Facebook de quelque manière que ce soit. FACEBOOK est une marque déposée de FACEBOOK, Inc.</div>
 </footer>
 
-<!-- ════════════════════════ MODAL OPTIN ════════════════════════ -->
-<div class="modal-overlay" id="modal-overlay">
-  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <div class="modal__header">
-      <button class="modal__close" id="modal-close" aria-label="Fermer">&times;</button>
-      <div class="modal__header-logo">
-        <img src="assets/LEADX-wordmark-light.svg" alt="LEADX" style="height:24px;width:auto;margin:0 auto;" loading="lazy">
-      </div>
-      <h3 id="modal-title">Accède au système LEADX</h3>
-      <p>La vidéo qui explique le système étape par étape</p>
-      <div class="modal__header-arrow"></div>
-    </div>
-    <div class="modal__body">
-      <div class="modal__form" id="optin-form">
-        <div class="form-group">
-          <input type="text" id="f-prenom" placeholder=" " required autocomplete="given-name">
-          <label for="f-prenom">Prénom</label>
-        </div>
-        <div class="form-group">
-          <input type="text" id="f-nom" placeholder=" " required autocomplete="family-name">
-          <label for="f-nom">Nom</label>
-        </div>
-        <div class="form-group">
-          <input type="email" id="f-email" placeholder=" " required autocomplete="email">
-          <label for="f-email">Email</label>
-        </div>
-        <div class="form-group">
-          <input type="tel" id="f-tel" placeholder=" " autocomplete="tel">
-          <label for="f-tel">Téléphone</label>
-        </div>
-        <button class="modal__submit" id="submit-btn">ACCÉDER À LA MÉTHODE →</button>
-        <div class="modal__reassurance">🔒 Tes données sont protégées · Pas de spam</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════ LOADER ════════════════════════ -->
-<div class="loader-overlay" id="loader-overlay">
-  <div class="loader-spinner"></div>
-  <div class="loader-bar"><div class="loader-bar__fill" id="loader-fill"></div></div>
-  <div class="loader-text" id="loader-text">Inscription en cours...</div>
-</div>
-
 <!-- ════════════════════════ STICKY MOBILE CTA ════════════════════════ -->
 <div class="sticky-cta" id="sticky-cta">
-  <button class="sticky-cta__btn open-modal">VOIR LA MÉTHODE →</button>
-  <div class="sticky-cta__sub">Gratuit</div>
+  <a href="#reserver" class="sticky-cta__btn">RÉSERVER MON APPEL →</a>
+  <div class="sticky-cta__sub">Gratuit · 45 min · Sans engagement</div>
 </div>
 
 
@@ -899,134 +970,20 @@ button.hero__video { cursor: pointer; }
     });
   });
 
-  // ── Modal ──
-  const modalOverlay = document.getElementById('modal-overlay');
-  const modalClose = document.getElementById('modal-close');
-
-  function openModal() {
-    modalOverlay.classList.add('open');
-    document.body.classList.add('modal-open');
-  }
-  function closeModal() {
-    modalOverlay.classList.remove('open');
-    document.body.classList.remove('modal-open');
-  }
-
-  document.querySelectorAll('.open-modal').forEach(btn => {
-    btn.addEventListener('click', () => {
-      openModal();
-    });
-  });
-  modalClose.addEventListener('click', closeModal);
-  modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeModal();
-    if (e.key === 'Tab' && modalOverlay.classList.contains('open')) {
-      const focusable = modalOverlay.querySelectorAll('input, button, [tabindex]:not([tabindex="-1"])');
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (e.shiftKey) {
-        if (document.activeElement === first) { e.preventDefault(); last.focus(); }
-      } else {
-        if (document.activeElement === last) { e.preventDefault(); first.focus(); }
-      }
-    }
-  });
-
-  // ── Form: clear error on input ──
-  ['f-prenom', 'f-nom', 'f-email', 'f-tel'].forEach(id => {
-    const inp = document.getElementById(id);
-    if (inp) inp.addEventListener('input', function() { this.style.borderColor = ''; });
-  });
-
-  // ── Form submit ──
-  const submitBtn = document.getElementById('submit-btn');
-  submitBtn.addEventListener('click', async () => {
-    const prenom = document.getElementById('f-prenom').value.trim();
-    const nom = document.getElementById('f-nom').value.trim();
-    const email = document.getElementById('f-email').value.trim();
-    const tel = document.getElementById('f-tel').value.trim();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-    if (!prenom || !nom || !email || !emailRegex.test(email)) {
-      [document.getElementById('f-prenom'), document.getElementById('f-nom'), document.getElementById('f-email')].forEach(inp => {
-        if (!inp.value.trim()) inp.style.borderColor = '#dc2626';
-      });
-      if (email && !emailRegex.test(email)) document.getElementById('f-email').style.borderColor = '#dc2626';
-      return;
-    }
-
-    // event_id partagé pixel ↔ CAPI pour la déduplication Meta
-    const eventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'lead-' + Date.now() + '-' + Math.round(Math.random() * 1e9);
-    if (window.fbq) fbq('track', 'Lead', {}, { eventID: eventId });
-
-    submitBtn.disabled = true;
-    const originalLabel = submitBtn.textContent;
-    submitBtn.textContent = 'Envoi en cours…';
-
-    try {
-      const r = await fetch('/api/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName: prenom,
-          lastName: nom,
-          email,
-          phone: tel || undefined,
-          source: 'lp-landing',
-          tags: ['Nouveau Lead', 'whatsapp'],
-          eventId,
-          eventSourceUrl: location.href,
-        }),
-      });
-      if (!r.ok) throw new Error('lead submit failed');
-    } catch (err) {
-      console.warn('lead submit error, continuing to masterclass', err);
-    } finally {
-      submitBtn.disabled = false;
-      submitBtn.textContent = originalLabel;
-    }
-
-    closeModal();
-    showLoader();
-  });
-
-  // ── Loader ──
-  function showLoader() {
-    const overlay = document.getElementById('loader-overlay');
-    const fill = document.getElementById('loader-fill');
-    const text = document.getElementById('loader-text');
-    overlay.classList.add('open');
-
-    const steps = [
-      { pct: 30, msg: 'Inscription en cours...', delay: 0 },
-      { pct: 60, msg: 'Préparation de ta masterclass...', delay: 800 },
-      { pct: 85, msg: 'Préparation de ta masterclass...', delay: 1600 },
-      { pct: 100, msg: 'C\'est bon, on t\'envoie l\'accès !', delay: 2200 },
-    ];
-
-    steps.forEach(s => {
-      setTimeout(() => {
-        fill.style.width = s.pct + '%';
-        text.textContent = s.msg;
-      }, s.delay);
-    });
-
-    setTimeout(() => {
-      window.location.href = 'masterclass.html';
-    }, 2800);
-  }
-
   // ── Sticky Mobile CTA ──
+  // Visible quand ni le bouton du héros ni le calendrier ne sont à l'écran :
+  // inutile de pousser vers un calendrier qu'on a déjà sous les yeux.
   const mainCta = document.getElementById('main-cta');
+  const booking = document.getElementById('reserver');
   const stickyCta = document.getElementById('sticky-cta');
-  if (mainCta && stickyCta) {
+  if (mainCta && booking && stickyCta) {
+    const onScreen = new Map();
     const stickyObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        stickyCta.classList.toggle('visible', !e.isIntersecting);
-      });
+      entries.forEach(e => onScreen.set(e.target, e.isIntersecting));
+      stickyCta.classList.toggle('visible', ![...onScreen.values()].some(Boolean));
     }, { threshold: 0 });
     stickyObs.observe(mainCta);
+    stickyObs.observe(booking);
   }
 
   // ── Confetti on CTA click ──
@@ -1216,6 +1173,7 @@ button.hero__video { cursor: pointer; }
 
 </script>
 
+<script src="assets/booking-lead.js" defer></script>
 <script src="agents/agent-analytics.js" defer></script>
 <script src="agents/agent-urgency.js" defer></script>
 
