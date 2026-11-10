@@ -19,6 +19,14 @@
   var DURATION_MIN = 45;
 
   // Libellés exacts du formulaire GHL : ce sont les valeurs enregistrées.
+  // Même filtrage que le formulaire GHL : ces activités ne réservent pas
+  // d'appel (l'API refuse aussi).
+  var NOT_ELIGIBLE = [
+    'Commerce / vente de produits / e-commerce',
+    "Je n'ai pas d'entreprise ou de projet d'entreprise",
+  ];
+  var WHATSAPP = 'https://api.whatsapp.com/message/SUSLPZJFY2P7G1?autoload=1&app_absent=0';
+
   var QUESTIONS = [
     { key: 'activity', title: 'Votre activité', multiple: false, options: [
       'Entreprise de services (artisan, BTP, esthétique, coaching, habitat, conseil, nettoyage, sport…)',
@@ -175,6 +183,11 @@
       return;
     }
 
+    if (NOT_ELIGIBLE.indexOf(payload.activity) !== -1) {
+      refuse();
+      return;
+    }
+
     payload.eventId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'rdv-' + Date.now() + '-' + Math.round(Math.random() * 1e9);
     state.submitting = true;
     state.formError = null;
@@ -198,6 +211,10 @@
           root.scrollIntoView({ behavior: 'smooth', block: 'start' });
           return;
         }
+        if (res.status === 403 && res.body.error === 'not_eligible') {
+          refuse();
+          return;
+        }
         if (res.status === 409) {
           state.step = 'slot';
           state.slot = null;
@@ -215,6 +232,13 @@
         state.formError = 'Connexion interrompue. Vérifiez votre réseau puis réessayez.';
         render();
       });
+  }
+
+  function refuse() {
+    state.step = 'refused';
+    state.submitting = false;
+    render();
+    root.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   // ── Rendu ──
@@ -351,9 +375,21 @@
       '</ul></div>';
   }
 
+  // Texte du message de refus du formulaire GHL.
+  function renderRefused() {
+    return '<div class="bk__done">' +
+      '<p class="bk__done-title">Merci pour vos réponses.</p>' +
+      '<p class="bk__done-text">D\'après vos réponses, notre accompagnement ne semble pas adapté à votre situation actuelle. ' +
+        'On préfère vous le dire franchement plutôt que de vous faire perdre du temps en appel.</p>' +
+      '<p class="bk__done-text">Si vous avez une question en particulier, écrivez-nous directement sur WhatsApp.</p>' +
+      '<a class="bk__cta bk__cta--dark" href="' + WHATSAPP + '" target="_blank" rel="noopener">Écrire sur WhatsApp</a>' +
+      '</div>';
+  }
+
   function render() {
-    var body = state.step === 'done' ? renderDone() : state.step === 'form' ? renderForm() : renderSlot();
-    root.innerHTML = header() + (state.step === 'done' ? '' : stepper()) + '<div class="bk__body" aria-live="polite">' + body + '</div>';
+    var finished = state.step === 'done' || state.step === 'refused';
+    var body = state.step === 'done' ? renderDone() : state.step === 'refused' ? renderRefused() : state.step === 'form' ? renderForm() : renderSlot();
+    root.innerHTML = header() + (finished ? '' : stepper()) + '<div class="bk__body" aria-live="polite">' + body + '</div>';
   }
 
   // GHL d'origine, en secours.

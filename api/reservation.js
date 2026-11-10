@@ -71,6 +71,14 @@ export const QUESTIONS = {
   },
 };
 
+// Filtrage du formulaire GHL (conditionalLogic « disqualifyLead ») : ces
+// activités ne réservent pas d'appel. Vérifié ici aussi, la page seule se
+// contourne.
+const NOT_ELIGIBLE_ACTIVITIES = [
+  'Commerce / vente de produits / e-commerce',
+  "Je n'ai pas d'entreprise ou de projet d'entreprise",
+];
+
 const ISO_WITH_OFFSET = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?(Z|[+-]\d{2}:\d{2})$/;
 
 function answers(body) {
@@ -114,6 +122,7 @@ export default async function handler(req, res) {
 
   const { customFields, error } = answers(body);
   if (error) return res.status(400).json({ error });
+  if (NOT_ELIGIBLE_ACTIVITIES.includes(body.activity)) return res.status(403).json({ error: 'not_eligible' });
 
   let contactId;
   try {
