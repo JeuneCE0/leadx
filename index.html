@@ -156,23 +156,34 @@ a { color: inherit; text-decoration: none; }
 .topbar__logo img { height: 22px; width: auto; }
 
 /* ── Héros : la vidéo d'abord ── */
-.hero { position: relative; background: var(--white); color: var(--ink); padding: 144px 0 96px; }
-.hero__head { max-width: 900px; margin: 0 auto; text-align: center; }
+/* Bandeau, titre, vidéo et bouton tiennent dans le premier écran : le héros
+   prend la hauteur de l'écran et la vidéo se dimensionne sur la place qui
+   reste (conteneur de taille), sans jamais dépasser 940 px de large. */
+.hero {
+  position: relative; display: flex; flex-direction: column; min-height: 100svh;
+  background: var(--white); color: var(--ink); padding: 100px 0 28px;
+}
+.hero > .wrap { flex: 1 1 auto; width: 100%; display: flex; flex-direction: column; justify-content: center; }
+.hero__head { max-width: 1100px; margin: 0 auto; text-align: center; }
 .hero__audience {
   display: inline-flex; align-items: flex-start; gap: 10px; padding: 8px 14px; text-align: left;
   font-size: 14px; font-weight: 500; line-height: 1.4; color: #fff;
   border-radius: var(--radius); background: var(--black);
 }
 .hero__audience::before { content: ""; width: 8px; height: 8px; margin-top: 6px; flex-shrink: 0; background: var(--red); }
-.hero__title { margin-top: 30px; font-size: clamp(40px, 6.6vw, 76px); font-weight: 700; line-height: 0.88; color: var(--ink); text-wrap: balance; }
-.hero__sub { margin: 26px auto 0; max-width: 640px; text-wrap: pretty; font-size: clamp(16px, 1.8vw, 19px); color: #4D4D4D; line-height: 1.55; }
+.hero__title { margin-top: 22px; font-size: clamp(30px, min(4.2vw, 6.2svh), 62px); font-weight: 700; line-height: 0.88; color: var(--ink); text-wrap: balance; }
+.hero__sub { margin: 16px auto 0; max-width: 860px; text-wrap: pretty; font-size: clamp(15px, 1.4vw, 18px); color: #4D4D4D; line-height: 1.55; }
 .hero__sub strong { color: var(--ink); font-weight: 700; }
+.hero__stage {
+  flex: 1 1 0; min-height: 180px; max-height: 529px; margin-top: 26px;
+  container-type: size; display: flex; align-items: center; justify-content: center;
+}
 .hero__video {
-  max-width: 940px; margin: 48px auto 0; border-radius: var(--radius); overflow: hidden;
+  width: min(100cqw, 940px, calc(100cqh * 16 / 9)); border-radius: var(--radius); overflow: hidden;
   background: var(--black); box-shadow: 0 30px 60px -36px rgba(0,0,0,0.45);
 }
 .hero__video vturb-smartplayer { display: block; width: 100%; }
-.hero__cta { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 36px; }
+.hero__cta { display: flex; flex-direction: column; align-items: center; gap: 10px; margin-top: 24px; }
 
 /* ── Réservation ── */
 .booking { padding: 112px 0; background: var(--white); border-top: 1px solid var(--line); }
@@ -327,20 +338,36 @@ a { color: inherit; text-decoration: none; }
 .section-head .lead { max-width: 380px; }
 .cases { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
 .case {
-  display: flex; flex-direction: column; border: 1px solid var(--line); border-top: 3px solid var(--black);
-  border-radius: var(--radius); padding: 28px; background: var(--white);
+  display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 10px;
+  padding: 28px; background: var(--white);
 }
 .case__client { display: flex; align-items: center; gap: 10px; font-size: 17px; font-weight: 700; color: var(--ink); }
 .case__client::before { content: ""; width: 8px; height: 8px; flex-shrink: 0; background: var(--red); }
 .case__sector { margin-top: 4px; font-size: 13px; color: var(--muted); }
-.case__result { margin-top: 20px; font-size: 19px; font-weight: 600; line-height: 1.3; color: var(--ink); }
-.case__metrics { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 22px; border-top: 1px solid var(--line); }
-.case__metric { padding-top: 14px; }
-.case__metric + .case__metric { padding-left: 12px; border-left: 1px solid var(--line); margin-left: 12px; }
-.case__value { font-size: 24px; font-weight: 700; line-height: 1.1; color: var(--ink); font-variant-numeric: tabular-nums; }
+/* Le chiffre clé de chaque client, en grand : c'est lui qu'on lit d'abord. */
+.case__figure {
+  margin-top: 26px; font-size: clamp(44px, 4.2vw, 60px); font-weight: 700; line-height: 0.9; color: var(--red);
+  font-variation-settings: "opsz" 32; letter-spacing: 0; font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.case__result { margin-top: 12px; font-size: 16px; font-weight: 600; line-height: 1.4; color: var(--ink); text-wrap: pretty; }
+.case__metrics { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 8px; margin-top: 22px; }
+.case__metric { padding: 11px 10px 10px; border-radius: var(--radius); background: var(--paper); }
+.case__value { font-size: 18px; font-weight: 700; line-height: 1.1; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .case__unit { margin-top: 4px; font-size: 12px; color: var(--muted); line-height: 1.35; }
-.case__quote { margin-top: auto; padding-top: 24px; font-size: 14px; line-height: 1.6; color: #4D4D4D; }
-.case__author { margin-top: 10px; font-size: 13px; color: var(--muted); }
+.case__quote { margin-top: auto; padding-top: 24px; }
+.case__quote blockquote { font-size: 14px; line-height: 1.6; color: #4D4D4D; }
+.case__quote figcaption { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-size: 13px; font-weight: 600; color: var(--ink); }
+.case__avatar {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center;
+  background: var(--black); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: 0.02em;
+}
+/* Une carte en noir, le plus gros résultat : la touche sombre de la section. */
+.case--dark { background: var(--black); border-color: var(--black); }
+.case--dark .case__client, .case--dark .case__result, .case--dark .case__value, .case--dark .case__quote figcaption { color: #fff; }
+.case--dark .case__sector, .case--dark .case__unit { color: var(--night-muted); }
+.case--dark .case__metric { background: rgba(255,255,255,0.08); }
+.case--dark .case__quote blockquote { color: #CFCFCF; }
+.case--dark .case__avatar { background: var(--red); }
 
 /* ── Avis ── */
 .reviews { background: var(--white); padding: 112px 0 72px; border-top: 1px solid var(--line); }
@@ -396,10 +423,12 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 640px) {
   .wrap { padding: 0 16px; }
   .topbar .wrap { height: 64px; }
-  .hero { padding: 100px 0 64px; }
-  .hero__title { margin-top: 24px; }
-  .hero__video { margin-top: 32px; }
-  .hero__cta { margin-top: 28px; }
+  .hero { padding: 84px 0 20px; }
+  .hero__audience { font-size: 13px; padding: 7px 12px; }
+  .hero__title { margin-top: 16px; font-size: clamp(28px, min(8.6vw, 5.2svh), 40px); }
+  .hero__sub { margin-top: 12px; font-size: 15px; line-height: 1.5; }
+  .hero__stage { margin-top: 18px; min-height: 150px; max-height: calc((100vw - 32px) * 9 / 16); }
+  .hero__cta { margin-top: 18px; gap: 8px; }
   .hero__cta .btn { width: 100%; }
   .booking, .results, .faq { padding: 72px 0; }
   .reviews { padding: 72px 0 48px; }
@@ -432,6 +461,7 @@ a { color: inherit; text-decoration: none; }
         <p class="hero__sub">Découvrez en vidéo le système d'acquisition META qui a généré plus de <strong>4M€</strong> pour nos clients.</p>
       </div>
 
+      <div class="hero__stage">
       <div class="hero__video">
         <vturb-smartplayer id="vid-6a09af109db6343a2a43aee2" style="display: block; margin: 0 auto; width: 100%;"></vturb-smartplayer>
         <script type="text/javascript">
@@ -440,6 +470,7 @@ a { color: inherit; text-decoration: none; }
           s.async = !0;
           document.head.appendChild(s);
         </script>
+      </div>
       </div>
 
       <div class="hero__cta" id="hero-cta">
@@ -512,79 +543,94 @@ a { color: inherit; text-decoration: none; }
         <article class="case">
           <div class="case__client">Moderma</div>
           <div class="case__sector">Cabinet esthétique</div>
-          <p class="case__result">80&nbsp;% du chiffre d'affaires généré via le système, tous les mois.</p>
+          <p class="case__figure">80&nbsp;%</p>
+          <p class="case__result">du chiffre d'affaires généré via le système, tous les mois.</p>
           <div class="case__metrics">
             <div class="case__metric"><div class="case__value">70</div><div class="case__unit">rendez-vous réservés</div></div>
             <div class="case__metric"><div class="case__value">8,58&nbsp;€</div><div class="case__unit">par rendez-vous</div></div>
             <div class="case__metric"><div class="case__value">600&nbsp;€</div><div class="case__unit">investis</div></div>
           </div>
-          <p class="case__quote">« Avant LEADX, dépendance totale au bouche-à-oreille. Aujourd'hui, 80&nbsp;% du CA est généré via le système. »</p>
-          <p class="case__author">Marion, Moderma</p>
+          <figure class="case__quote">
+            <blockquote>« Avant LEADX, dépendance totale au bouche-à-oreille. Aujourd'hui, 80&nbsp;% du CA est généré via le système. »</blockquote>
+            <figcaption><span class="case__avatar" aria-hidden="true">M</span>Marion, Moderma</figcaption>
+          </figure>
         </article>
 
-        <article class="case">
+        <article class="case case--dark">
           <div class="case__client">Solubat Construction</div>
           <div class="case__sector">Constructeur de villas</div>
-          <p class="case__result">1,3&nbsp;M€ signés sur la campagne, soit un retour de 2&nbsp;630 fois l'investissement.</p>
+          <p class="case__figure">1,3&nbsp;M€</p>
+          <p class="case__result">signés sur la campagne, soit un retour de 2&nbsp;630 fois l'investissement.</p>
           <div class="case__metrics">
-            <div class="case__metric"><div class="case__value">1,3&nbsp;M€</div><div class="case__unit">signés</div></div>
             <div class="case__metric"><div class="case__value">112</div><div class="case__unit">contacts générés</div></div>
             <div class="case__metric"><div class="case__value">4,41&nbsp;€</div><div class="case__unit">par contact</div></div>
           </div>
-          <p class="case__quote">« Objectif plus que validé : 50 prospects demandés, 100 obtenus. 1,3&nbsp;M€ de CA signé en génie civil. Très satisfait du partenariat. »</p>
-          <p class="case__author">Florent, Solubat Construction</p>
+          <figure class="case__quote">
+            <blockquote>« Objectif plus que validé : 50 prospects demandés, 100 obtenus. 1,3&nbsp;M€ de CA signé en génie civil. Très satisfait du partenariat. »</blockquote>
+            <figcaption><span class="case__avatar" aria-hidden="true">F</span>Florent, Solubat Construction</figcaption>
+          </figure>
         </article>
 
         <article class="case">
           <div class="case__client">RunShort</div>
           <div class="case__sector">Agence de vidéo verticale</div>
-          <p class="case__result">Chiffre d'affaires multiplié par 5 sur les deux premiers mois de campagne.</p>
+          <p class="case__figure">×5</p>
+          <p class="case__result">de chiffre d'affaires sur les deux premiers mois de campagne.</p>
           <div class="case__metrics">
-            <div class="case__metric"><div class="case__value">×5</div><div class="case__unit">chiffre d'affaires</div></div>
             <div class="case__metric"><div class="case__value">50&nbsp;%</div><div class="case__unit">d'appels réservés</div></div>
             <div class="case__metric"><div class="case__value">8,71&nbsp;€</div><div class="case__unit">par contact qualifié</div></div>
           </div>
-          <p class="case__quote">« Mon CA a été multiplié par 5 depuis le lancement. Ce qui m'a le plus bluffé, c'est la qualité du ciblage : 50&nbsp;% de taux de réservation d'appel. »</p>
-          <p class="case__author">Faizal Nakhuda, RunShort</p>
+          <figure class="case__quote">
+            <blockquote>« Mon CA a été multiplié par 5 depuis le lancement. Ce qui m'a le plus bluffé, c'est la qualité du ciblage : 50&nbsp;% de taux de réservation d'appel. »</blockquote>
+            <figcaption><span class="case__avatar" aria-hidden="true">FN</span>Faizal Nakhuda, RunShort</figcaption>
+          </figure>
         </article>
 
         <article class="case">
           <div class="case__client">RM Couverture</div>
           <div class="case__sector">Rénovation de toiture, La Réunion</div>
-          <p class="case__result">57&nbsp;000&nbsp;€ de chiffre d'affaires supplémentaire en 30 jours.</p>
+          <p class="case__figure">57&nbsp;000&nbsp;€</p>
+          <p class="case__result">de chiffre d'affaires supplémentaire en 30 jours.</p>
           <div class="case__metrics">
             <div class="case__metric"><div class="case__value">144</div><div class="case__unit">contacts générés</div></div>
             <div class="case__metric"><div class="case__value">10</div><div class="case__unit">clients signés</div></div>
             <div class="case__metric"><div class="case__value">18,77&nbsp;€</div><div class="case__unit">par contact</div></div>
           </div>
-          <p class="case__quote">« J'ai plus de clients que je n'aurais pu l'imaginer. La meilleure expérience que j'ai eue en publicité. Je recommande les yeux fermés. »</p>
-          <p class="case__author">Rodolphe Mayer, RM Couverture</p>
+          <figure class="case__quote">
+            <blockquote>« J'ai plus de clients que je n'aurais pu l'imaginer. La meilleure expérience que j'ai eue en publicité. Je recommande les yeux fermés. »</blockquote>
+            <figcaption><span class="case__avatar" aria-hidden="true">RM</span>Rodolphe Mayer, RM Couverture</figcaption>
+          </figure>
         </article>
 
         <article class="case">
           <div class="case__client">Tropic Clim Services</div>
           <div class="case__sector">Nettoyage de climatiseurs</div>
-          <p class="case__result">Agenda rempli, et un contact sur deux converti en client.</p>
+          <p class="case__figure">50&nbsp;%</p>
+          <p class="case__result">des contacts rappelés convertis en clients, et un agenda rempli.</p>
           <div class="case__metrics">
             <div class="case__metric"><div class="case__value">115</div><div class="case__unit">contacts en 26 jours</div></div>
             <div class="case__metric"><div class="case__value">1,84&nbsp;€</div><div class="case__unit">par contact</div></div>
             <div class="case__metric"><div class="case__value">211&nbsp;€</div><div class="case__unit">investis</div></div>
           </div>
-          <p class="case__quote">« Avant LEADX, 3 contacts par semaine grâce au bouche-à-oreille. Aujourd'hui, agenda rempli et 50&nbsp;% de conversion sur les contacts rappelés. »</p>
-          <p class="case__author">Karel, Tropic Clim Services</p>
+          <figure class="case__quote">
+            <blockquote>« Avant LEADX, 3 contacts par semaine grâce au bouche-à-oreille. Aujourd'hui, agenda rempli et 50&nbsp;% de conversion sur les contacts rappelés. »</blockquote>
+            <figcaption><span class="case__avatar" aria-hidden="true">K</span>Karel, Tropic Clim Services</figcaption>
+          </figure>
         </article>
 
         <article class="case">
           <div class="case__client">Clinico</div>
           <div class="case__sector">Cabinet de cryolipolyse, Belgique</div>
-          <p class="case__result">19 clients signés sur 55 contacts en trois semaines.</p>
+          <p class="case__figure">19 clients</p>
+          <p class="case__result">signés sur 55 contacts en trois semaines.</p>
           <div class="case__metrics">
             <div class="case__metric"><div class="case__value">4&nbsp;500&nbsp;€</div><div class="case__unit">de CA généré</div></div>
-            <div class="case__metric"><div class="case__value">19</div><div class="case__unit">clients signés</div></div>
             <div class="case__metric"><div class="case__value">8,73&nbsp;€</div><div class="case__unit">par contact</div></div>
           </div>
-          <p class="case__quote">« LEADX est allée au-delà de mes attentes. Merci Dayyaan pour ton professionnalisme, je ne peux que recommander. »</p>
-          <p class="case__author">Dylan Florenty, Clinico</p>
+          <figure class="case__quote">
+            <blockquote>« LEADX est allée au-delà de mes attentes. Merci Dayyaan pour ton professionnalisme, je ne peux que recommander. »</blockquote>
+            <figcaption><span class="case__avatar" aria-hidden="true">DF</span>Dylan Florenty, Clinico</figcaption>
+          </figure>
         </article>
       </div>
     </div>
