@@ -97,6 +97,10 @@ src="https://www.facebook.com/tr?id=3530904023724600&ev=PageView&noscript=1"
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+/* Pas de glissement latéral « page précédente » : sur trackpad et mobile, le
+   navigateur affichait ses flèches de navigation par-dessus la page, et un
+   visiteur venu d'une pub pouvait la quitter d'un geste involontaire. */
+html, body { overscroll-behavior-x: none; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   font-family: var(--font); font-size: 16px; line-height: 1.6; color: var(--ink);
@@ -127,8 +131,6 @@ a { color: inherit; text-decoration: none; }
 }
 .btn--primary { background: var(--accent); color: #fff; }
 .btn--primary:hover { background: var(--accent-hover); }
-.btn--ghost { border: 1px solid var(--night-line); color: var(--night-text); min-height: 42px; padding: 0 18px; font-size: 14px; font-weight: 500; }
-.btn--ghost:hover { border-color: rgba(255,255,255,0.35); }
 .btn svg { width: 16px; height: 16px; }
 .note { font-size: 14px; color: var(--muted); }
 
@@ -138,9 +140,8 @@ a { color: inherit; text-decoration: none; }
 .topbar__logo img { height: 22px; width: auto; }
 
 /* ── Héros : la vidéo d'abord ── */
-.hero { background: var(--night); color: var(--night-text); padding: 72px 0 0; }
+.hero { background: var(--night); color: var(--night-text); padding: 72px 0 88px; }
 .hero__head { max-width: 860px; margin: 0 auto; text-align: center; }
-.hero .label { color: var(--night-muted); }
 .hero__title {
   margin-top: 20px; font-size: clamp(36px, 6.2vw, 68px); font-weight: 600;
   line-height: 1.02; letter-spacing: -0.045em; color: #fff;
@@ -155,24 +156,10 @@ a { color: inherit; text-decoration: none; }
 .hero__video vturb-smartplayer { display: block; width: 100%; }
 .hero__cta { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 36px; }
 .hero__cta .note { color: var(--night-muted); }
-.hero__audience { margin-top: 10px; font-size: 14px; color: var(--night-muted); text-align: center; }
-
-/* Repères chiffrés sous la vidéo */
-.facts {
-  display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 72px;
-  border-top: 1px solid var(--night-line);
+.hero__audience {
+  display: inline-block; font-size: 15px; font-weight: 500; color: var(--night-muted);
+  padding: 7px 14px; border: 1px solid var(--night-line); border-radius: 999px; line-height: 1.45;
 }
-.fact { padding: 32px 28px 40px; }
-.fact + .fact { border-left: 1px solid var(--night-line); }
-.fact__value { font-size: clamp(28px, 3.4vw, 38px); font-weight: 600; letter-spacing: -0.035em; color: #fff; line-height: 1.1; }
-.fact__text { margin-top: 8px; font-size: 14px; color: var(--night-muted); line-height: 1.5; max-width: 260px; }
-
-/* ── Clients ── */
-.clients { background: var(--night); border-top: 1px solid var(--night-line); padding: 36px 0 44px; }
-.clients .wrap { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; }
-.clients .label { color: var(--night-muted); flex-shrink: 0; }
-.clients__list { display: flex; flex-wrap: wrap; gap: 14px 36px; list-style: none; }
-.clients__list li { font-size: 15px; font-weight: 600; letter-spacing: 0.02em; text-transform: uppercase; color: #8E8E96; }
 
 /* ── Réservation ── */
 .booking { background: var(--paper); padding: 104px 0; scroll-margin-top: 0; }
@@ -365,13 +352,6 @@ a { color: inherit; text-decoration: none; }
 .faq__answer { padding: 0 48px 24px 0; font-size: 15px; color: var(--muted); line-height: 1.7; }
 .faq__answer p + p { margin-top: 10px; }
 
-/* ── Dernier appel ── */
-.closing { background: var(--night); color: var(--night-text); padding: 96px 0; }
-.closing .wrap { display: flex; align-items: center; justify-content: space-between; gap: 40px; flex-wrap: wrap; }
-.closing .h2 { color: #fff; max-width: 620px; }
-.closing__cta { display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
-.closing__cta .note { color: var(--night-muted); }
-
 /* ── Pied de page ── */
 .footer { background: var(--night); color: var(--night-muted); border-top: 1px solid var(--night-line); padding: 40px 0 48px; font-size: 13px; }
 .footer__row { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
@@ -400,25 +380,16 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 640px) {
   .wrap { padding: 0 16px; }
   .topbar .wrap { height: 64px; }
-  .topbar .btn--ghost { display: none; }
   .hero { padding-top: 44px; }
   .hero__video { margin-top: 32px; border-radius: 10px; }
   .hero__cta { margin-top: 28px; }
   .hero__cta .btn { width: 100%; }
-  .facts { grid-template-columns: minmax(0, 1fr); margin-top: 48px; }
-  .fact { padding: 22px 0; }
-  .fact + .fact { border-left: 0; border-top: 1px solid var(--night-line); }
-  .clients .wrap { gap: 16px; }
-  .clients__list { gap: 10px 22px; }
-  .clients__list li { font-size: 13px; }
   .booking, .results, .faq { padding: 64px 0; }
   .reviews { padding: 64px 0 48px; }
   .cases { grid-template-columns: minmax(0, 1fr); }
   .case { padding: 22px; }
   .faq__item summary { font-size: 16px; }
   .faq__answer { padding-right: 0; }
-  .closing { padding: 64px 0; }
-  .closing__cta, .closing__cta .btn { width: 100%; }
   .sticky { display: block; }
   body { padding-bottom: 76px; }
 }
@@ -430,7 +401,6 @@ a { color: inherit; text-decoration: none; }
 <header class="topbar">
   <div class="wrap">
     <a href="/" class="topbar__logo" aria-label="LEADX"><img src="assets/LEADX-wordmark-light.svg" alt="LEADX" width="105" height="22"></a>
-    <a href="#reserver" class="btn btn--ghost">Réserver un appel</a>
   </div>
 </header>
 
@@ -439,7 +409,7 @@ a { color: inherit; text-decoration: none; }
   <section class="hero">
     <div class="wrap">
       <div class="hero__head">
-        <span class="label">Acquisition Meta Ads pour les entreprises de services</span>
+        <p class="hero__audience">Pour les entreprises de services qui réalisent déjà plus de 5&nbsp;000€ de CA par mois</p>
         <h1 class="hero__title">Obtenez 15 à 50 clients potentiels dans les 30 prochains jours. <em>Garanti.</em></h1>
         <p class="hero__sub">Découvrez en vidéo le système d'acquisition META qui a généré plus de <strong>4M€</strong> pour nos clients.</p>
       </div>
@@ -460,37 +430,7 @@ a { color: inherit; text-decoration: none; }
         </a>
         <span class="note">Gratuit · 45 minutes en visio · Sans engagement</span>
       </div>
-      <p class="hero__audience">Pour les entreprises de services qui réalisent déjà plus de 5&nbsp;000€ de CA par mois.</p>
 
-      <div class="facts">
-        <div class="fact">
-          <div class="fact__value">+4M€</div>
-          <p class="fact__text">générés pour nos clients grâce au système.</p>
-        </div>
-        <div class="fact">
-          <div class="fact__value">24 à 72&nbsp;h</div>
-          <p class="fact__text">en général pour recevoir les premiers contacts après le lancement.</p>
-        </div>
-        <div class="fact">
-          <div class="fact__value">15 à 250&nbsp;€</div>
-          <p class="fact__text">de budget publicitaire par jour, défini avec vous selon vos objectifs.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Clients -->
-  <section class="clients" aria-label="Clients">
-    <div class="wrap">
-      <span class="label">Ils nous ont confié leur acquisition</span>
-      <ul class="clients__list">
-        <li>Moderma</li>
-        <li>Solubat Construction</li>
-        <li>RunShort</li>
-        <li>RM Couverture</li>
-        <li>Tropic Clim Services</li>
-        <li>Clinico</li>
-      </ul>
     </div>
   </section>
 
@@ -545,7 +485,7 @@ a { color: inherit; text-decoration: none; }
       <div class="section-head">
         <div>
           <span class="label">Résultats clients</span>
-          <h2 class="h2">Ce que notre système produit en 90 jours.</h2>
+          <h2 class="h2">Ce que notre système produit pour nos clients.</h2>
         </div>
         <p class="lead">Des résultats mesurés sur les comptes publicitaires de nos clients, dans des secteurs très différents.</p>
       </div>
@@ -703,18 +643,6 @@ a { color: inherit; text-decoration: none; }
     </div>
   </section>
 
-  <!-- Dernier appel -->
-  <section class="closing">
-    <div class="wrap">
-      <h2 class="h2">Voyons ensemble ce que Meta peut apporter à votre entreprise.</h2>
-      <div class="closing__cta" id="closing-cta">
-        <a href="#reserver" class="btn btn--primary">Réserver mon appel avec Dayyaan
-          <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10m-4-4 4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <span class="note">Gratuit · 45 minutes en visio · Sans engagement</span>
-      </div>
-    </div>
-  </section>
 </main>
 
 <footer class="footer">
@@ -739,10 +667,10 @@ a { color: inherit; text-decoration: none; }
 <script>
 (function () {
   'use strict';
-  // Bouton mobile : seulement quand aucun autre accès au calendrier (bouton
-  // du héros, calendrier, dernier appel) n'est à l'écran.
+  // Bouton mobile : seulement quand ni le bouton du héros ni le calendrier
+  // ne sont à l'écran.
   var sticky = document.getElementById('sticky-cta');
-  var watched = [document.getElementById('hero-cta'), document.getElementById('reserver'), document.getElementById('closing-cta')];
+  var watched = [document.getElementById('hero-cta'), document.getElementById('reserver')];
   if (!sticky || !('IntersectionObserver' in window)) return;
   var onScreen = new Map();
   var observer = new IntersectionObserver(function (entries) {
