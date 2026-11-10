@@ -171,6 +171,9 @@ a { color: inherit; text-decoration: none; }
   border-radius: var(--radius); background: var(--black);
 }
 .hero__audience::before { content: ""; width: 8px; height: 8px; margin-top: 6px; flex-shrink: 0; background: var(--red); }
+/* Sur téléphone, la phrase complète tenait sur deux lignes : une version
+   courte, toujours sur une seule ligne. */
+.hero__audience-short { display: none; }
 .hero__title { margin-top: 22px; font-size: clamp(30px, min(4.2vw, 6.2svh), 62px); font-weight: 700; line-height: 0.88; color: var(--ink); text-wrap: balance; }
 .hero__sub { margin: 16px auto 0; max-width: 860px; text-wrap: pretty; font-size: clamp(15px, 1.4vw, 18px); color: #4D4D4D; line-height: 1.55; }
 .hero__sub strong { color: var(--ink); font-weight: 700; }
@@ -408,8 +411,19 @@ a { color: inherit; text-decoration: none; }
 .sticky {
   display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
   padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-  background: rgba(255,255,255,0.96); border-top: 1px solid var(--line);
+  background: var(--white); border-top: 1px solid var(--line);
   transform: translateY(100%); transition: transform 0.25s ease;
+}
+/* Safari (iOS 26) laisse voir la page sous sa barre d'outils flottante :
+   le bandeau se prolonge en blanc dessous, sinon le texte défilait entre le
+   bouton et la barre. */
+.sticky::after { content: ""; position: absolute; left: 0; right: 0; top: 100%; height: 160px; background: var(--white); }
+/* Même chose en haut : sans en-tête fixe, Safari laissait défiler le texte
+   sous l'heure et la batterie. Avec un en-tête blanc fixe, il reprend sa
+   couleur pour la barre d'état. */
+@media (max-width: 1024px) {
+  .topbar { position: fixed; background: var(--white); }
+  html { scroll-padding-top: 64px; }
 }
 .sticky.visible { transform: translateY(0); }
 .sticky .btn { width: 100%; min-height: 52px; }
@@ -424,7 +438,10 @@ a { color: inherit; text-decoration: none; }
   .wrap { padding: 0 16px; }
   .topbar .wrap { height: 64px; }
   .hero { padding: 84px 0 20px; }
-  .hero__audience { font-size: 13px; padding: 7px 12px; }
+  .hero__audience { align-items: center; max-width: 100%; padding: 7px 10px; gap: 8px; font-size: clamp(9.5px, 3.1vw, 13px); }
+  .hero__audience::before { margin-top: 0; }
+  .hero__audience-long { display: none; }
+  .hero__audience-short { display: inline; white-space: nowrap; }
   .hero__title { margin-top: 16px; font-size: clamp(28px, min(8.6vw, 5.2svh), 40px); }
   .hero__sub { margin-top: 12px; font-size: 15px; line-height: 1.5; }
   .hero__stage { margin-top: 18px; min-height: 150px; max-height: calc((100vw - 32px) * 9 / 16); }
@@ -456,7 +473,7 @@ a { color: inherit; text-decoration: none; }
   <section class="hero">
     <div class="wrap">
       <div class="hero__head">
-        <p class="hero__audience">Pour les entreprises de services qui réalisent déjà plus de 5&nbsp;000€ de CA par mois</p>
+        <p class="hero__audience"><span class="hero__audience-long">Pour les entreprises de services qui réalisent déjà plus de 5&nbsp;000€ de CA par mois</span><span class="hero__audience-short">Entreprises de services à plus de 5&nbsp;000€ de CA/mois</span></p>
         <h1 class="hero__title">Obtenez <em>15&nbsp;à&nbsp;50 clients potentiels</em> dans les 30&nbsp;prochains jours. <em>Garanti</em>.</h1>
         <p class="hero__sub">Découvrez en vidéo le système d'acquisition META qui a généré plus de <strong>4M€</strong> pour nos clients.</p>
       </div>
