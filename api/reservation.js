@@ -92,6 +92,21 @@ function answers(body) {
   return { customFields };
 }
 
+async function createAppointment(payload) {
+  const r = await fetch(`${GHL_API}/calendars/events/appointments`, {
+    method: 'POST',
+    headers: ghlHeaders(GHL_CALENDAR_VERSION),
+    body: JSON.stringify(payload),
+  });
+  const data = await r.json().catch(() => ({}));
+  return { r, data };
+}
+
+function isSlotTaken(r, data) {
+  const message = String(data?.message || '').toLowerCase();
+  return r.status === 409 || /slot|no longer available|not available|already booked/.test(message);
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return res.status(405).json({ error: 'method_not_allowed' });
   if (!process.env.GHL_API_KEY || !process.env.GHL_LOCATION_ID) {
@@ -138,37 +153,43 @@ export default async function handler(req, res) {
   if (!contactId) return res.status(502).json({ error: 'crm_unavailable' });
 
   const name = `${contact.firstName} ${contact.lastName}`;
+  const base = {
+    calendarId: CALENDAR_ID,
+    locationId: process.env.GHL_LOCATION_ID,
+    contactId,
+    assignedUserId: ASSIGNED_USER_ID,
+    startTime: new Date(startMs).toISOString(),
+    endTime: new Date(startMs + DURATION_MIN * 60_000).toISOString(),
+    title: `${name} - ${contact.companyName}`,
+    appointmentStatus: 'confirmed',
+    toNotify: true,
+  };
+  // GHL ne crée la visio que si on la demande : « meetingLocationId: default »
+  // vise le lieu du calendrier, qui n'en a pas (le Meet est réglé sur Dayyaan),
+  // et tous les RDV pris sur la page partaient sans lien jusqu'au 23/11.
+  // Si GHL refusait ce réglage, on réserve quand même sans lien plutôt que
+  // de perdre le rendez-vous.
+  const withMeet = { ...base, meetingLocationType: 'gmeet', overrideLocationConfig: true };
+  const withoutMeet = { ...base, meetingLocationId: 'default' };
+
   let appointment;
   try {
-    const r = await fetch(`${GHL_API}/calendars/events/appointments`, {
-      method: 'POST',
-      headers: ghlHeaders(GHL_CALENDAR_VERSION),
-      body: JSON.stringify({
-        calendarId: CALENDAR_ID,
-        locationId: process.env.GHL_LOCATION_ID,
-        contactId,
-        assignedUserId: ASSIGNED_USER_ID,
-        startTime: new Date(startMs).toISOString(),
-        endTime: new Date(startMs + DURATION_MIN * 60_000).toISOString(),
-        title: `${name} - ${contact.companyName}`,
-        appointmentStatus: 'confirmed',
-        // Lieu par défaut du calendrier : la visio Google Meet.
-        meetingLocationId: 'default',
-        toNotify: true,
-      }),
-    });
-    const data = await r.json().catch(() => ({}));
+    let { r, data } = await createAppointment(withMeet);
+    if (!r.ok && !isSlotTaken(r, data)) {
+      console.error('GHL appointment error with Meet, retrying without', r.status, data);
+      ({ r, data } = await createAppointment(withoutMeet));
+    }
     if (!r.ok) {
       console.error('GHL appointment error', r.status, data);
-      const message = String(data?.message || '').toLowerCase();
       // GHL refuse un créneau qui vient d'être pris ou qui n'est plus ouvert ;
       // toute autre erreur est la nôtre ou la sienne, pas celle du visiteur.
-      if (r.status === 409 || /slot|no longer available|not available|already booked/.test(message)) {
-        return res.status(409).json({ error: 'slot_taken' });
-      }
+      if (isSlotTaken(r, data)) return res.status(409).json({ error: 'slot_taken' });
       return res.status(502).json({ error: 'calendar_unavailable' });
     }
     appointment = data;
+    if (!String(data?.address || '').includes('meet.google.com')) {
+      console.error('GHL appointment created without a Meet link', data?.id);
+    }
   } catch (err) {
     console.error('GHL appointment exception', err);
     return res.status(502).json({ error: 'calendar_unavailable' });
